@@ -30,11 +30,6 @@ public class TaskController {
         return this.taskRepository.save(task);
     }
 
-//    Invoke-RestMethod -Uri "http://localhost:8080/task" `
-//            -Method POST `
-//            -Headers @{ "Content-Type" = "application/json" } `
-//            -Body '{"title":"title","description":"description","status":"status","dueDate":"2025-10-10"}'
-
-
-    // have to use different methods for sending HTTP GET and POST requests for some reason, using curl/curl.exe doesn't work for POST requests
+    // curl.exe -X POST http://localhost:8080/task -H "Content-Type: application/json" -d '{\"title\":\"title\",\"description\":\"description\",\"status\":\"status\",\"dueDate\":\"2025-10-10\"}'
+    // have to escape double quotes????
 }
