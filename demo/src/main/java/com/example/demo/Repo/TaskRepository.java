@@ -1,9 +1,7 @@
-package com.example.demo;
+package com.example.demo.Repo;
 
+import com.example.demo.Entity.Task;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.Repository;
-
-import java.util.Optional;
 
 // Spring Data JPA provides "repositories" that allow you to interact with PostgreSQL databases.
 // We extend the "CrudRepository", which provides generic CRUD operations.

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Record;
 
 // this is a resource representation class, Spring will automatically turn instances of these classes into JSON
 public record Greeting(long id, String content) {}

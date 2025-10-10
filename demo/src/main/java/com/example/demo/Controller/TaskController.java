@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
+import com.example.demo.Entity.Task;
+import com.example.demo.Repo.TaskRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +36,5 @@ public class TaskController {
 //            -Body '{"title":"title","description":"description","status":"status","dueDate":"2025-10-10"}'
 
 
-    // have to use different methods for sending HTTP GET and POST requests for some reasons=
+    // have to use different methods for sending HTTP GET and POST requests for some reason, using curl/curl.exe doesn't work for POST requests
 }
