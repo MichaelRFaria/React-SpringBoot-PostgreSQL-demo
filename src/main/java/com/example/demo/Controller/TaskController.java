@@ -13,21 +13,28 @@ public class TaskController {
         this.taskRepository = taskRepository;
     }
 
-    // @GetMapping defines that the following method is used by HTTP GET requests at "/task" (receiving data)
+    // @GetMapping defines that the following method is used by HTTP GET requests at "task" (receiving data)
     // example command: Invoke-RestMethod -Method GET -Uri http://localhost:8080/task
-    @GetMapping("/task")
+    @GetMapping("task")
     public Iterable<Task> findAllTasks() {
         return this.taskRepository.findAll();
     }
 
-    // @PostMapping defines that the following method is used by HTTP POST requests at "/task" (sending data)
+    // @GetMapping defines that the following method is used by HTTP GET requests at "task/{id}" (receiving data). id is the id variable of the record to receive.
+    // example command: Invoke-RestMethod -Method GET -Uri http://localhost:8080/task/1
+    @GetMapping("task/{id}")
+    public Task findTaskById(@PathVariable Integer id) {
+        return this.taskRepository.findById(id).get();
+    }
+
+    // @PostMapping defines that the following method is used by HTTP POST requests at "task" (sending data)
     // example command: Invoke-RestMethod -Method POST -Uri http://localhost:8080/task -ContentType "application/json" -Body '{"title":"Work on CRUD project","description":"Finish CRUD project to build full-stack skills.","status":"Pending","dueDate":"2025-12-31"}'
-    @PostMapping("/task")
+    @PostMapping("task")
     public Task addTask(@RequestBody Task task) {
         return this.taskRepository.save(task);
     }
 
-    // @PutMapping defines that the following method is used by HTTP PUT requests at "/task/{id}" (updating data). id will the id variable of the record to update.
+    // @PutMapping defines that the following method is used by HTTP PUT requests at "task/{id}" (updating data). id is the id variable of the record to update.
     // example command: Invoke-RestMethod -Method PUT -Uri http://localhost:8080/task/1 -ContentType "application/json" -Body '{"title":"Work on CRUD project","description":"Finish CRUD project to build full-stack skills.","status":"Pending","dueDate":"2025-12-31"}'
     @PutMapping("task/{id}")
     public Task updateTask(@PathVariable int id, @RequestBody Task newTask) {
@@ -39,7 +46,7 @@ public class TaskController {
         return this.taskRepository.save(taskInDb);
     }
 
-    // @DeleteMapping defines that the following method is used by HTTP DELETE requests at "/task/{id}" (deleting data). id will the id variable of the record to delete.
+    // @DeleteMapping defines that the following method is used by HTTP DELETE requests at "task/{id}" (deleting data). id is the id variable of the record to delete.
     // example command: Invoke-RestMethod -Method DELETE -Uri http://localhost:8080/task/1
     @DeleteMapping("task/{id}")
     public void deleteTask(@PathVariable int id) {
