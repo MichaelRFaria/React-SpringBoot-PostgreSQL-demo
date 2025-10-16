@@ -36,6 +36,8 @@ export default function App() {
   // you may a component to share data and always update together
   // to do this we move the state from the individual components to the closest component that contains them all
   const [count, setCount] = useState(0);
+  const [reqContents, setReqContents] = useState([]);
+
 
   function handleClick() {
     setCount(count + 1);
@@ -70,6 +72,11 @@ export default function App() {
       event handler and pass them down as "props" to each of the buttons */}
       <MyButtonAlt count={count} onClick={handleClick} />
       <MyButtonAlt count={count} onClick={handleClick} />
+
+      <p>Button that fetches from database</p>
+      <button onClick={getData}>Click to get data!</button>
+      <p>Retrieved data:</p>
+        <DisplayTasks/>
     </div>
   );
 
@@ -85,9 +92,22 @@ export default function App() {
           }
 
           const result = await response.json();
+          setReqContents(result)
           console.log(result);
       } catch (error) {
-          console.error(error.message());
+          console.error(error.message);
       }
+  }
+
+
+  function DisplayTasks() {
+      // React has no clue how to display an object, so we need to map the object, to something that React can recognise
+      // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
+      const listOfTasks = reqContents.map(task =>
+          // you must specify a key for React's DOM to be able to figure out which elements have been updated, so it can rerender the list properly
+          <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {task.dueDate}</li>
+      )
+
+      return <ul>{listOfTasks}</ul>
   }
 }

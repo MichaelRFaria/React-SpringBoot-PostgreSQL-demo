@@ -4,6 +4,9 @@ import com.example.demo.Entity.Task;
 import com.example.demo.Repo.TaskRepository;
 import org.springframework.web.bind.annotation.*;
 
+// the browser by default blocks requests from different origins by default for security reasons (Same-Origin policy)
+// this enables "Cross-Origin resource sharing" telling Spring Boot, its okay if the requests come from the following origin
+@CrossOrigin(origins="http://localhost:3000")
 // @RestController contains handler methods for REST endpoints
 @RestController
 public class TaskController {
