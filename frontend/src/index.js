@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+// change this line below to start different .js files on npm start.
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

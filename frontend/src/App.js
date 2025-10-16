@@ -6,42 +6,12 @@ import {useState} from "react";
 // npm start
 // ctrl+c to stop
 
-// React components have the same syntax as JavaScript functions
-function MyButton() {
-  // states are used to define information that you plan to change
-  // functions starting with "use" are called "Hooks", each hook lets you use a different React feature from your component.
-  // in this case each button has its own count variable
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return <button onClick={handleClick}>
-    You've clicked me {count} times!
-  </button>
-}
-
-// we must create parameters in the component to read the "props"
-// passed from the parent component
-function MyButtonAlt({count, onClick}) {
-  return <button onClick={onClick}>
-    You've clicked me {count} times!
-  </button>
-}
-
-
 // export default specifies that this is the main component in the file.
 export default function App() {
-  // you may a component to share data and always update together
-  // to do this we move the state from the individual components to the closest component that contains them all
-  const [count, setCount] = useState(0);
+    // states are used to define information that you plan to change
+    // functions starting with "use" are called "Hooks",
+    // each hook lets you use a different React feature from your component.
   const [reqContents, setReqContents] = useState([]);
-
-
-  function handleClick() {
-    setCount(count + 1);
-  }
 
   return (
     <div className="App">
@@ -60,32 +30,26 @@ export default function App() {
         </a>
       </header>
 
-      {/* a comment within JSX (anything that is rendered)
-      must be wrapped in curled braces and use a multi-line comment */}
-      {/* creating a component */}
-      <MyButton/>
-
-      {/* creating components that share a state */}
-      <p>Buttons that update together</p>
-      {/* passing information like this is called "props"
-      the MyApp component contains the "count" state and the "handleClick"
-      event handler and pass them down as "props" to each of the buttons */}
-      <MyButtonAlt count={count} onClick={handleClick} />
-      <MyButtonAlt count={count} onClick={handleClick} />
-
-      <p>Button that fetches from database</p>
-      <button onClick={getData}>Click to get data!</button>
       <p>Retrieved data:</p>
+        {/* a comment within JSX (anything that is rendered)
+      must be wrapped in curled braces and use a multi-line comment */}
+        {/* creating a component */}
         <DisplayTasks/>
+        <p>Button that fetches from database</p>
+        <button onClick={getData}>Click to get data!</button>
     </div>
   );
 
-  // simple method to make a GET request
-  async function getData() {
+    // A good rule of thumb for defining components is:
+    // Define it locally, if it is only used within the component it's defined in.
+    // Define it globally, if it is going to be reused or shared by several components, and just pass in props.
+
+    // simple method to make a GET request
+    async function getData() {
       const url = "http://localhost:8080/task";
 
       try {
-          // using fetch with just a URL as its parameter makes a GET request
+          // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
           const response = await fetch(url);
           if (!response.ok) {
               throw new Error(`Response status: ${response.status}`);
@@ -97,10 +61,12 @@ export default function App() {
       } catch (error) {
           console.error(error.message);
       }
-  }
+    }
 
+    // React components have the same syntax as JavaScript functions
 
-  function DisplayTasks() {
+    // simple method to display the tasks retrieved from the backend
+    function DisplayTasks() {
       // React has no clue how to display an object, so we need to map the object, to something that React can recognise
       // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
       const listOfTasks = reqContents.map(task =>
@@ -109,5 +75,5 @@ export default function App() {
       )
 
       return <ul>{listOfTasks}</ul>
-  }
+    }
 }
