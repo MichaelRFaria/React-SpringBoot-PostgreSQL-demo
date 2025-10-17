@@ -31,7 +31,9 @@ export default function App() {
             </header>*/}
 
             {/* <form> element allows you to create interactive controls for submitting information.
-            "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)*/}
+            "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
+            note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
+            note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/}
             <form onSubmit={postData}>
                 <p>Input a new task below:</p>
                 {/* typically you put input boxes with label tags. this tells the browser that the label
@@ -41,19 +43,19 @@ export default function App() {
          highlighting the label will highlight the input, etc*/}
                 <label>
                     Title:
-                    <input id={"title"}/>
+                    <input name="title"/>
                 </label>
                 <label>
                     Description:
-                    <input id={"description"}/>
+                    <input name="description"/>
                 </label>
                 <label>
                     Status:
-                    <input id={"status"}/>
+                    <input name="status"/>
                 </label>
                 <label>
                     Due date:
-                    <input id={"dueDate"}/>
+                    <input name="dueDate"/>
                 </label>
                 {/* the <form> element has unique behaviour where:
                 any <button> of type "reset" will reset inputs within the form to their default values
@@ -74,8 +76,38 @@ export default function App() {
         </div>
     );
 
-    function postData() {
+    // we are able to pass in the event, and React will pass it in at runtime when the submit event triggers
+    async function postData(e) {
+        // prevents the browser from reloading the page
+        e.preventDefault();
 
+        // retrieves a reference of the element, which triggered the event
+        const form = e.target;
+        // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
+        // using the name property of each element for the keys and their submitted value for the values."
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        // todo create other js files for organisation
+
+        // var for url for simplicity
+        const url = "http://localhost:8080/task"
+
+        try {
+            // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"} ,
+                body: JSON.stringify(data)});
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            await getData();
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     // A good rule of thumb for defining components is:
@@ -104,6 +136,7 @@ export default function App() {
     // React components have the same syntax as JavaScript functions
 
     // simple method to display the tasks retrieved from the backend
+    // todo could probably render this automatically without having to click
     function DisplayTasks() {
         // React has no clue how to display an object, so we need to map the object, to something that React can recognise
         // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
@@ -114,4 +147,5 @@ export default function App() {
 
         return <ul>{listOfTasks}</ul>
     }
+
 }
