@@ -15,7 +15,7 @@ export default function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
+            {/*<header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
@@ -28,7 +28,7 @@ export default function App() {
                 >
                     Learn React
                 </a>
-            </header>
+            </header>*/}
 
             {/* <form> element allows you to create interactive controls for submitting information.
             "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)*/}
