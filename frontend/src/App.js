@@ -30,6 +30,31 @@ export default function App() {
         </a>
       </header>
 
+        <p>Input a new task below:</p>
+        {/* typically you put input boxes with label tags. this tells the browser that the label
+         is associated with the input box leading to some effects like:
+         screen readers announcing the label caption when selecting an input,
+         selecting the label will focus on the input,
+         highlighting the label will highlight the input, etc*/}
+        <label>
+            Title:
+            <input id={"title"} />
+        </label>
+        <label>
+            Description:
+            <input id={"description"} />
+        </label>
+        <label>
+            Status:
+            <input id={"status"} />
+        </label>
+        <label>
+            Due date:
+            <input id={"dueDate"} />
+        </label>
+
+        <hr/>
+
       <p>Retrieved data:</p>
         {/* a comment within JSX (anything that is rendered)
       must be wrapped in curled braces and use a multi-line comment */}
