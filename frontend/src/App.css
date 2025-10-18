@@ -36,3 +36,39 @@
     transform: rotate(360deg);
   }
 }
+
+/* input section */
+#taskInputs {
+  display: flex;
+  justify-content: center;
+}
+
+/* labels (text + input/dropdown) within the input section*/
+#taskInputs label {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+  padding: 2px;
+}
+
+/* reset and submit buttons within the input section*/
+#taskInputs button {
+  padding: 2px;
+  margin: 0px 10px 0px 10px;
+}
+
+/* both the dropdown list and input boxes within the input section*/
+#taskInputs select, input {
+  margin: auto;
+}
+
+/* dropdown list within the input section */
+#taskInputs select {
+  text-align: center;
+  width: 4vw;
+}
+
+/* input boxes within the input section */
+#taskInputs input {
+  width: 20vw;
+}
