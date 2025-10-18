@@ -6,6 +6,9 @@ import {useState, useEffect} from "react";
 // npm start
 // ctrl+c to stop
 
+// todo add window alerts to errors
+//  comments
+
 // export default specifies that this is the main component in the file.
 export default function App() {
     // states are used to define information that you plan to change
@@ -18,16 +21,17 @@ export default function App() {
     // fetching data, directly updating the DOM, and timers
     useEffect(() => {
         getData();
-    },[]);
+    }, []);
     // no dependency would run this effect every re-render,
     // an empty array means it runs only on the first render,
     // if you put a prop or state in the array, anytime that is updated it would re-render
 
     return (
         <div className="App">
-            <IdDropdown/>
-
-            <InputForm/>
+            <p>Input a new task below:</p>
+            <div id={"taskInputs"}>
+                <InputForm/>
+            </div>
 
             <hr/>
 
@@ -59,8 +63,9 @@ export default function App() {
             // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
             const response = await fetch(url, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"} ,
-                body: JSON.stringify(data)});
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
@@ -99,8 +104,17 @@ export default function App() {
     // React components have the same syntax as JavaScript functions
 
     function InputForm() {
+        const dropDownOptions = reqContents.map(task =>
+            <option value={task.id}>{task.id}</option>
+        )
         return <div>
-            <p>Input a new task below:</p>
+            <label>
+                ID:
+                <select>
+                    <option value="new">New</option>
+                    {dropDownOptions}
+                </select>
+            </label>
             {/* <form> element allows you to create interactive controls for submitting information.
                 "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
                 note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
@@ -147,18 +161,4 @@ export default function App() {
 
         return <ul>{listOfTasks}</ul>
     }
-
-    function IdDropdown() {
-        const dropDownOptions = reqContents.map(task =>
-            <option value={task.id}>{task.id}</option>
-        )
-
-        return <label> ID:
-                <select>
-                    <option value = "new">New Task</option>
-                    {dropDownOptions}
-                </select>
-            </label>
-    }
-
 }
