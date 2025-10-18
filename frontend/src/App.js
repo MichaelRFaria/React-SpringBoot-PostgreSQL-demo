@@ -27,39 +27,7 @@ export default function App() {
         <div className="App">
             <IdDropdown/>
 
-            <p>Input a new task below:</p>
-            {/* <form> element allows you to create interactive controls for submitting information.
-            "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
-            note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
-            note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/}
-            <form onSubmit={postData}>
-                {/* typically you put input boxes with label tags. this tells the browser that the label
-         is associated with the input box leading to some effects like:
-         screen readers announcing the label caption when selecting an input,
-         selecting the label will focus on the input,
-         highlighting the label will highlight the input, etc*/}
-                <label>
-                    Title:
-                    <input name="title"/>
-                </label>
-                <label>
-                    Description:
-                    <input name="description"/>
-                </label>
-                <label>
-                    Status:
-                    <input name="status"/>
-                </label>
-                <label>
-                    Due date:
-                    <input name="dueDate"/>
-                </label>
-                {/* the <form> element has unique behaviour where:
-                any <button> of type "reset" will reset inputs within the form to their default values
-                any <button> of type "submit" will trigger the form's onSubmit event */}
-                <button type={"reset"}>Reset</button>
-                <button type={"submit"}>Submit</button>
-            </form>
+            <InputForm/>
 
             <hr/>
 
@@ -129,6 +97,44 @@ export default function App() {
     }
 
     // React components have the same syntax as JavaScript functions
+
+    function InputForm() {
+        return <div>
+            <p>Input a new task below:</p>
+            {/* <form> element allows you to create interactive controls for submitting information.
+                "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
+                note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
+                note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/}
+            <form onSubmit={postData}>
+                {/* typically you put input boxes with label tags. this tells the browser that the label
+             is associated with the input box leading to some effects like:
+             screen readers announcing the label caption when selecting an input,
+             selecting the label will focus on the input,
+             highlighting the label will highlight the input, etc*/}
+                <label>
+                    Title:
+                    <input name="title"/>
+                </label>
+                <label>
+                    Description:
+                    <input name="description"/>
+                </label>
+                <label>
+                    Status:
+                    <input name="status"/>
+                </label>
+                <label>
+                    Due date:
+                    <input name="dueDate"/>
+                </label>
+                {/* the <form> element has unique behaviour where:
+                    any <button> of type "reset" will reset inputs within the form to their default values
+                    any <button> of type "submit" will trigger the form's onSubmit event */}
+                <button type={"reset"}>Reset</button>
+                <button type={"submit"}>Submit</button>
+            </form>
+        </div>
+    }
 
     // simple method to display the tasks retrieved from the backend
     function DisplayTasks() {
