@@ -12,6 +12,7 @@ export default function App() {
     // functions starting with "use" are called "Hooks",
     // each hook lets you use a different React feature from your component.
     const [reqContents, setReqContents] = useState([]);
+    const [selectedId, setSelectedId] = useState("new");
 
     // useEffect is a hook that allows you to perform side effects in your components, examples include:
     // fetching data, directly updating the DOM, and timers
@@ -24,12 +25,14 @@ export default function App() {
 
     return (
         <div className="App">
+            <IdDropdown/>
+
+            <p>Input a new task below:</p>
             {/* <form> element allows you to create interactive controls for submitting information.
             "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
             note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
             note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/}
             <form onSubmit={postData}>
-                <p>Input a new task below:</p>
                 {/* typically you put input boxes with label tags. this tells the browser that the label
          is associated with the input box leading to some effects like:
          screen readers announcing the label caption when selecting an input,
@@ -128,7 +131,6 @@ export default function App() {
     // React components have the same syntax as JavaScript functions
 
     // simple method to display the tasks retrieved from the backend
-    // todo could probably render this automatically without having to click
     function DisplayTasks() {
         // React has no clue how to display an object, so we need to map the object, to something that React can recognise
         // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
@@ -138,6 +140,19 @@ export default function App() {
         )
 
         return <ul>{listOfTasks}</ul>
+    }
+
+    function IdDropdown() {
+        const dropDownOptions = reqContents.map(task =>
+            <option value={task.id}>{task.id}</option>
+        )
+
+        return <label> ID:
+                <select>
+                    <option value = "new">New Task</option>
+                    {dropDownOptions}
+                </select>
+            </label>
     }
 
 }
