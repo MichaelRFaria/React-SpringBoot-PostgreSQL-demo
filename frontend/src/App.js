@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 // to run type the following into the cmd in the frontend directory:
 // npm start
@@ -13,23 +13,17 @@ export default function App() {
     // each hook lets you use a different React feature from your component.
     const [reqContents, setReqContents] = useState([]);
 
+    // useEffect is a hook that allows you to perform side effects in your components, examples include:
+    // fetching data, directly updating the DOM, and timers
+    useEffect(() => {
+        getData();
+    },[]);
+    // no dependency would run this effect every re-render,
+    // an empty array means it runs only on the first render,
+    // if you put a prop or state in the array, anytime that is updated it would re-render
+
     return (
         <div className="App">
-            {/*<header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>*/}
-
             {/* <form> element allows you to create interactive controls for submitting information.
             "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
             note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
@@ -71,8 +65,6 @@ export default function App() {
       must be wrapped in curled braces and use a multi-line comment */}
             {/* creating a component */}
             <DisplayTasks/>
-            <p>Button that fetches from database</p>
-            <button onClick={getData}>Click to get data!</button>
         </div>
     );
 
