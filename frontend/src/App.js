@@ -39,7 +39,7 @@ export default function App() {
             {/* a comment within JSX (anything that is rendered)
       must be wrapped in curled braces and use a multi-line comment */}
             {/* creating a component */}
-            <DisplayTasks/>
+            <Tasks/>
         </div>
     );
 
@@ -151,7 +151,7 @@ export default function App() {
     }
 
     // simple method to display the tasks retrieved from the backend
-    function DisplayTasks() {
+    function Tasks() {
         // React has no clue how to display an object, so we need to map the object, to something that React can recognise
         // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
         const listOfTasks = reqContents.map(task =>
