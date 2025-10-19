@@ -8,6 +8,7 @@ import {useState, useEffect} from "react";
 
 // todo add window alerts to errors
 //  comments
+//  create other js files for organisation
 
 // export default specifies that this is the main component in the file.
 export default function App() {
@@ -43,41 +44,6 @@ export default function App() {
         </div>
     );
 
-    // we are able to pass in the event, and React will pass it in at runtime when the submit event triggers
-    async function postData(e) {
-        // prevents the browser from reloading the page
-        e.preventDefault();
-
-        // retrieves a reference of the element, which triggered the event
-        const form = e.target;
-        // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
-        // using the name property of each element for the keys and their submitted value for the values."
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        // todo create other js files for organisation
-
-        // var for url for simplicity
-        const url = "http://localhost:8080/task"
-
-        try {
-            // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log(result);
-            await getData();
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-
     // A good rule of thumb for defining components is:
     // Define it locally, if it is only used within the component it's defined in.
     // Define it globally, if it is going to be reused or shared by several components, and just pass in props.
@@ -101,7 +67,51 @@ export default function App() {
         }
     }
 
+    // we are able to pass in the event, and React will pass it in at runtime when the submit event triggers
+    async function sendData(e) {
+        // prevents the browser from reloading the page
+        e.preventDefault();
+
+        // retrieves a reference of the element, which triggered the event
+        const form = e.target;
+        // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
+        // using the name property of each element for the keys and their submitted value for the values."
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        let url;
+        let method;
+
+        if (selectedId === "new") {
+            url = "http://localhost:8080/task"
+            method = "POST"
+        } else {
+            // using backticks makes a "template literal" allowing you to have inline JS vars
+            url = `http://localhost:8080/task/${selectedId}`
+            method = "PUT"
+        }
+
+        try {
+            // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
+            const response = await fetch(url, {
+                method: method,
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            await getData();
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     // React components have the same syntax as JavaScript functions
+    // Note: React components must start with a capital letter
 
     function InputForm() {
         const dropDownOptions = reqContents.map(task =>
@@ -110,7 +120,7 @@ export default function App() {
         return <div>
             <label>
                 ID:
-                <select>
+                 <select value={selectedId} onChange={e => setSelectedId(e.target.value)}>
                     <option value="new">New</option>
                     {dropDownOptions}
                 </select>
@@ -119,7 +129,7 @@ export default function App() {
                 "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
                 note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
                 note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/}
-            <form onSubmit={postData}>
+            <form onSubmit={sendData}>
                 {/* typically you put input boxes with label tags. this tells the browser that the label
              is associated with the input box leading to some effects like:
              screen readers announcing the label caption when selecting an input,
