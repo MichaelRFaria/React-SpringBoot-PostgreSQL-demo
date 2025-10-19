@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {useState, useEffect} from "react";
 
@@ -23,7 +22,7 @@ export default function App() {
     useEffect(() => {
         getData();
     }, []);
-    // no dependency would run this effect every re-render,
+    // ^ no dependency would run this effect every re-render,
     // an empty array means it runs only on the first render,
     // if you put a prop or state in the array, anytime that is updated it would re-render
 
@@ -67,6 +66,8 @@ export default function App() {
         }
     }
 
+    // simple method to make POST and PUT requests, based on the selectedId state variable
+
     // we are able to pass in the event, and React will pass it in at runtime when the submit event triggers
     async function sendData(e) {
         // prevents the browser from reloading the page
@@ -79,9 +80,11 @@ export default function App() {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
+        // let and var have different scopes, but let also doesn't require initialisation.
         let url;
         let method;
 
+        // === is strict checking, which will not attempt to convert between types unlike ==
         if (selectedId === "new") {
             url = "http://localhost:8080/task"
             method = "POST"
@@ -120,7 +123,7 @@ export default function App() {
         return <div>
             <label>
                 ID:
-                 <select value={selectedId} onChange={e => setSelectedId(e.target.value)}>
+                <select value={selectedId} onChange={e => setSelectedId(e.target.value)}>
                     <option value="new">New</option>
                     {dropDownOptions}
                 </select>
