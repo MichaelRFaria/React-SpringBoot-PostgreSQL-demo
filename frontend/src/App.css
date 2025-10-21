@@ -62,11 +62,18 @@
   margin: auto;
 }
 
-/* dropdown list within the input section */
-#taskInputs select {
+/* id select dropdown */
+#methodDropdown {
   text-align: center;
   width: 4vw;
 }
+
+/* method select dropdown */
+#methodDropdown {
+  text-align: center;
+  width: 7vw;
+}
+
 
 /* input boxes within the input section */
 #taskInputs input {

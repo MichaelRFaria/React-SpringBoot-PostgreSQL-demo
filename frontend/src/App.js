@@ -16,6 +16,8 @@ export default function App() {
     // each hook lets you use a different React feature from your component.
     const [reqContents, setReqContents] = useState([]);
     const [selectedId, setSelectedId] = useState("new");
+    // can use to make a single HTTP request function later
+    const [selectedMethod, setSelectedMethod] = useState("post/put");
 
     // useEffect is a hook that allows you to perform side effects in your components, examples include:
     // fetching data, directly updating the DOM, and timers
@@ -28,7 +30,7 @@ export default function App() {
 
     return (
         <div className="App">
-            <p>Input a new task below:</p>
+            {/*<p>Input a new task below:</p>*/}
             <div id={"taskInputs"}>
                 <InputForm/>
             </div>
@@ -113,6 +115,30 @@ export default function App() {
         }
     }
 
+    // simple method to make POST and PUT requests, based on the selectedId state variable
+    async function deleteData() {
+        const url = `http://localhost:8080/task/${selectedId}`
+
+        if (selectedId === "new") {
+            // temp
+            console.log("cannot delete on id 'new' pick an existing id from the dropdown")
+            return
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            await getData();
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     // React components have the same syntax as JavaScript functions
     // Note: React components must start with a capital letter
 
@@ -123,15 +149,25 @@ export default function App() {
         return <div>
             <label>
                 ID:
-                <select value={selectedId} onChange={e => setSelectedId(e.target.value)}>
+                <select id={"idDropdown"} value={selectedId} onChange={e => setSelectedId(e.target.value)}>
                     <option value="new">New</option>
                     {dropDownOptions}
                 </select>
             </label>
-            {/* <form> element allows you to create interactive controls for submitting information.
+            <label>
+                Method:
+                <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
+                    <option value="post/put">Add/Update</option>
+                    <option value="delete">Delete</option>
+                </select>
+            </label>
+
+            {/* JSX shorthand for "render this only if condition is true" */}
+            {selectedMethod !== "delete" ? (
+                /* <form> element allows you to create interactive controls for submitting information.
                 "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
                 note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
-                note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/}
+                note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/
             <form onSubmit={sendData}>
                 {/* typically you put input boxes with label tags. this tells the browser that the label
              is associated with the input box leading to some effects like:
@@ -160,6 +196,9 @@ export default function App() {
                 <button type={"reset"}>Reset</button>
                 <button type={"submit"}>Submit</button>
             </form>
+    ) : (
+        <button onClick={deleteData}>Delete</button>
+            )}
         </div>
     }
 
