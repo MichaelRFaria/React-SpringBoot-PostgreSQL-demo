@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './Practice.css';
+import logo from '../assets/logo.svg';
+import '../styles/Practice.css';
 import {useState} from "react";
 
 // to run type the following into the cmd in the frontend directory:

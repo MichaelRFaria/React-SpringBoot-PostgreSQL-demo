@@ -1,28 +1,40 @@
-import './App.css';
+import './styles/App.css';
+import Tasks from "./components/Tasks";
+import InputForm from "./components/InputForm"
 import {useState, useEffect} from "react";
+import {getData} from "./utils/api";
 
 // to run type the following into the cmd in the frontend directory:
 // npm start
 // ctrl+c to stop
 
 // todo add window alerts to errors
-//  comments
+//  update comments
 //  create other js files for organisation
+//  unspagettify the code - putting the components and api functions into separate files led to so much extra clutter, but some things can definitely be removed, go through the entire program flow and delete now obselete code
 
 // export default specifies that this is the main component in the file.
 export default function App() {
     // states are used to define information that you plan to change
     // functions starting with "use" are called "Hooks",
     // each hook lets you use a different React feature from your component.
-    const [reqContents, setReqContents] = useState([]);
+    const [tasks, setTasks] = useState([]);
+    // todo i think these two states below can be moved into their appropriate methods
     const [selectedId, setSelectedId] = useState("new");
     // can use to make a single HTTP request function later
     const [selectedMethod, setSelectedMethod] = useState("post/put");
 
+    // we create an async "arrow function expression" and call it, we need the asynchronous aspect as we must "await" the data
+    // note: this is essentially JS' equivalent of a lambda. a function without a name stored in a variable that can be passed around
+    const fetchTasks = async () => {
+        const result = await getData();
+        setTasks(result);
+    };
+
     // useEffect is a hook that allows you to perform side effects in your components, examples include:
     // fetching data, directly updating the DOM, and timers
-    useEffect(() => {
-        getData();
+    useEffect( () => {
+        fetchTasks();
     }, []);
     // ^ no dependency would run this effect every re-render,
     // an empty array means it runs only on the first render,
@@ -32,7 +44,7 @@ export default function App() {
         <div className="App">
             {/*<p>Input a new task below:</p>*/}
             <div id={"taskInputs"}>
-                <InputForm/>
+                <InputForm tasks={tasks} id={selectedId} setId={setSelectedId} method={selectedMethod} setMethod={setSelectedMethod} updateTasks={fetchTasks}/>
             </div>
 
             <hr/>
@@ -41,176 +53,7 @@ export default function App() {
             {/* a comment within JSX (anything that is rendered)
       must be wrapped in curled braces and use a multi-line comment */}
             {/* creating a component */}
-            <Tasks/>
+            <Tasks tasks={tasks}/>
         </div>
     );
-
-    // A good rule of thumb for defining components is:
-    // Define it locally, if it is only used within the component it's defined in.
-    // Define it globally, if it is going to be reused or shared by several components, and just pass in props.
-
-    // simple method to make a GET request
-    async function getData() {
-        const url = "http://localhost:8080/task";
-
-        try {
-            // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            setReqContents(result)
-            console.log(result);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-
-    // simple method to make POST and PUT requests, based on the selectedId state variable
-
-    // we are able to pass in the event, and React will pass it in at runtime when the submit event triggers
-    async function sendData(e) {
-        // prevents the browser from reloading the page
-        e.preventDefault();
-
-        // retrieves a reference of the element, which triggered the event
-        const form = e.target;
-        // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
-        // using the name property of each element for the keys and their submitted value for the values."
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        // let and var have different scopes, but let also doesn't require initialisation.
-        let url;
-        let method;
-
-        // === is strict checking, which will not attempt to convert between types unlike ==
-        if (selectedId === "new") {
-            url = "http://localhost:8080/task"
-            method = "POST"
-        } else {
-            // using backticks makes a "template literal" allowing you to have inline JS vars
-            url = `http://localhost:8080/task/${selectedId}`
-            method = "PUT"
-        }
-
-        try {
-            // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc
-            const response = await fetch(url, {
-                method: method,
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log(result);
-            await getData();
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-
-    // simple method to make POST and PUT requests, based on the selectedId state variable
-    async function deleteData() {
-        const url = `http://localhost:8080/task/${selectedId}`
-
-        if (selectedId === "new") {
-            // temp
-            console.log("cannot delete on id 'new' pick an existing id from the dropdown")
-            return
-        }
-
-        try {
-            const response = await fetch(url, {
-                method: "DELETE"
-            });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-
-            await getData();
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-
-    // React components have the same syntax as JavaScript functions
-    // Note: React components must start with a capital letter
-
-    function InputForm() {
-        const dropDownOptions = reqContents.map(task =>
-            <option value={task.id}>{task.id}</option>
-        )
-        return <div>
-            <label>
-                ID:
-                <select id={"idDropdown"} value={selectedId} onChange={e => setSelectedId(e.target.value)}>
-                    <option value="new">New</option>
-                    {dropDownOptions}
-                </select>
-            </label>
-            <label>
-                Method:
-                <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
-                    <option value="post/put">Add/Update</option>
-                    <option value="delete">Delete</option>
-                </select>
-            </label>
-
-            {/* JSX shorthand for "render this only if condition is true" */}
-            {selectedMethod !== "delete" ? (
-                /* <form> element allows you to create interactive controls for submitting information.
-                "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
-                note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
-                note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/
-            <form onSubmit={sendData}>
-                {/* typically you put input boxes with label tags. this tells the browser that the label
-             is associated with the input box leading to some effects like:
-             screen readers announcing the label caption when selecting an input,
-             selecting the label will focus on the input,
-             highlighting the label will highlight the input, etc*/}
-                <label>
-                    Title:
-                    <input name="title"/>
-                </label>
-                <label>
-                    Description:
-                    <input name="description"/>
-                </label>
-                <label>
-                    Status:
-                    <input name="status"/>
-                </label>
-                <label>
-                    Due date:
-                    <input name="dueDate"/>
-                </label>
-                {/* the <form> element has unique behaviour where:
-                    any <button> of type "reset" will reset inputs within the form to their default values
-                    any <button> of type "submit" will trigger the form's onSubmit event */}
-                <button type={"reset"}>Reset</button>
-                <button type={"submit"}>Submit</button>
-            </form>
-    ) : (
-        <button onClick={deleteData}>Delete</button>
-            )}
-        </div>
-    }
-
-    // simple method to display the tasks retrieved from the backend
-    function Tasks() {
-        // React has no clue how to display an object, so we need to map the object, to something that React can recognise
-        // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
-        const listOfTasks = reqContents.map(task =>
-            // you must specify a key for React's DOM to be able to figure out which elements have been updated, so it can rerender the list properly
-            <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {task.dueDate}</li>
-        )
-
-        return <ul>{listOfTasks}</ul>
-    }
 }
