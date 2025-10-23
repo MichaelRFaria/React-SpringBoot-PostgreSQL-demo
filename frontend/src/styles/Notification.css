@@ -1,17 +1,31 @@
 #notificationInvisible {
     position: fixed;
-    top: 2rem;
-    right: 1rem;
+    top: 2vw;
+    right: 1vw;
+
+    padding: 1vw;
+    border: 2px solid black;
+    border-radius: 10px;
+
     opacity: 0;
+    background-color: darkgray;
+
     transition: opacity 0.2s, transform 0.5s;
     transform: translateX(5vw);
 }
 
 #notificationVisible {
     position: fixed;
-    top: 2rem;
-    right: 1rem;
+    top: 2vw;
+    right: 1vw;
+
+    padding: 1vw;
+    border: 2px solid black;
+    border-radius: 10px;
+
     opacity: 1;
+    background-color: darkgray;
+
     transition: opacity 0.2s, transform 0.5s;
     transform: translateX(-5vw);
 }

@@ -11,8 +11,8 @@ export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState("new");
     const [selectedMethod, setSelectedMethod] = useState("post/put");
 
-    const [notificationMessage, setNotificationMessage] = useState("test");
-    const [notificationVisiblity, setNotificationVisibility] = useState(true);
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationVisiblity, setNotificationVisibility] = useState(false);
 
     const toggleNotification = () => {
         setNotificationVisibility(!notificationVisiblity);
@@ -26,11 +26,23 @@ export default function InputForm({tasks, updateTasks}) {
         const form = e.target;
         // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
         await sendData(form, selectedId);
+        // todo set notification message to either some accept message or fail message based on a return from sendData
+        setNotificationMessage("Data submitted");
+        setNotificationVisibility(true);
+        setTimeout(() => {
+            setNotificationVisibility(false);
+        }, 3000);
         updateTasks();
     }
 
     const handleDelete = async () => {
         await deleteData(selectedId);
+        // todo set notification message to either some accept message or fail message based on a return from deleteData
+        setNotificationMessage("Data deleted");
+        setNotificationVisibility(true);
+        setTimeout(() => {
+            setNotificationVisibility(false);
+        }, 3000);
         updateTasks();
     }
 
