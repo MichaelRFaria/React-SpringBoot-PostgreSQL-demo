@@ -49,8 +49,10 @@ export default function App() {
 
             <hr/>
 
-            <p>Retrieved data:</p>
-            <Tasks tasks={tasks}/>
+            <div id={"displayedTasks"}>
+                <h3>Your tasks:</h3>
+                <Tasks tasks={tasks}/>
+            </div>
         </div>
     );
 }
