@@ -11,7 +11,6 @@ import {getData} from "./utils/api";
 // todo add window alerts to errors
 //  update comments
 //  create other js files for organisation
-//  unspagettify the code - putting the components and api functions into separate files led to so much extra clutter, but some things can definitely be removed, go through the entire program flow and delete now obselete code
 
 // export default specifies that this is the main component in the file.
 export default function App() {
@@ -19,10 +18,6 @@ export default function App() {
     // functions starting with "use" are called "Hooks",
     // each hook lets you use a different React feature from your component.
     const [tasks, setTasks] = useState([]);
-    // todo i think these two states below can be moved into their appropriate methods
-    const [selectedId, setSelectedId] = useState("new");
-    // can use to make a single HTTP request function later
-    const [selectedMethod, setSelectedMethod] = useState("post/put");
 
     // we create an async "arrow function expression" and call it, we need the asynchronous aspect as we must "await" the data
     // note: this is essentially JS' equivalent of a lambda. a function without a name stored in a variable that can be passed around
@@ -44,7 +39,7 @@ export default function App() {
         <div className="App">
             {/*<p>Input a new task below:</p>*/}
             <div id={"taskInputs"}>
-                <InputForm tasks={tasks} id={selectedId} setId={setSelectedId} method={selectedMethod} setMethod={setSelectedMethod} updateTasks={fetchTasks}/>
+                <InputForm tasks={tasks} updateTasks={fetchTasks}/>
             </div>
 
             <hr/>

@@ -1,18 +1,22 @@
 import {sendData, deleteData} from '../utils/api';
+import {useState} from "react";
 
 // React components have the same syntax as JavaScript functions
 // Note: React components must start with a capital letter
 
-export default function InputForm({tasks, id, setId, method, setMethod, updateTasks}) {
+export default function InputForm({tasks, updateTasks}) {
+    const [selectedId, setSelectedId] = useState("new");
+    // can use to make a single HTTP request function later
+    const [selectedMethod, setSelectedMethod] = useState("post/put");
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-        await sendData(form, id);
+        await sendData(form, selectedId);
         await updateTasks();
     }
 
     const handleDelete = async () => {
-        await deleteData(id);
+        await deleteData(selectedId);
         await updateTasks();
     }
 
@@ -23,21 +27,21 @@ export default function InputForm({tasks, id, setId, method, setMethod, updateTa
     return <div>
         <label>
             ID:
-            <select id={"idDropdown"} value={id} onChange={e => setId(e.target.value)}>
+            <select id={"idDropdown"} value={selectedId} onChange={e => setSelectedId(e.target.value)}>
                 <option value="new">New</option>
                 {dropDownOptions}
             </select>
         </label>
         <label>
             Method:
-            <select id={"methodDropdown"} value={method} onChange={e => setMethod(e.target.value)}>
+            <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
                 <option value="post/put">Add/Update</option>
                 <option value="delete">Delete</option>
             </select>
         </label>
 
         {/* JSX shorthand for "render this only if condition is true" */}
-        {method !== "delete" ? (
+        {selectedMethod !== "delete" ? (
             /* <form> element allows you to create interactive controls for submitting information.
             "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
             note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
