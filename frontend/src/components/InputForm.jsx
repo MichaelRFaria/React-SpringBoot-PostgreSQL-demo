@@ -1,7 +1,8 @@
 // simple component that displays an input form that allows the user to execute different operations on the database
 
 import {sendData, deleteData} from '../utils/api';
-import {useState} from "react";
+import {use, useState} from "react";
+import Notification from "./Notification";
 
 // React components have the same syntax as JavaScript functions
 // Note: React components must start with a capital letter
@@ -9,6 +10,14 @@ import {useState} from "react";
 export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState("new");
     const [selectedMethod, setSelectedMethod] = useState("post/put");
+
+    const [notificationMessage, setNotificationMessage] = useState("test");
+    const [notificationVisiblity, setNotificationVisibility] = useState(true);
+
+    const toggleNotification = () => {
+        setNotificationVisibility(!notificationVisiblity);
+        console.log(notificationVisiblity)
+    }
 
     // this arrow function expression serves more than just as an easy way to create a short function,
     // but it also allows us to work with the event (e) that the form element's onSubmit button produces, which we can't define at compile-time (I think???)
@@ -84,6 +93,12 @@ export default function InputForm({tasks, updateTasks}) {
             ) : (
                 <button onClick={handleDelete}>Delete</button>
             )}
+            <div>
+                <Notification message={notificationMessage} isVisible={notificationVisiblity}/>
+            </div>
+            <button onClick={toggleNotification}>
+                Test Notification
+            </button>
         </div>
     )
 }
