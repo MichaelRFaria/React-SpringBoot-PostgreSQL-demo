@@ -1,4 +1,4 @@
-// simple method to display the tasks retrieved from the backend
+// simple component that displays a html list of tasks from a given tasks prop
 export default function Tasks({tasks}) {
     // React has no clue how to display an object, so we need to map the object, to something that React can recognise
     // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
