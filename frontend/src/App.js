@@ -10,8 +10,6 @@ import {getData} from "./utils/api";
 // then:
 // ctrl+c to stop
 
-// todo add window alerts to errors
-
 // export default specifies that this is the main component in the app.
 export default function App() {
     // states are used to define information that you plan to change
@@ -23,6 +21,7 @@ export default function App() {
     // note: this is essentially JS' equivalent of a lambda. a function without a name stored in a variable that can be passed around
     const fetchTasks = async () => {
         const result = await getData();
+        // todo add error case either in method or here
         setTasks(result);
     };
 
@@ -51,7 +50,11 @@ export default function App() {
 
             <div id={"displayedTasks"}>
                 <h3>Your tasks:</h3>
-                <Tasks tasks={tasks}/>
+                {tasks.length !== 0 ? (
+                    <Tasks tasks={tasks}/>
+                ) : (
+                    <p>You have no tasks!</p>
+                )}
             </div>
         </div>
     );
