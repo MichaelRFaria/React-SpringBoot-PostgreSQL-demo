@@ -1,15 +1,20 @@
 // simple component that displays an input form that allows the user to execute different operations on the database
 
 import {sendData, deleteData} from '../utils/api';
-import {use, useState} from "react";
+import {useEffect, useState} from "react";
 import Notification from "./Notification";
 
 // React components have the same syntax as JavaScript functions
 // Note: React components must start with a capital letter
 
+//todo - enums??
+// add errors on deleting/updating when tasks is empty
+// updating a task makes the list unordered by pushing the updated task to the bottom (Tasks component needs fix for this. could implement filter options there e.g: date added (order of id), due date, status (aggregate))
+//
+
 export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState("new");
-    const [selectedMethod, setSelectedMethod] = useState("post/put");
+    const [selectedMethod, setSelectedMethod] = useState("create");
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisiblity, setNotificationVisibility] = useState(false);
@@ -46,6 +51,16 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
+    useEffect(() => {
+        if (selectedMethod === "create") {
+            setSelectedId("new");
+        } else if (selectedMethod === "update" || selectedMethod === "delete") {
+            if (tasks.length > 0) {
+                setSelectedId(tasks[0].id);
+            } // todo else {} some sort of error (specifically kicks when deleting last id due to tasks dependency)
+        }
+    }, [selectedMethod, tasks]);
+
     // populating our dropdown of ids with id's from the tasks
     const dropDownOptions = tasks.map(task =>
         <option value={task.id}>{task.id}</option>
@@ -54,22 +69,25 @@ export default function InputForm({tasks, updateTasks}) {
     return (
         <div>
             <label>
-                ID:
-                <select id={"idDropdown"} value={selectedId} onChange={e => setSelectedId(e.target.value)}>
-                    <option value="new">New</option>
-                    {dropDownOptions}
-                </select>
-            </label>
-            <label>
                 Method:
                 <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
-                    <option value="post/put">Add/Update</option>
+                    <option value="create">Add</option>
+                    <option value="update">Update</option>
                     <option value="delete">Delete</option>
                 </select>
             </label>
 
-            {/* JSX shorthand for "render this only if condition is true" */}
-            {selectedMethod !== "delete" ? (
+            {/* JSX shorthand for "render this only if condition is true, otherwise ... */}
+            {(selectedMethod === "update" || selectedMethod === "delete") && (
+                <label>
+                    ID:
+                    <select id={"idDropdown"} value={selectedId} onChange={e => setSelectedId(e.target.value)}>
+                        {dropDownOptions}
+                    </select>
+                </label>
+            )}
+
+            {(selectedMethod === "create" || selectedMethod === "update") && (
                 /* <form> element allows you to create interactive controls for submitting information.
                 "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
                 note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
@@ -102,7 +120,9 @@ export default function InputForm({tasks, updateTasks}) {
                     <button type={"reset"}>Reset</button>
                     <button type={"submit"}>Submit</button>
                 </form>
-            ) : (
+            )}
+
+            {selectedMethod === "delete" && (
                 <button onClick={handleDelete}>Delete</button>
             )}
             <div>
