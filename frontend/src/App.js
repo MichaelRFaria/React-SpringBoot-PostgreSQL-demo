@@ -38,7 +38,7 @@ export default function App() {
         <div className="App">
             {/* a comment within JSX (anything that is rendered)
       must be wrapped in curled braces and use a multi-line comment */}
-            <div id={"taskInputs"}>
+            <div>
                 {/* creating a component */}
                 {/* passing information from a parent component into a child component is called passing "props" */}
                 {/* we pass a reference to the fetchTasks into the InputForm component, so we can update the data in the tasks state,

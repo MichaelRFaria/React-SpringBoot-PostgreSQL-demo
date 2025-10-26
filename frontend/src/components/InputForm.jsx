@@ -3,6 +3,7 @@
 import {sendData, deleteData} from '../utils/api';
 import {useEffect, useState} from "react";
 import Notification from "./Notification";
+import "../styles/InputForm.css"
 
 // React components have the same syntax as JavaScript functions
 // Note: React components must start with a capital letter
@@ -10,7 +11,6 @@ import Notification from "./Notification";
 //todo - enums??
 // add errors on deleting/updating when tasks is empty
 // updating a task makes the list unordered by pushing the updated task to the bottom (Tasks component needs fix for this. could implement filter options there e.g: date added (order of id), due date, status (aggregate))
-//
 
 export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState("new");
@@ -67,7 +67,7 @@ export default function InputForm({tasks, updateTasks}) {
     )
 
     return (
-        <div>
+        <div id={"taskInputs"}>
             <label>
                 Method:
                 <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
