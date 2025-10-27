@@ -8,8 +8,8 @@ import "../styles/InputForm.css"
 // React components have the same syntax as JavaScript functions
 // Note: React components must start with a capital letter
 
-//todo - enums??
-// add errors on deleting/updating when tasks is empty
+//todo
+// add errors on updating when tasks is empty
 // updating a task makes the list unordered by pushing the updated task to the bottom (Tasks component needs fix for this. could implement filter options there e.g: date added (order of id), due date, status (aggregate))
 
 export default function InputForm({tasks, updateTasks}) {
@@ -17,11 +17,11 @@ export default function InputForm({tasks, updateTasks}) {
     const [selectedMethod, setSelectedMethod] = useState("create");
 
     const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationVisiblity, setNotificationVisibility] = useState(false);
+    const [notificationVisibility, setNotificationVisibility] = useState(false);
 
     const toggleNotification = () => {
-        setNotificationVisibility(!notificationVisiblity);
-        console.log(notificationVisiblity)
+        setNotificationVisibility(!notificationVisibility);
+        console.log(notificationVisibility)
     }
 
     // this arrow function expression serves more than just as an easy way to create a short function,
@@ -41,9 +41,17 @@ export default function InputForm({tasks, updateTasks}) {
     }
 
     const handleDelete = async () => {
-        await deleteData(selectedId);
-        // todo set notification message to either some accept message or fail message based on a return from deleteData
-        setNotificationMessage("Data deleted");
+        if (tasks.length > 0) {
+            const status = await deleteData(selectedId);
+            if (status >= 200 && status <= 299) {
+                setNotificationMessage("Data successfully deleted");
+            } else {
+                setNotificationMessage("Error encountered, please try again")
+            }
+        } else {
+            setNotificationMessage("There are no tasks to delete!")
+        }
+
         setNotificationVisibility(true);
         setTimeout(() => {
             setNotificationVisibility(false);
@@ -51,13 +59,14 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
+    // todo else {} some sort of error (specifically kicks when deleting last id due to tasks dependency)
     useEffect(() => {
         if (selectedMethod === "create") {
             setSelectedId("new");
         } else if (selectedMethod === "update" || selectedMethod === "delete") {
             if (tasks.length > 0) {
                 setSelectedId(tasks[0].id);
-            } // todo else {} some sort of error (specifically kicks when deleting last id due to tasks dependency)
+            }
         }
     }, [selectedMethod, tasks]);
 
@@ -77,7 +86,7 @@ export default function InputForm({tasks, updateTasks}) {
                 </select>
             </label>
 
-            {/* JSX shorthand for "render this only if condition is true, otherwise ... */}
+            {/* JSX shorthand for "render this only if condition is true, otherwise ... "*/}
             {(selectedMethod === "update" || selectedMethod === "delete") && (
                 <label>
                     ID:
@@ -126,7 +135,7 @@ export default function InputForm({tasks, updateTasks}) {
                 <button onClick={handleDelete}>Delete</button>
             )}
             <div>
-                <Notification message={notificationMessage} isVisible={notificationVisiblity}/>
+                <Notification message={notificationMessage} isVisible={notificationVisibility}/>
             </div>
             <button onClick={toggleNotification}>
                 Test Notification

@@ -61,13 +61,9 @@ export async function sendData(form, selectedId) {
 }
 
 // simple method to make DELETE requests to the appropriate API endpoint, based on the ID selected form the dropdown
+// returns the HTTP response status code (200-299 = success)
 export async function deleteData(selectedId) {
     const url = `http://localhost:8080/task/${selectedId}`
-
-    if (selectedId === "new") {
-        console.log("cannot delete on id 'new' pick an existing id from the dropdown")
-        return;
-    }
 
     try {
         const response = await fetch(url, {
@@ -76,6 +72,9 @@ export async function deleteData(selectedId) {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
+
+        console.log(response.status)
+        return response.status;
     } catch (error) {
         console.error(error.message);
     }
