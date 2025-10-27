@@ -55,6 +55,7 @@ export async function sendData(form, selectedId) {
 
         const result = await response.json();
         console.log(result);
+        return response.status;
     } catch (error) {
         console.error(error.message);
     }

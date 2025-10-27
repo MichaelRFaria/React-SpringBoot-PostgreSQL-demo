@@ -9,7 +9,6 @@ import "../styles/InputForm.css"
 // Note: React components must start with a capital letter
 
 //todo
-// add errors on updating when tasks is empty
 // updating a task makes the list unordered by pushing the updated task to the bottom (Tasks component needs fix for this. could implement filter options there e.g: date added (order of id), due date, status (aggregate))
 
 export default function InputForm({tasks, updateTasks}) {
@@ -29,10 +28,21 @@ export default function InputForm({tasks, updateTasks}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-        // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
-        await sendData(form, selectedId);
-        // todo set notification message to either some accept message or fail message based on a return from sendData
-        setNotificationMessage("Data submitted");
+
+        if (tasks.length > 0 || selectedId === "new") {
+            // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
+            const status = await sendData(form, selectedId);
+
+            if (status >= 200 && status <= 299) {
+                const operation = (selectedId === "new" ? "created" : "updated")
+                setNotificationMessage(`Task successfully ${operation}`);
+            } else {
+                setNotificationMessage("Error encountered, please try again")
+            }
+        } else {
+            setNotificationMessage("There are no tasks to update!")
+        }
+
         setNotificationVisibility(true);
         setTimeout(() => {
             setNotificationVisibility(false);
@@ -44,7 +54,7 @@ export default function InputForm({tasks, updateTasks}) {
         if (tasks.length > 0) {
             const status = await deleteData(selectedId);
             if (status >= 200 && status <= 299) {
-                setNotificationMessage("Data successfully deleted");
+                setNotificationMessage("Task successfully deleted");
             } else {
                 setNotificationMessage("Error encountered, please try again")
             }
