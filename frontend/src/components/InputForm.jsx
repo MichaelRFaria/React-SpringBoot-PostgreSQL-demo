@@ -94,13 +94,17 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
-    // todo else {} some sort of error (specifically kicks when deleting last id due to tasks dependency)
     useEffect(() => {
         if (selectedMethod === "create") {
             setSelectedId("new");
         } else if (selectedMethod === "update" || selectedMethod === "delete") {
             if (tasks.length > 0) {
                 setSelectedId(tasks[0].id);
+            } else {
+                // special case: when the selected method is update/delete and the tasks become empty (we have just deleted the last task),
+                // we must switch the method to create as we can't update/delete on an empty database
+                setSelectedMethod("create");
+                setSelectedId("new");
             }
         }
     }, [selectedMethod, tasks]);
@@ -116,8 +120,8 @@ export default function InputForm({tasks, updateTasks}) {
                 Method:
                 <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
                     <option value="create">Add</option>
-                    <option value="update">Update</option>
-                    <option value="delete">Delete</option>
+                    <option value="update" disabled={tasks.length === 0}>Update</option>
+                    <option value="delete" disabled={tasks.length === 0}>Delete</option>
                 </select>
             </label>
 
