@@ -18,24 +18,20 @@ export default function InputForm({tasks, updateTasks}) {
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
 
-    const toggleNotification = () => {
-        setNotificationVisibility(!notificationVisibility);
-        console.log(notificationVisibility)
-    }
-
     // handles submitting a form (either creating or updating a task)
 
     // this arrow function expression serves more than just as an easy way to create a short function,
     // but it also allows us to work with the event (e) that the form element's onSubmit button produces, which we can't define at compile-time (I think???)
     const handleSubmit = async (e) => {
+        // stops browser from refreshing on form submit
         e.preventDefault();
-        // todo simplify this
-        const form = e.target;
-        // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
+
+        // FormData's Javadoc states: "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
         // using the name property of each element for the keys and their submitted value for the values."
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data)
+
+        // FormData() turns form into key/value pairs  -> .entries() turns pairs into list  ->  Object.fromEntries() turns list into JS object
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        //console.log(data)
 
         await submitData(data)
 
@@ -76,6 +72,7 @@ export default function InputForm({tasks, updateTasks}) {
         }
     }
 
+    // handles deleting tasks
     const handleDelete = async () => {
         if (tasks.length > 0) {
             const status = await deleteData(selectedId);
