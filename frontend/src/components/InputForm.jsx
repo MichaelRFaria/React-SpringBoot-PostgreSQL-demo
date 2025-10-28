@@ -18,6 +18,14 @@ export default function InputForm({tasks, updateTasks}) {
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
 
+    // displays notification for a set amount of time
+    const displayNotification = (time) => {
+        setNotificationVisibility(true);
+        setTimeout(() => {
+            setNotificationVisibility(false);
+        }, time);
+    }
+
     // handles submitting a form (either creating or updating a task)
 
     // this arrow function expression serves more than just as an easy way to create a short function,
@@ -35,10 +43,7 @@ export default function InputForm({tasks, updateTasks}) {
 
         await submitData(data)
 
-        setNotificationVisibility(true);
-        setTimeout(() => {
-            setNotificationVisibility(false);
-        }, 3000);
+        displayNotification(3000);
         updateTasks();
     }
 
@@ -85,10 +90,7 @@ export default function InputForm({tasks, updateTasks}) {
             setNotificationMessage("There are no tasks to delete!")
         }
 
-        setNotificationVisibility(true);
-        setTimeout(() => {
-            setNotificationVisibility(false);
-        }, 3000);
+        displayNotification(3000);
         updateTasks();
     }
 
