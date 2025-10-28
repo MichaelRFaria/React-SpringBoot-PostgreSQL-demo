@@ -170,9 +170,6 @@ export default function InputForm({tasks, updateTasks}) {
             <div>
                 <Notification message={notificationMessage} isVisible={notificationVisibility}/>
             </div>
-            <button onClick={toggleNotification}>
-                Test Notification
-            </button>
         </div>
     )
 }
