@@ -23,12 +23,7 @@ export async function getData() {
 }
 
 // simple method to make POST and PUT requests to the appropriate API endpoint, using the data from the form element and the ID selected form the dropdown menu
-export async function sendData(form, selectedId) {
-    // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
-    // using the name property of each element for the keys and their submitted value for the values."
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
+export async function sendData(data, selectedId) {
     // let and var have different scopes, but let also doesn't require initialisation.
     let url;
     let method;
@@ -53,8 +48,8 @@ export async function sendData(form, selectedId) {
             throw new Error(`Response status: ${response.status}`);
         }
 
-        const result = await response.json();
-        console.log(result);
+        //const result = await response.json();
+        //console.log(result);
         return response.status;
     } catch (error) {
         console.error(error.message);

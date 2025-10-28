@@ -23,31 +23,57 @@ export default function InputForm({tasks, updateTasks}) {
         console.log(notificationVisibility)
     }
 
+    // handles submitting a form (either creating or updating a task)
+
     // this arrow function expression serves more than just as an easy way to create a short function,
     // but it also allows us to work with the event (e) that the form element's onSubmit button produces, which we can't define at compile-time (I think???)
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // todo simplify this
         const form = e.target;
+        // "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
+        // using the name property of each element for the keys and their submitted value for the values."
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data)
 
-        if (tasks.length > 0 || selectedId === "new") {
-            // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
-            const status = await sendData(form, selectedId);
-
-            if (status >= 200 && status <= 299) {
-                const operation = (selectedId === "new" ? "created" : "updated")
-                setNotificationMessage(`Task successfully ${operation}`);
-            } else {
-                setNotificationMessage("Error encountered, please try again")
-            }
-        } else {
-            setNotificationMessage("There are no tasks to update!")
-        }
+        await submitData(data)
 
         setNotificationVisibility(true);
         setTimeout(() => {
             setNotificationVisibility(false);
         }, 3000);
         updateTasks();
+    }
+
+    // handles actually submitting the create/update request to the backend, also handles error checking based on several factors
+    const submitData = async (data) => {
+        // we check that all the input boxes are filled
+        for (const key in data) {
+            if (data[key] === null || data[key].length === 0) {
+                setNotificationMessage("Please fill in the input boxes");
+                return;
+            }
+        }
+
+        // if we are trying to update a task and there are no tasks in the database, then we print an error
+        if (tasks.length === 0 && selectedId !== "new") {
+            setNotificationMessage("There are no tasks to update!");
+            return;
+        }
+
+        // otherwise we create/update the task in the database
+
+        // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
+        const status = await sendData(data, selectedId);
+
+        // if we receive a success status code, we print a success message, otherwise we print an error message
+        if (status >= 200 && status <= 299) {
+            const operation = (selectedId === "new" ? "created" : "updated")
+            setNotificationMessage(`Task successfully ${operation}`);
+        } else {
+            setNotificationMessage("Error encountered, please try again")
+        }
     }
 
     const handleDelete = async () => {
