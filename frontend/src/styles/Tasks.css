@@ -1,0 +1,10 @@
+/* aligning list properly */
+#displayedTasks ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* removing bullet-points */
+#displayedTasks li {
+    list-style-type: none;
+}

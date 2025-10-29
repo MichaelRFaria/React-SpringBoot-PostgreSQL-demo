@@ -1,3 +1,5 @@
+import '../styles/Tasks.css'
+
 // simple component that displays an HTML list of tasks from a given tasks prop
 export default function Tasks({tasks}) {
     // React has no clue how to display an object, so we need to map the object, to something that React can recognise

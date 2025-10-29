@@ -34,12 +34,3 @@
 #taskInputs input {
     width: 20vw;
 }
-
-#displayedTasks ul {
-    margin: 0;
-    padding: 0;
-}
-
-#displayedTasks li {
-    list-style-type: none;
-}
