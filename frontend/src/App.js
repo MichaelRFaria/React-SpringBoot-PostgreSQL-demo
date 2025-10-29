@@ -48,13 +48,8 @@ export default function App() {
 
             <hr/>
 
-            <div id={"displayedTasks"}>
-                <h3>Your tasks:</h3>
-                {tasks.length !== 0 ? (
-                    <Tasks tasks={tasks}/>
-                ) : (
-                    <p>You have no tasks!</p>
-                )}
+            <div>
+                <Tasks tasks={tasks}/>
             </div>
         </div>
     );

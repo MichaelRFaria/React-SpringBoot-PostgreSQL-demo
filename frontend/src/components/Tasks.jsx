@@ -13,5 +13,14 @@ export default function Tasks({tasks}) {
         <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {task.dueDate}</li>
     )
 
-    return <ul>{listOfTasks}</ul>
+    return (
+        <div id={"displayedTasks"}>
+            <h3>Your tasks:</h3>
+            {tasks.length !== 0 ? (
+                <ul>{listOfTasks}</ul>
+            ) : (
+                <p>You have no tasks!</p>
+            )}
+        </div>
+    )
 }
