@@ -156,7 +156,11 @@ export default function InputForm({tasks, updateTasks}) {
                     </label>
                     <label>
                         Status:
-                        <input name="status"/>
+                        <select id={"statusDropdown"} name="status">
+                            <option value={"Pending"}>Pending</option>
+                            <option value={"On Hold"}>On Hold</option>
+                            <option value={"Complete"}>Completed</option>
+                        </select>
                     </label>
                     <label>
                         Due date:
