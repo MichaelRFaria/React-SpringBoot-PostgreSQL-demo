@@ -29,7 +29,7 @@ export async function sendData(data, selectedId) {
     let method;
 
     // === is strict checking, which will not attempt to convert between types unlike ==
-    if (selectedId === "new") {
+    if (selectedId === -1) {
         url = "http://localhost:8080/task"
         method = "POST"
     } else {
