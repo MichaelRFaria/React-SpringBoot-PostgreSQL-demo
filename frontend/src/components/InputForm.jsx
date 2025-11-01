@@ -74,13 +74,7 @@ export default function InputForm({tasks, updateTasks}) {
         // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
         const status = await sendData(data, selectedId);
 
-        // if we receive a success status code, we print a success message, otherwise we print an error message
-        if (status >= 200 && status <= 299) {
-            const operation = (selectedId === -1 ? "created" : "updated")
-            setNotificationMessage(`Task successfully ${operation}`);
-        } else {
-            setNotificationMessage("Error encountered, please try again")
-        }
+        displayHTTPStatusMessage(status);
     }
 
     // function to replace empty input boxes with values from the existing task, when updating
@@ -116,17 +110,28 @@ export default function InputForm({tasks, updateTasks}) {
     const handleDelete = async () => {
         if (tasks.length > 0) {
             const status = await deleteData(selectedId);
-            if (status >= 200 && status <= 299) {
-                setNotificationMessage("Task successfully deleted");
-            } else {
-                setNotificationMessage("Error encountered, please try again")
-            }
+            displayHTTPStatusMessage(status);
         } else {
             setNotificationMessage("There are no tasks to delete!")
         }
 
         displayNotification(3000);
         updateTasks();
+    }
+
+    // function to display a message corresponding to the status code produced by an HTTP method
+    const displayHTTPStatusMessage = (status) => {
+        const action = selectedMethod + "d"; // getting the correct verb - "created", "updated", "deleted"
+
+        if (status >= 200 && status <= 299) {
+            setNotificationMessage(`Task successfully ${action}`);
+        } else if (status >= 400 && status <= 499) {
+            setNotificationMessage("Client-side error encountered, please try again");
+        } else if (status >= 500 && status <= 599) {
+            setNotificationMessage("Server-side error encountered, please try again");
+        } else {
+            setNotificationMessage("Error encountered, please try again");
+        }
     }
 
     useEffect(() => {
