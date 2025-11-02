@@ -44,6 +44,12 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
+    // simple function to convert a string in the dd-mm-yyyy date format to yyyy-mm-dd (which is the format of LocalDate, which is used for the database)
+    const convertDate = (date) => {
+        const [d, m, y] = date.split('-');
+        return `${y}-${m}-${d}`;
+    }
+
     // handles actually submitting the create/update request to the backend, also handles error checking based on several factors
     const submitData = async (formData) => {
         let data = Object.fromEntries(formData.entries())
@@ -68,6 +74,9 @@ export default function InputForm({tasks, updateTasks}) {
         if (selectedMethod === "update") {
             data = replaceEmptyFields(formData);
         }
+
+        // we convert the date from the form into the LocalDate type format for the database
+        data.dueDate = convertDate(data.dueDate);
 
         // otherwise we create/update the task in the database
 
@@ -215,7 +224,7 @@ export default function InputForm({tasks, updateTasks}) {
                     </label>
                     <label>
                         Due date:
-                        <input name="dueDate"/>
+                        <input name="dueDate" placeholder="DD-MM-YYYY"/>
                     </label>
                     {/* the <form> element has unique behaviour where:
                     any <button> of type "reset" will reset inputs within the form to their default values
