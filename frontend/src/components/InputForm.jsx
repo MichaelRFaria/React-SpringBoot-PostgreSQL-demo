@@ -2,6 +2,7 @@
 
 import {sendData, deleteData} from '../utils/api';
 import {useEffect, useState} from "react";
+import {convertDate} from "../utils/utilFuncs";
 import Notification from "./Notification";
 import "../styles/InputForm.css"
 
@@ -42,12 +43,6 @@ export default function InputForm({tasks, updateTasks}) {
 
         displayNotification(3000);
         updateTasks();
-    }
-
-    // simple function to convert a string in the dd-mm-yyyy date format to yyyy-mm-dd (which is the format of LocalDate, which is used for the database)
-    const convertDate = (date) => {
-        const [d, m, y] = date.split('-');
-        return `${y}-${m}-${d}`;
     }
 
     // handles actually submitting the create/update request to the backend, also handles error checking based on several factors
