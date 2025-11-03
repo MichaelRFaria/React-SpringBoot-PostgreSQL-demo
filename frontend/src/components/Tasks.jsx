@@ -15,8 +15,15 @@ export default function Tasks({tasks}) {
     // we need the date to filter by before due date and overdue.
     const [localDate, setLocalDate] = useState("");
 
-    // hook to sort tasks and add them to an array state
+    // hook to trigger the loading and sorting of tasks to a state when:
+    // tasks changes (finished loading for the first time, or a task has been added/updated/deleted) or
+    // when the sort criteria has changed
     useEffect(() => {
+        loadAndSortTasks();
+    }, [tasks, sortValue])
+
+    // function to save tasks to a state and sort them
+    const loadAndSortTasks = () => {
         // React has no clue how to display an object, so we need to map the object, to something that React can recognise
         // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
         setListOfTasks(
@@ -35,8 +42,7 @@ export default function Tasks({tasks}) {
                 }
             })
         )
-
-    }, [tasks, sortValue])
+    }
 
     useEffect(() => {
         setLocalDate(new Date().toLocaleDateString());
@@ -55,12 +61,24 @@ export default function Tasks({tasks}) {
         //console.log(listOfTasks[0])
     }
 
-    // // function to filter results
-    // useEffect(() => {
-    //     if (filterConstraints.completed) {
-    //
-    //     }
-    // }, [filterConstraints]);
+    // function to filter results
+    useEffect(() => {
+        loadAndSortTasks();
+        setListOfTasks(prevState =>
+            prevState.filter(task => {
+                if (!filterConstraints.completed && task.status === "Completed") {
+                    return false;
+                }
+
+                if (!filterConstraints.uncompleted && task.status !== "Completed") {
+                    return false;
+                }
+
+                // before due date and overdue filters here
+
+                return true;
+            }))
+    }, [filterConstraints]);
 
     return (
         <div id={"displayedTasks"}>
@@ -104,7 +122,7 @@ export default function Tasks({tasks}) {
                 <ul>{listOfTasks.map(task =>
                     // you must specify a key for React's DOM to be able to figure out which elements have been updated, so it can rerender the list properly
                     <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {convertDate(task.dueDate)}</li>
-            )}</ul>
+                )}</ul>
             ) : (
                 <p>You have no tasks!</p>
             )}
