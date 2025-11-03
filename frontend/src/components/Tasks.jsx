@@ -15,7 +15,7 @@ export default function Tasks({tasks}) {
     // we need the date to filter by before due date and overdue.
     const [localDate, setLocalDate] = useState("");
 
-    // hook to sort tasks and map them to list items
+    // hook to sort tasks and add them to an array state
     useEffect(() => {
         // React has no clue how to display an object, so we need to map the object, to something that React can recognise
         // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
@@ -34,10 +34,6 @@ export default function Tasks({tasks}) {
                     return a[sortValue].localeCompare(b[sortValue]);
                 }
             })
-                .map(task =>
-                    // you must specify a key for React's DOM to be able to figure out which elements have been updated, so it can rerender the list properly
-                    <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {convertDate(task.dueDate)}</li>
-                )
         )
 
     }, [tasks, sortValue])
@@ -47,7 +43,7 @@ export default function Tasks({tasks}) {
     }, [])
 
     // useEffect(() => {
-    //     console.log(localDate);
+    //     console.log(localDate.replaceAll("/","-"));
     // }, [localDate]);
 
     // function to update checkbox state object
@@ -56,8 +52,15 @@ export default function Tasks({tasks}) {
         // ...prevState "spreads" (copies) the old properties into a new object
         // then we add (or override if it already exists) the new object
         setFilterConstraints(prevState => ({...prevState, [e.target.name]: e.target.checked}));
+        //console.log(listOfTasks[0])
     }
 
+    // // function to filter results
+    // useEffect(() => {
+    //     if (filterConstraints.completed) {
+    //
+    //     }
+    // }, [filterConstraints]);
 
     return (
         <div id={"displayedTasks"}>
@@ -98,7 +101,10 @@ export default function Tasks({tasks}) {
             <hr></hr>
 
             {tasks.length !== 0 ? (
-                <ul>{listOfTasks}</ul>
+                <ul>{listOfTasks.map(task =>
+                    // you must specify a key for React's DOM to be able to figure out which elements have been updated, so it can rerender the list properly
+                    <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {convertDate(task.dueDate)}</li>
+            )}</ul>
             ) : (
                 <p>You have no tasks!</p>
             )}
