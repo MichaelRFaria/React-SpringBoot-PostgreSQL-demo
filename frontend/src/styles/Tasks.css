@@ -8,3 +8,35 @@
 #displayedTasks li {
     list-style-type: none;
 }
+
+#taskOptions {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10vw;
+}
+
+#sortOptions label {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    padding: 2px;
+}
+
+#sortOptions select {
+    margin: auto;
+}
+
+#filterOptions {
+    display: grid;
+    grid-template-columns: 15vw 15vw;
+    justify-content: center;
+    align-content: center;
+}
+
+#filterOptions label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
