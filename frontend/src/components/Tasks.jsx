@@ -10,7 +10,7 @@ export default function Tasks({tasks}) {
         completed: true,
         uncompleted: true,
         beforeDueDate: true,
-        overDue: true
+        overdue: true
     });
     // we need the date to filter by before due date and overdue.
     const [localDate, setLocalDate] = useState("");
@@ -44,13 +44,12 @@ export default function Tasks({tasks}) {
         )
     }
 
+    // obtaining the current date
     useEffect(() => {
-        setLocalDate(new Date().toLocaleDateString());
+        // we create a new date object (dd/mm/yyyy) then replace the '/' with '-' (dd-mm-yyyy) then we reverse the order (yyyy-mm-dd)
+        // so now it matches the dates in the database allowing us to compare dates
+        setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/","-")));
     }, [])
-
-    // useEffect(() => {
-    //     console.log(localDate.replaceAll("/","-"));
-    // }, [localDate]);
 
     // function to update checkbox state object
     const handleFilter = (e) => {
@@ -74,7 +73,15 @@ export default function Tasks({tasks}) {
                     return false;
                 }
 
-                // before due date and overdue filters here
+                if (!filterConstraints.beforeDueDate && (task.dueDate > localDate)) {
+                    return false;
+                }
+
+                if (!filterConstraints.overdue && (task.dueDate < localDate)) {
+                    return false;
+                }
+
+                // tasks due on the day are still shown with both of the above filters off
 
                 return true;
             }))
