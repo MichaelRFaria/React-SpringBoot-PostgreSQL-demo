@@ -48,7 +48,7 @@ export default function Tasks({tasks}) {
     useEffect(() => {
         // we create a new date object (dd/mm/yyyy) then replace the '/' with '-' (dd-mm-yyyy) then we reverse the order (yyyy-mm-dd)
         // so now it matches the dates in the database allowing us to compare dates
-        setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/","-")));
+        setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
     }, [])
 
     // function to update checkbox state object

@@ -44,7 +44,7 @@ export default function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
+                <img src={logo} className="App-logo" alt="logo"/>
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
                 </p>
@@ -68,8 +68,8 @@ export default function App() {
             {/* passing information like this is called "props"
       the MyApp component contains the "count" state and the "handleClick"
       event handler and pass them down as "props" to each of the buttons */}
-            <MyButtonAlt count={count} onClick={handleClick} />
-            <MyButtonAlt count={count} onClick={handleClick} />
+            <MyButtonAlt count={count} onClick={handleClick}/>
+            <MyButtonAlt count={count} onClick={handleClick}/>
         </div>
     );
 }
