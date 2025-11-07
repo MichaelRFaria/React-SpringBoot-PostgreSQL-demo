@@ -1,3 +1,4 @@
+/* for when the notification is not on screen */
 #notificationInvisible {
     position: fixed;
     top: 2vw;
@@ -10,10 +11,11 @@
     opacity: 0;
     background-color: darkgray;
 
-    transition: opacity 0.2s, transform 0.5s;
     transform: translateX(5vw);
+    transition: opacity 0.2s, transform 0.5s;
 }
 
+/* for when the notification is not on screen */
 #notificationVisible {
     position: fixed;
     top: 2vw;
@@ -26,6 +28,6 @@
     opacity: 1;
     background-color: darkgray;
 
-    transition: opacity 0.2s, transform 0.5s;
     transform: translateX(-5vw);
+    transition: opacity 0.2s, transform 0.5s;
 }

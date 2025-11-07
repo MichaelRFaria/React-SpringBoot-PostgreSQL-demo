@@ -9,6 +9,7 @@
     list-style-type: none;
 }
 
+/* aligning both the sort filter options side by side */
 #taskOptions {
     display: flex;
     justify-content: center;
@@ -16,17 +17,15 @@
     gap: 10vw;
 }
 
-#sortOptions label {
+/* centering the sorting options */
+#sortOptions {
     display: flex;
     justify-items: center;
     flex-direction: column;
     padding: 2px;
 }
 
-#sortOptions select {
-    margin: auto;
-}
-
+/* arranging the filtering options into a centred, 2-column grid*/
 #filterOptions {
     display: grid;
     grid-template-columns: 15vw 15vw;
@@ -34,9 +33,9 @@
     align-content: center;
 }
 
+/* separating the label text and the checkbox */
 #filterOptions label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
 }
 
