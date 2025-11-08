@@ -203,11 +203,11 @@ export default function InputForm({tasks, updateTasks}) {
              highlighting the label will highlight the input, etc*/}
                     <label>
                         Title:
-                        <input name="title"/>
+                        <input name="title" placeholder="Provide a title for the task."/>
                     </label>
                     <label>
                         Description:
-                        <input name="description"/>
+                        <input name="description" placeholder="Provide a description for the task."/>
                     </label>
                     <label>
                         Status:
