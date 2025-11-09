@@ -170,6 +170,7 @@ export default function InputForm({tasks, updateTasks}) {
 
     return (
         <div id={"taskInputs"}>
+            <h3>Change your tasks:</h3>
             <label>
                 Method:
                 <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>

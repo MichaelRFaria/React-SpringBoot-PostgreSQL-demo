@@ -89,7 +89,7 @@ export default function Tasks({tasks}) {
 
     return (
         <div id={"displayedTasks"}>
-            <h3>Your tasks:</h3>
+            <h3>Filter and sort your results:</h3>
             <div id={"taskOptions"}>
                 <div id={"sortDiv"}>
 
@@ -137,6 +137,8 @@ export default function Tasks({tasks}) {
             </div>
 
             <hr></hr>
+
+            <h3>Your tasks:</h3>
 
             {tasks.length !== 0 ? (
                 <ul>{listOfTasks.map(task =>
