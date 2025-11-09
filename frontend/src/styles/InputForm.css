@@ -1,3 +1,8 @@
+/* making heading take less space */
+#taskInputs h3 {
+    margin: 0;
+}
+
 /* labels (text + input/dropdown) within the input section*/
 #taskInputs label {
     display: flex;

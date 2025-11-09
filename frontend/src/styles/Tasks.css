@@ -1,3 +1,8 @@
+/* making heading take less space */
+#displayedTasks h3 {
+    margin: 0;
+}
+
 /* aligning list properly */
 #displayedTasks ul {
     margin: 0;
