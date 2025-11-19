@@ -15,35 +15,6 @@ export default function Tasks({tasks}) {
     // we need the date to filter by before due date and overdue.
     const [localDate, setLocalDate] = useState("");
 
-    // hook to trigger the loading and sorting of tasks to a state when:
-    // tasks changes (finished loading for the first time, or a task has been added/updated/deleted) or
-    // when the sort criteria has changed
-    useEffect(() => {
-        loadAndSortTasks();
-    }, [tasks, sortValue])
-
-    // function to save tasks to a state and sort them
-    const loadAndSortTasks = () => {
-        // React has no clue how to display an object, so we need to map the object, to something that React can recognise
-        // in this case it's the data members of the Task object, which consist of: Integer, String, and LocalDate, which React understands
-        setListOfTasks(
-            // we sort the tasks, otherwise tasks will be rendered in the order that they come in from the database,
-            // which should be in order of IDs, but when updating a task, it actually gets appended to the end of the database
-            // note: we are mutating the tasks variable here, which does fix some ordering issues elsewhere, but could cause wider issues
-            tasks.sort((a, b) => {
-                // sorting based on the selected property to sort by
-                if (typeof a[sortValue] === "number") {
-                    return a[sortValue] - b[sortValue];
-                }
-
-                if (typeof a[sortValue] === "string") {
-                    // JS string method to compare two strings, returns -1, 0, 1 (before, equal, after)
-                    return a[sortValue].localeCompare(b[sortValue]);
-                }
-            })
-        )
-    }
-
     // obtaining the current date
     useEffect(() => {
         // we create a new date object (dd/mm/yyyy) then replace the '/' with '-' (dd-mm-yyyy) then we reverse the order (yyyy-mm-dd)
@@ -60,32 +31,48 @@ export default function Tasks({tasks}) {
         //console.log(listOfTasks[0])
     }
 
-    // function to filter results
+    // copying the tasks passed from the parent, then filtering and sorting the tasks
     useEffect(() => {
-        loadAndSortTasks();
-        setListOfTasks(prevState =>
-            prevState.filter(task => {
-                if (!filterConstraints.completed && task.status === "Completed") {
-                    return false;
-                }
+        let updatedList = [...tasks]; // copy to prevent mutation ("Changing an existing object or array in place instead of creating a new one.")
 
-                if (!filterConstraints.uncompleted && task.status !== "Completed") {
-                    return false;
-                }
+        // filtering
+        updatedList = updatedList.filter(task => {
+            if (!filterConstraints.completed && task.status === "Completed") {
+                return false;
+            }
 
-                if (!filterConstraints.beforeDueDate && (task.dueDate > localDate)) {
-                    return false;
-                }
+            if (!filterConstraints.uncompleted && task.status !== "Completed") {
+                return false;
+            }
 
-                if (!filterConstraints.overdue && (task.dueDate < localDate)) {
-                    return false;
-                }
+            if (!filterConstraints.beforeDueDate && (task.dueDate > localDate)) {
+                return false;
+            }
 
-                // tasks due on the day are still shown with both of the above filters off
+            if (!filterConstraints.overdue && (task.dueDate < localDate)) {
+                return false;
+            }
 
-                return true;
-            }))
-    }, [filterConstraints]);
+            // tasks due on the day are still shown with both of the above filters off
+
+            return true;
+        })
+
+        // sorting
+        updatedList.sort((a, b) => {
+            // sorting based on the selected property to sort by
+            if (typeof a[sortValue] === "number") {
+                return a[sortValue] - b[sortValue];
+            }
+
+            if (typeof a[sortValue] === "string") {
+                // JS string method to compare two strings, returns -1, 0, 1 (before, equal, after)
+                return a[sortValue].localeCompare(b[sortValue]);
+            }
+        })
+
+        setListOfTasks(updatedList);
+    }, [tasks, filterConstraints, sortValue]);
 
     return (
         <div id={"displayedTasks"}>
