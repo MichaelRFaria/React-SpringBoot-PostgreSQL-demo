@@ -128,10 +128,25 @@ export default function Tasks({tasks}) {
             <h3>Your tasks:</h3>
 
             {tasks.length !== 0 ? (
-                <ul>{listOfTasks.map(task =>
-                    // you must specify a key for React's DOM to be able to figure out which elements have been updated, so it can rerender the list properly
-                    <li key={task.id}>{task.id} | {task.title} | {task.description} | {task.status} | {convertDate(task.dueDate)}</li>
-                )}</ul>
+                <div id="table">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                        </tr>
+                        {listOfTasks.map(task =>
+                            <tr>
+                                <td>{task.id}</td>
+                                <td>{task.title}</td>
+                                <td>{task.description}</td>
+                                <td>{task.status}</td>
+                                <td>{convertDate(task.dueDate)}</td>
+                            </tr>)}
+                    </table>
+                </div>
             ) : (
                 <p>You have no tasks!</p>
             )}

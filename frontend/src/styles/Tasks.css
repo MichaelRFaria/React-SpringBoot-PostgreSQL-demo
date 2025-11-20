@@ -3,15 +3,9 @@
     margin: 0;
 }
 
-/* aligning list properly */
-#displayedTasks ul {
-    margin: 0;
-    padding: 0;
-}
-
-/* removing bullet-points */
-#displayedTasks li {
-    list-style-type: none;
+#table {
+    display: flex;
+    justify-content: center;
 }
 
 /* aligning both the sort filter options side by side */
