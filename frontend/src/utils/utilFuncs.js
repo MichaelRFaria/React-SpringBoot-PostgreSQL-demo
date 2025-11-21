@@ -3,3 +3,13 @@ export function convertDate(date) {
     const [d, m, y] = date.split('-');
     return `${y}-${m}-${d}`;
 }
+
+export function comparePriority(a, b) {
+    const map = {
+        "High": 0,
+        "Medium": 1,
+        "Low": 2
+    }
+
+    return map[a] - map[b];
+}

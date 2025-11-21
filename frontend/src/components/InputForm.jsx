@@ -219,6 +219,14 @@ export default function InputForm({tasks, updateTasks}) {
                         </select>
                     </label>
                     <label>
+                        Priority:
+                        <select id={"priorityDropdown"} name="priority">
+                            <option value={"High"}>High</option>
+                            <option value={"Medium"}>Medium</option>
+                            <option value={"Low"}>Low</option>
+                        </select>
+                    </label>
+                    <label>
                         Due date:
                         <input name="dueDate" placeholder="DD-MM-YYYY"/>
                     </label>

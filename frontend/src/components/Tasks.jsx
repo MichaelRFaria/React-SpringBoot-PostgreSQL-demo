@@ -1,6 +1,6 @@
 import '../styles/Tasks.css'
 import {useEffect, useState} from "react";
-import {convertDate} from "../utils/utilFuncs";
+import {comparePriority, convertDate} from "../utils/utilFuncs";
 
 // simple component that displays an HTML list of tasks from a given tasks prop
 export default function Tasks({tasks}) {
@@ -66,6 +66,10 @@ export default function Tasks({tasks}) {
             }
 
             if (typeof a[sortValue] === "string") {
+                if (sortValue === "priority") {
+                    return comparePriority(a[sortValue], b[sortValue]);
+                }
+
                 // JS string method to compare two strings, returns -1, 0, 1 (before, equal, after)
                 return a[sortValue].localeCompare(b[sortValue]);
             }
@@ -87,6 +91,7 @@ export default function Tasks({tasks}) {
                                 <option value="id">ID</option>
                                 <option value="title">Title</option>
                                 <option value="status">Status</option>
+                                <option value="priority">Priority</option>
                                 <option value="dueDate">Date Due</option>
                             </select>
                         </label>
@@ -135,6 +140,7 @@ export default function Tasks({tasks}) {
                             <th>Title</th>
                             <th>Description</th>
                             <th>Status</th>
+                            <th>Priority</th>
                             <th>Due Date</th>
                         </tr>
                         {listOfTasks.map(task =>
@@ -143,6 +149,7 @@ export default function Tasks({tasks}) {
                                 <td>{task.title}</td>
                                 <td>{task.description}</td>
                                 <td>{task.status}</td>
+                                <td>{task.priority}</td>
                                 <td>{convertDate(task.dueDate)}</td>
                             </tr>)}
                     </table>

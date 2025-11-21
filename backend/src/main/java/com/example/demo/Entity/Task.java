@@ -27,15 +27,18 @@ public class Task {
 
     private String status;
 
+    private String priority;
+
     private LocalDate dueDate;
 
     // Hibernate (the Java library that handles all this database communication) expects a constructor with no arguments.
     protected Task() {}
 
-    public Task(String title, String description, String status, LocalDate dueDate) {
+    public Task(String title, String description, String status, String priority, LocalDate dueDate) {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.priority = priority;
         this.dueDate = dueDate;
     }
 
@@ -66,6 +69,14 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public LocalDate getDueDate() {
