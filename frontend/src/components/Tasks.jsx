@@ -6,6 +6,7 @@ import {comparePriority, convertDate} from "../utils/utilFuncs";
 export default function Tasks({tasks}) {
     const [listOfTasks, setListOfTasks] = useState([]);
     const [sortValue, setSortValue] = useState("id");
+    const [searchValue, setSearchValue] = useState("");
     const [filterConstraints, setFilterConstraints] = useState({
         completed: true,
         uncompleted: true,
@@ -34,6 +35,11 @@ export default function Tasks({tasks}) {
     // copying the tasks passed from the parent, then filtering and sorting the tasks
     useEffect(() => {
         let updatedList = [...tasks]; // copy to prevent mutation ("Changing an existing object or array in place instead of creating a new one.")
+
+        // searching
+        updatedList = updatedList.filter(task => {
+            return ((task.title).includes(searchValue) || (task.description).includes(searchValue));
+        })
 
         // filtering
         updatedList = updatedList.filter(task => {
@@ -76,12 +82,19 @@ export default function Tasks({tasks}) {
         })
 
         setListOfTasks(updatedList);
-    }, [tasks, filterConstraints, sortValue]);
+    }, [tasks, filterConstraints, sortValue, searchValue]);
 
     return (
         <div id={"displayedTasks"}>
             <h3>Filter and sort your results:</h3>
             <div id={"taskOptions"}>
+                <div id={"searchOptions"}>
+                    <label>
+                        <h4>Search for Task:</h4>
+                        Search for:
+                        <input name="searchValue" onChange={e => setSearchValue(e.target.value)}/>
+                    </label>
+                </div>
                 <div id={"sortOptions"}>
                     <label>
                         <h4>Sort Tasks:</h4>
