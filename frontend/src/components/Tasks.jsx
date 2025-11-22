@@ -23,15 +23,6 @@ export default function Tasks({tasks}) {
         setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
     }, [])
 
-    // function to update checkbox state object
-    const handleFilter = (e) => {
-        // using a callback function in the setState method will give you the previous state (can be called anything)
-        // ...prevState "spreads" (copies) the old properties into a new object
-        // then we add (or override if it already exists) the new object
-        setFilterConstraints(prevState => ({...prevState, [e.target.name]: e.target.checked}));
-        //console.log(listOfTasks[0])
-    }
-
     // copying the tasks passed from the parent, then filtering and sorting the tasks
     useEffect(() => {
         let updatedList = [...tasks]; // copy to prevent mutation ("Changing an existing object or array in place instead of creating a new one.")
@@ -114,24 +105,36 @@ export default function Tasks({tasks}) {
                         Completed:
                         <input type="checkbox" name="completed" checked={filterConstraints.completed}
                                defaultChecked={true}
-                               onChange={handleFilter}/>
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
                     </label>
                     <label>
                         Uncompleted:
                         <input type="checkbox" name="uncompleted" checked={filterConstraints.uncompleted}
                                defaultChecked={true}
-                               onChange={handleFilter}/>
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
                     </label>
                     <label>
                         Before due date:
                         <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
-                               defaultChecked={true} onChange={handleFilter}/>
+                               defaultChecked={true} onChange={e => setFilterConstraints(prevState => ({
+                            ...prevState,
+                            [e.target.name]: e.target.checked
+                        }))}/>
                     </label>
                     <label>
                         Overdue:
                         <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
                                defaultChecked={true}
-                               onChange={handleFilter}/>
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
                     </label>
                 </div>
             </div>
