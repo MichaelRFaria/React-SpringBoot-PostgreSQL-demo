@@ -82,49 +82,44 @@ export default function Tasks({tasks}) {
         <div id={"displayedTasks"}>
             <h3>Filter and sort your results:</h3>
             <div id={"taskOptions"}>
-                <div id={"sortDiv"}>
-
-                    <div id={"sortOptions"}>
-                        <label>
-                            <h4>Sort Tasks:</h4>
-                            <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
-                                <option value="id">ID</option>
-                                <option value="title">Title</option>
-                                <option value="status">Status</option>
-                                <option value="priority">Priority</option>
-                                <option value="dueDate">Date Due</option>
-                            </select>
-                        </label>
-                    </div>
+                <div id={"sortOptions"}>
+                    <label>
+                        <h4>Sort Tasks:</h4>
+                        <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
+                            <option value="id">ID</option>
+                            <option value="title">Title</option>
+                            <option value="status">Status</option>
+                            <option value="priority">Priority</option>
+                            <option value="dueDate">Date Due</option>
+                        </select>
+                    </label>
                 </div>
 
-                <div id={"filterDiv"}>
+                <div id={"filterOptions"}>
                     <h4>Filter Tasks:</h4>
-                    <div id={"filterOptions"}>
-                        <label>
-                            Completed:
-                            <input type="checkbox" name="completed" checked={filterConstraints.completed}
-                                   defaultChecked={true}
-                                   onChange={handleFilter}/>
-                        </label>
-                        <label>
-                            Uncompleted:
-                            <input type="checkbox" name="uncompleted" checked={filterConstraints.uncompleted}
-                                   defaultChecked={true}
-                                   onChange={handleFilter}/>
-                        </label>
-                        <label>
-                            Before due date:
-                            <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
-                                   defaultChecked={true} onChange={handleFilter}/>
-                        </label>
-                        <label>
-                            Overdue:
-                            <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
-                                   defaultChecked={true}
-                                   onChange={handleFilter}/>
-                        </label>
-                    </div>
+                    <label>
+                        Completed:
+                        <input type="checkbox" name="completed" checked={filterConstraints.completed}
+                               defaultChecked={true}
+                               onChange={handleFilter}/>
+                    </label>
+                    <label>
+                        Uncompleted:
+                        <input type="checkbox" name="uncompleted" checked={filterConstraints.uncompleted}
+                               defaultChecked={true}
+                               onChange={handleFilter}/>
+                    </label>
+                    <label>
+                        Before due date:
+                        <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
+                               defaultChecked={true} onChange={handleFilter}/>
+                    </label>
+                    <label>
+                        Overdue:
+                        <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
+                               defaultChecked={true}
+                               onChange={handleFilter}/>
+                    </label>
                 </div>
             </div>
 

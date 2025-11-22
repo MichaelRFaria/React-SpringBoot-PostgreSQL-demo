@@ -32,6 +32,10 @@
     align-content: center;
 }
 
+#filterOptions > h4 {
+    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end)*/
+}
+
 /* separating the label text and the checkbox */
 #filterOptions label {
     display: flex;
