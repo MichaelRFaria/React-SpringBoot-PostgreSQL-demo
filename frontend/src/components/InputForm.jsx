@@ -70,9 +70,11 @@ export default function InputForm({tasks, updateTasks}) {
             data = replaceEmptyFields(formData);
         }
 
-        // we convert the date from the form into the LocalDate type format for the database
-        data.dueDate = convertDate(data.dueDate);
-        data.startDate = convertDate(data.startDate);
+        // we convert the date from the form into the LocalDate type format for the database, if it is not in the correct format
+        // conditional as:
+        // it may be in the correct format if we are updating, and we substitute an empty date input (which would be dd-mm-yyyy) with the copy already in the database (which is yyyy-mm-dd)
+        if (data.dueDate.charAt(2) === '-') {data.dueDate = convertDate(data.dueDate);}
+        if (data.startDate.charAt(2) === '-') {data.startDate = convertDate(data.startDate);}
 
         // otherwise we create/update the task in the database
 
@@ -95,7 +97,7 @@ export default function InputForm({tasks, updateTasks}) {
 
         const task = tasks[index];
         // array of values of the existing task's properties
-            const values = [task.title, task.description, task.status, task.priority, task.startDate, task.dueDate]
+        const values = [task.title, task.description, task.status, task.priority, task.startDate, task.dueDate]
 
         // 2d-array of key/value pairs (field name -> value)
         let arr = Array.from(formData);
