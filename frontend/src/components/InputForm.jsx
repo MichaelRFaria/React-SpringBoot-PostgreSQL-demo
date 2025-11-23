@@ -72,6 +72,7 @@ export default function InputForm({tasks, updateTasks}) {
 
         // we convert the date from the form into the LocalDate type format for the database
         data.dueDate = convertDate(data.dueDate);
+        data.startDate = convertDate(data.startDate);
 
         // otherwise we create/update the task in the database
 
@@ -94,7 +95,7 @@ export default function InputForm({tasks, updateTasks}) {
 
         const task = tasks[index];
         // array of values of the existing task's properties
-        const values = [task.title, task.description, task.status, task.dueDate]
+            const values = [task.title, task.description, task.status, task.priority, task.startDate, task.dueDate]
 
         // 2d-array of key/value pairs (field name -> value)
         let arr = Array.from(formData);
@@ -225,6 +226,10 @@ export default function InputForm({tasks, updateTasks}) {
                             <option value={"Medium"}>Medium</option>
                             <option value={"Low"}>Low</option>
                         </select>
+                    </label>
+                    <label>
+                        Start date:
+                        <input name="startDate" placeholder="DD-MM-YYYY"/>
                     </label>
                     <label>
                         Due date:
