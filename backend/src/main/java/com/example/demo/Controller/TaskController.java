@@ -44,9 +44,10 @@ public class TaskController {
         Task taskInDb = this.taskRepository.findById(id).get();
         taskInDb.setTitle(newTask.getTitle());
         taskInDb.setDescription(newTask.getDescription());
-        taskInDb.setDueDate(newTask.getDueDate());
         taskInDb.setStatus(newTask.getStatus());
         taskInDb.setPriority(newTask.getPriority());
+        taskInDb.setStartDate(newTask.getStartDate());
+        taskInDb.setDueDate(newTask.getDueDate());
         return this.taskRepository.save(taskInDb);
     }
 
