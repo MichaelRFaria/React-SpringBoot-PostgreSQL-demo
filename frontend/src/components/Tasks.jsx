@@ -10,6 +10,8 @@ export default function Tasks({tasks}) {
     const [filterConstraints, setFilterConstraints] = useState({
         completed: true,
         uncompleted: true,
+        notStarted: true,
+        started: true,
         beforeDueDate: true,
         overdue: true
     });
@@ -42,15 +44,21 @@ export default function Tasks({tasks}) {
                 return false;
             }
 
-            if (!filterConstraints.beforeDueDate && (task.dueDate > localDate)) {
+            if (!filterConstraints.started && task.startDate >= localDate) {
                 return false;
             }
 
-            if (!filterConstraints.overdue && (task.dueDate < localDate)) {
+            if (!filterConstraints.notStarted && task.startDate < localDate) {
                 return false;
             }
 
-            // tasks due on the day are still shown with both of the above filters off
+            if (!filterConstraints.beforeDueDate && task.dueDate >= localDate) {
+                return false;
+            }
+
+            if (!filterConstraints.overdue && task.dueDate < localDate) {
+                return false;
+            }
 
             return true;
         })
@@ -94,6 +102,7 @@ export default function Tasks({tasks}) {
                             <option value="title">Title</option>
                             <option value="status">Status</option>
                             <option value="priority">Priority</option>
+                            <option value="startDate">Start Date</option>
                             <option value="dueDate">Date Due</option>
                         </select>
                     </label>
@@ -136,6 +145,23 @@ export default function Tasks({tasks}) {
                                    [e.target.name]: e.target.checked
                                }))}/>
                     </label>
+                    <label>
+                        Started:
+                        <input type="checkbox" name="started" checked={filterConstraints.started}
+                               defaultChecked={true} onChange={e => setFilterConstraints(prevState => ({
+                            ...prevState,
+                            [e.target.name]: e.target.checked
+                        }))}/>
+                    </label>
+                    <label>
+                        Not Started:
+                        <input type="checkbox" name="notStarted" checked={filterConstraints.notStarted}
+                               defaultChecked={true}
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
+                    </label>
                 </div>
             </div>
 
@@ -152,6 +178,7 @@ export default function Tasks({tasks}) {
                             <th>Description</th>
                             <th>Status</th>
                             <th>Priority</th>
+                            <th>Start Date</th>
                             <th>Due Date</th>
                         </tr>
                         {listOfTasks.map(task =>
@@ -161,6 +188,7 @@ export default function Tasks({tasks}) {
                                 <td>{task.description}</td>
                                 <td>{task.status}</td>
                                 <td>{task.priority}</td>
+                                <td>{convertDate(task.startDate)}</td>
                                 <td>{convertDate(task.dueDate)}</td>
                             </tr>)}
                     </table>
