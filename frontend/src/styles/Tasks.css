@@ -3,9 +3,34 @@
     margin: 0;
 }
 
+/* centering the table */
 #table {
     display: flex;
     justify-content: center;
+}
+
+/* whole table styling */
+#table table {
+    border-collapse: collapse; /* merging table borders (without this there will be spaces between borders as if there were margin) */
+    border: 1px solid black;
+    margin: 1vw;
+}
+
+/* border for headings */
+#table tr:nth-of-type(1) th {
+    border: 1px solid black;
+}
+
+/* table data alternating background color for visibility */
+#table tr:nth-of-type(2n) td {
+    background-color: #e8e8e8;
+}
+
+/* border for table data */
+#table td {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    padding: 0.2vw;
 }
 
 /* aligning both the sort filter options side by side */
