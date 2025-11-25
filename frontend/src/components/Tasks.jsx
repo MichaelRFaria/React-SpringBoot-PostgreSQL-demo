@@ -1,6 +1,6 @@
 import '../styles/Tasks.css'
 import {useEffect, useState} from "react";
-import {comparePriority, convertDate} from "../utils/utilFuncs";
+import {comparePriority, convertDate, daysRemaining} from "../utils/utilFuncs";
 
 // simple component that displays an HTML list of tasks from a given tasks prop
 export default function Tasks({tasks}) {
@@ -180,6 +180,7 @@ export default function Tasks({tasks}) {
                             <th>Priority</th>
                             <th>Start Date</th>
                             <th>Due Date</th>
+                            <th>Days until Due</th>
                         </tr>
                         {listOfTasks.map(task =>
                             <tr>
@@ -190,6 +191,7 @@ export default function Tasks({tasks}) {
                                 <td>{task.priority}</td>
                                 <td>{convertDate(task.startDate)}</td>
                                 <td>{convertDate(task.dueDate)}</td>
+                                <td>{daysRemaining(task.dueDate)}</td>
                             </tr>)}
                     </table>
                 </div>
