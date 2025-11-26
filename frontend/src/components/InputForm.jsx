@@ -12,6 +12,11 @@ import "../styles/InputForm.css"
 export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState(-1);
     const [selectedMethod, setSelectedMethod] = useState("create");
+    const [dateInputMethod, setDateInputMethod] = useState("full");
+
+    const [calculatedStartDate, setCalculatedStartDate] = useState("");
+    const [calculatedDueDate, setCalculatedDueDate] = useState("");
+
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
@@ -73,8 +78,12 @@ export default function InputForm({tasks, updateTasks}) {
         // we convert the date from the form into the LocalDate type format for the database, if it is not in the correct format
         // conditional as:
         // it may be in the correct format if we are updating, and we substitute an empty date input (which would be dd-mm-yyyy) with the copy already in the database (which is yyyy-mm-dd)
-        if (data.dueDate.charAt(2) === '-') {data.dueDate = convertDate(data.dueDate);}
-        if (data.startDate.charAt(2) === '-') {data.startDate = convertDate(data.startDate);}
+        if (data.dueDate.charAt(2) === '-') {
+            data.dueDate = convertDate(data.dueDate);
+        }
+        if (data.startDate.charAt(2) === '-') {
+            data.startDate = convertDate(data.startDate);
+        }
 
         // otherwise we create/update the task in the database
 
@@ -229,14 +238,57 @@ export default function InputForm({tasks, updateTasks}) {
                             <option value={"Low"}>Low</option>
                         </select>
                     </label>
+
                     <label>
-                        Start date:
-                        <input name="startDate" placeholder="DD-MM-YYYY"/>
+                        Date Input Method:
+                        <select value={dateInputMethod} onChange={e => setDateInputMethod(e.target.value)}>
+                            <option value={"full"}>Full Date</option>
+                            <option value={"less"}>Date In</option>
+                        </select>
                     </label>
-                    <label>
-                        Due date:
-                        <input name="dueDate" placeholder="DD-MM-YYYY"/>
-                    </label>
+
+                    {(dateInputMethod === "full") ? (
+                        <>
+                            <label>
+                                Start date:
+                                <input name="startDate" placeholder="DD-MM-YYYY"/>
+                            </label>
+                            <label>
+                                Due date:
+                                <input name="dueDate" placeholder="DD-MM-YYYY"/>
+                            </label>
+                        </>
+                    ) : (
+                        <>
+                            <input type="hidden" name="startDate" value={calculatedStartDate}></input>
+                            <input type="hidden" name="dueDate" value={calculatedDueDate}></input>
+
+                            <p>Start date in:</p>
+                            <label>
+                                <input type="number"/>
+                            </label>
+                            <label>
+                                <select>
+                                    <option value={"Days"}>Days</option>
+                                    <option value={"Weeks"}>Weeks</option>
+                                    <option value={"Months"}>Months</option>
+                                </select>
+                            </label>
+
+
+                            <p>Due date in:</p>
+                            <label>
+                                <input type="number"/>
+                            </label>
+                            <label>
+                                <select>
+                                    <option value={"Days"}>Days</option>
+                                    <option value={"Weeks"}>Weeks</option>
+                                    <option value={"Months"}>Months</option>
+                                </select>
+                            </label>
+                        </>
+                    )}
                     {/* the <form> element has unique behaviour where:
                     any <button> of type "reset" will reset inputs within the form to their default values
                     any <button> of type "submit" will trigger the form's onSubmit event */}
