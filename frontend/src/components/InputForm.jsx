@@ -16,6 +16,16 @@ export default function InputForm({tasks, updateTasks}) {
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
 
+    // we set the min value of the start date to the current date
+    const [localDate, setLocalDate] = useState("");
+    // we set the min value of the due date to the start date selected
+    const [startDate, setStartDate] = useState("");
+
+    useEffect(()=>{
+        setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
+        setStartDate(localDate);
+    },[])
+
     // displays notification for a set amount of time
     const displayNotification = (time) => {
         setNotificationVisibility(true);
@@ -231,11 +241,11 @@ export default function InputForm({tasks, updateTasks}) {
                     </label>
                     <label>
                         Start date:
-                        <input name="startDate" placeholder="DD-MM-YYYY"/>
+                        <input name="startDate" type="date" min={localDate} onChange={e => setStartDate(e.target.value)}/>
                     </label>
                     <label>
                         Due date:
-                        <input name="dueDate" placeholder="DD-MM-YYYY"/>
+                        <input name="dueDate" min={startDate} type="date"/>
                     </label>
                     {/* the <form> element has unique behaviour where:
                     any <button> of type "reset" will reset inputs within the form to their default values
