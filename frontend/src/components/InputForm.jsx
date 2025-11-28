@@ -260,30 +260,33 @@ export default function InputForm({tasks, updateTasks}) {
                         </>
                     ) : (
                         <>
-                            <div id="dropDownDateInputs">
-                                <input type="hidden" name="startDate" value={calculatedStartDate}></input>
-                                <input type="hidden" name="dueDate" value={calculatedDueDate}></input>
+                            <input type="hidden" name="startDate" value={calculatedStartDate}></input>
+                            <input type="hidden" name="dueDate" value={calculatedDueDate}></input>
 
-                                <label>
-                                    <p>Start date in:</p>
-                                    <input type="number"/>
-                                    <select>
-                                        <option value={"Days"}>Days</option>
-                                        <option value={"Weeks"}>Weeks</option>
-                                        <option value={"Months"}>Months</option>
-                                    </select>
-                                </label>
+                            <p>Start date in:</p>
+                            <label>
+                                <input type="number"/>
+                            </label>
+                            <label>
+                                <select>
+                                    <option value={"Days"}>Days</option>
+                                    <option value={"Weeks"}>Weeks</option>
+                                    <option value={"Months"}>Months</option>
+                                </select>
+                            </label>
 
-                                <label>
-                                    <p>Due date in:</p>
-                                    <input type="number"/>
-                                    <select>
-                                        <option value={"Days"}>Days</option>
-                                        <option value={"Weeks"}>Weeks</option>
-                                        <option value={"Months"}>Months</option>
-                                    </select>
-                                </label>
-                            </div>
+
+                            <p>Due date in:</p>
+                            <label>
+                                <input type="number"/>
+                            </label>
+                            <label>
+                                <select>
+                                    <option value={"Days"}>Days</option>
+                                    <option value={"Weeks"}>Weeks</option>
+                                    <option value={"Months"}>Months</option>
+                                </select>
+                            </label>
                         </>
                     )}
                     {/* the <form> element has unique behaviour where:
