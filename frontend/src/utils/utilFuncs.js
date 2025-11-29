@@ -14,16 +14,19 @@ export function comparePriority(a, b) {
     return map[a] - map[b];
 }
 
-export function daysRemaining(date) {
+export function daysRemaining(date, type) {
     const [y, m, d] = date.split('-'); // yyyy-mm-dd
     const today = new Date(); // date now
-    const dueDate = new Date(y,m-1,d); // due date (month is zero-indexed)
-    const timeDifference = dueDate.getTime() - today.getTime(); // time until due date (milliseconds)
+    const taskDate = new Date(y,m-1,d); // due date (month is zero-indexed)
+    const timeDifference = taskDate.getTime() - today.getTime(); // time until due date (milliseconds)
 
     const daysRemaining = timeDifference / 1000 / 60 / 60 / 24;
-    if (daysRemaining < 0) {
+
+    if (daysRemaining < 0 && type === "due") {
         return "Overdue!";
+    } else if (daysRemaining > 0 && type === "start") {
+        return "Started!";
     }
 
-    return Math.ceil(daysRemaining);
+    return Math.abs(Math.ceil(daysRemaining));
 }

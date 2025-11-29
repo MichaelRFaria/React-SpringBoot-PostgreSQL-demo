@@ -180,6 +180,7 @@ export default function Tasks({tasks}) {
                             <th>Priority</th>
                             <th>Start Date</th>
                             <th>Due Date</th>
+                            <th>Days until Start</th>
                             <th>Days until Due</th>
                         </tr>
                         {listOfTasks.map(task =>
@@ -191,7 +192,8 @@ export default function Tasks({tasks}) {
                                 <td>{task.priority}</td>
                                 <td>{convertDate(task.startDate)}</td>
                                 <td>{convertDate(task.dueDate)}</td>
-                                <td>{daysRemaining(task.dueDate)}</td>
+                                <td>{daysRemaining(task.startDate,"start")}</td>
+                                <td>{daysRemaining(task.dueDate,"due")}</td>
                             </tr>)}
                     </table>
                 </div>
