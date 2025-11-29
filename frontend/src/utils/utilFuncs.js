@@ -21,5 +21,9 @@ export function daysRemaining(date) {
     const timeDifference = dueDate.getTime() - today.getTime(); // time until due date (milliseconds)
 
     const daysRemaining = timeDifference / 1000 / 60 / 60 / 24;
+    if (daysRemaining < 0) {
+        return "Overdue!";
+    }
+
     return Math.ceil(daysRemaining);
 }
