@@ -11,14 +11,14 @@ export default function FilterOptions({
         <>
             <h3>Filter and sort your results:</h3>
             <div id={"taskOptions"}>
-                <div id={"searchOptions"}>
+                <div id={"searching"}>
                     <label>
                         <h4>Search for Task:</h4>
                         Search for:
                         <input name="searchValue" onChange={e => setSearchValue(e.target.value)}/>
                     </label>
                 </div>
-                <div id={"sortOptions"}>
+                <div id={"sorting"}>
                     <label>
                         <h4>Sort Tasks:</h4>
                         <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
@@ -32,7 +32,7 @@ export default function FilterOptions({
                     </label>
                 </div>
 
-                <div id={"filterOptions"}>
+                <div id={"filtering"}>
                     <h4>Filter Tasks:</h4>
                     <label>
                         Completed:

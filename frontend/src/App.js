@@ -30,19 +30,20 @@ export default function App() {
 
     return (
         <div className="App">
-            <div>
-                <InputForm tasks={tasks} updateTasks={fetchTasks}/>
-
-                <hr/>
-
-                <FilterOptions sortValue={sortValue} setSortValue={setSortValue}
-                               setSearchValue={setSearchValue} filterConstraints={filterConstraints}
-                               setFilterConstraints={setFilterConstraints}/>
+            <div id="inputContainer">
+                <div id="inputForm">
+                    <InputForm tasks={tasks} updateTasks={fetchTasks}/>
+                </div>
+                <div id="filterOptions">
+                    <FilterOptions sortValue={sortValue} setSortValue={setSortValue}
+                                   setSearchValue={setSearchValue} filterConstraints={filterConstraints}
+                                   setFilterConstraints={setFilterConstraints}/>
+                </div>
             </div>
 
             <hr/>
 
-            <div>
+            <div id="tasks">
                 <Tasks tasks={tasks} sortValue={sortValue} searchValue={searchValue}
                        filterConstraints={filterConstraints}/>
             </div>

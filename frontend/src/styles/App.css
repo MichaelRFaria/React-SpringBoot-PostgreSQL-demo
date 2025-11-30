@@ -28,6 +28,36 @@
     color: #61dafb;
 }
 
+#inputContainer {
+    display: flex;
+    width: 100%;
+}
+
+#inputForm {
+    width: 30%;
+
+    border-radius: 1vw;
+    background-color: #ad2121;
+    padding: 1vw;
+    margin: 1vw;
+}
+
+#filterOptions {
+    width: 70%;
+
+    border-radius: 1vw;
+    background-color: #f8aa1c;
+    padding: 1vw;
+    margin: 1vw;
+}
+
+#tasks {
+    border-radius: 1vw;
+    background-color: #f8ed1c;
+    padding: 1vw;
+    margin: 1vw;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);
