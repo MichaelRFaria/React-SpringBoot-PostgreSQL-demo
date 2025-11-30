@@ -3,18 +3,8 @@ import {useEffect, useState} from "react";
 import {comparePriority, convertDate, daysRemaining} from "../utils/utilFuncs";
 
 // simple component that displays an HTML list of tasks from a given tasks prop
-export default function Tasks({tasks}) {
+export default function Tasks({tasks, sortValue, searchValue, filterConstraints}) {
     const [listOfTasks, setListOfTasks] = useState([]);
-    const [sortValue, setSortValue] = useState("id");
-    const [searchValue, setSearchValue] = useState("");
-    const [filterConstraints, setFilterConstraints] = useState({
-        completed: true,
-        uncompleted: true,
-        notStarted: true,
-        started: true,
-        beforeDueDate: true,
-        overdue: true
-    });
     // we need the date to filter by before due date and overdue.
     const [localDate, setLocalDate] = useState("");
 
@@ -85,88 +75,6 @@ export default function Tasks({tasks}) {
 
     return (
         <div id={"displayedTasks"}>
-            <h3>Filter and sort your results:</h3>
-            <div id={"taskOptions"}>
-                <div id={"searchOptions"}>
-                    <label>
-                        <h4>Search for Task:</h4>
-                        Search for:
-                        <input name="searchValue" onChange={e => setSearchValue(e.target.value)}/>
-                    </label>
-                </div>
-                <div id={"sortOptions"}>
-                    <label>
-                        <h4>Sort Tasks:</h4>
-                        <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
-                            <option value="id">ID</option>
-                            <option value="title">Title</option>
-                            <option value="status">Status</option>
-                            <option value="priority">Priority</option>
-                            <option value="startDate">Start Date</option>
-                            <option value="dueDate">Date Due</option>
-                        </select>
-                    </label>
-                </div>
-
-                <div id={"filterOptions"}>
-                    <h4>Filter Tasks:</h4>
-                    <label>
-                        Completed:
-                        <input type="checkbox" name="completed" checked={filterConstraints.completed}
-                               defaultChecked={true}
-                               onChange={e => setFilterConstraints(prevState => ({
-                                   ...prevState,
-                                   [e.target.name]: e.target.checked
-                               }))}/>
-                    </label>
-                    <label>
-                        Uncompleted:
-                        <input type="checkbox" name="uncompleted" checked={filterConstraints.uncompleted}
-                               defaultChecked={true}
-                               onChange={e => setFilterConstraints(prevState => ({
-                                   ...prevState,
-                                   [e.target.name]: e.target.checked
-                               }))}/>
-                    </label>
-                    <label>
-                        Before due date:
-                        <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
-                               defaultChecked={true} onChange={e => setFilterConstraints(prevState => ({
-                            ...prevState,
-                            [e.target.name]: e.target.checked
-                        }))}/>
-                    </label>
-                    <label>
-                        Overdue:
-                        <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
-                               defaultChecked={true}
-                               onChange={e => setFilterConstraints(prevState => ({
-                                   ...prevState,
-                                   [e.target.name]: e.target.checked
-                               }))}/>
-                    </label>
-                    <label>
-                        Started:
-                        <input type="checkbox" name="started" checked={filterConstraints.started}
-                               defaultChecked={true} onChange={e => setFilterConstraints(prevState => ({
-                            ...prevState,
-                            [e.target.name]: e.target.checked
-                        }))}/>
-                    </label>
-                    <label>
-                        Not Started:
-                        <input type="checkbox" name="notStarted" checked={filterConstraints.notStarted}
-                               defaultChecked={true}
-                               onChange={e => setFilterConstraints(prevState => ({
-                                   ...prevState,
-                                   [e.target.name]: e.target.checked
-                               }))}/>
-                    </label>
-                </div>
-            </div>
-
-            <hr></hr>
-
             <h3>Your tasks:</h3>
 
             {tasks.length !== 0 ? (
@@ -192,8 +100,8 @@ export default function Tasks({tasks}) {
                                 <td>{task.priority}</td>
                                 <td>{convertDate(task.startDate)}</td>
                                 <td>{convertDate(task.dueDate)}</td>
-                                <td>{daysRemaining(task.startDate,"start")}</td>
-                                <td>{daysRemaining(task.dueDate,"due")}</td>
+                                <td>{daysRemaining(task.startDate, "start")}</td>
+                                <td>{daysRemaining(task.dueDate, "due")}</td>
                             </tr>)}
                     </table>
                 </div>

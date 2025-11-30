@@ -1,0 +1,33 @@
+/* aligning both the sort filter options side by side */
+#taskOptions {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10vw;
+}
+
+/* centering the sorting options */
+#sortOptions {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    padding: 2px;
+}
+
+/* arranging the filtering options into a centred, 2-column grid*/
+#filterOptions {
+    display: grid;
+    grid-template-columns: 15vw 15vw;
+    justify-content: center;
+    align-content: center;
+}
+
+#filterOptions > h4 {
+    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end)*/
+}
+
+/* separating the label text and the checkbox */
+#filterOptions label {
+    display: flex;
+    align-items: center;
+}
