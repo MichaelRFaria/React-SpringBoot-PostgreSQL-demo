@@ -23,7 +23,7 @@
 
 /* table data alternating background color for visibility */
 #table tr:nth-of-type(2n) td {
-    background-color: #d3c917;
+    background-color: #d9d9d9;
 }
 
 /* border for table data */

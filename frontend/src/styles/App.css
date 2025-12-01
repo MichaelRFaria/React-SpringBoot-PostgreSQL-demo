@@ -1,5 +1,7 @@
 .App {
     text-align: center;
+    background-color: #f55a29;
+    padding: 1vh 0 1vh 0;
 }
 
 .App-logo {
@@ -36,8 +38,8 @@
 #inputForm {
     width: 30%;
 
-    border-radius: 1vw;
-    background-color: #ad2121;
+    border-radius: 3vw;
+    background-color: #ffffff;
     padding: 1vw;
     margin: 1vw;
 }
@@ -45,15 +47,15 @@
 #filterOptions {
     width: 70%;
 
-    border-radius: 1vw;
-    background-color: #f8aa1c;
+    border-radius: 3vw;
+    background-color: #ffffff;
     padding: 1vw;
     margin: 1vw;
 }
 
 #tasks {
-    border-radius: 1vw;
-    background-color: #f8ed1c;
+    border-radius: 3vw;
+    background-color: #ffffff;
     padding: 1vw;
     margin: 1vw;
 }
