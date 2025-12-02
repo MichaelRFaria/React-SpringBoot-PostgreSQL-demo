@@ -38,8 +38,10 @@
 #inputForm {
     width: 30%;
 
-    border-radius: 3vw;
     background-color: #ffffff;
+
+    border: 3px solid #f8805a;
+    border-radius: 3vw;
     padding: 1vw;
     margin: 1vw;
 }
@@ -47,15 +49,19 @@
 #filterOptions {
     width: 70%;
 
-    border-radius: 3vw;
     background-color: #ffffff;
+
+    border: 3px solid #f8805a;
+    border-radius: 3vw;
     padding: 1vw;
     margin: 1vw;
 }
 
 #tasks {
-    border-radius: 3vw;
     background-color: #ffffff;
+
+    border: 3px solid #f8805a;
+    border-radius: 3vw;
     padding: 1vw;
     margin: 1vw;
 }
