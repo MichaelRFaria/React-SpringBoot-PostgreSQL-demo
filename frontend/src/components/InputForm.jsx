@@ -3,6 +3,7 @@
 import {sendData, deleteData} from '../utils/api';
 import {useEffect, useState} from "react";
 import {convertDate} from "../utils/utilFuncs";
+import {displayHTTPStatusMessage, replaceEmptyFields} from "../utils/InputFormFuncs";
 import Notification from "./Notification";
 import "../styles/InputForm.css"
 
@@ -77,7 +78,7 @@ export default function InputForm({tasks, updateTasks}) {
 
         // if we are trying to update a task, we replace any empty inputs with the previous input
         if (selectedMethod === "update") {
-            data = replaceEmptyFields(formData);
+            data = replaceEmptyFields(formData,selectedId,tasks);
         }
 
         // we convert the date from the form into the LocalDate type format for the database, if it is not in the correct format
@@ -91,43 +92,14 @@ export default function InputForm({tasks, updateTasks}) {
         // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
         const status = await sendData(data, selectedId);
 
-        displayHTTPStatusMessage(status);
-    }
-
-    // function to replace empty input boxes with values from the existing task, when updating
-    const replaceEmptyFields = (formData) => {
-        let index = -1;
-
-        for (let i = 0; i < tasks.length; i++) {
-            if (parseInt(tasks[i].id) === selectedId) {
-                index = i;
-                break;
-            }
-        }
-
-        const task = tasks[index];
-        // array of values of the existing task's properties
-        const values = [task.title, task.description, task.status, task.priority, task.startDate, task.dueDate]
-
-        // 2d-array of key/value pairs (field name -> value)
-        let arr = Array.from(formData);
-
-        for (const key in arr) {
-            const value = arr[key][1];
-            if (value === null || value.length === 0 || value.trim === "") {
-                arr[key][1] = values[key];
-            }
-        }
-
-        // our API handles JS objects
-        return Object.fromEntries(arr);
+        setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
     }
 
     // handles deleting tasks
     const handleDelete = async () => {
         if (tasks.length > 0) {
             const status = await deleteData(selectedId);
-            displayHTTPStatusMessage(status);
+            setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
         } else {
             setNotificationMessage("There are no tasks to delete!")
         }
@@ -136,20 +108,6 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
-    // function to display a message corresponding to the status code produced by an HTTP method
-    const displayHTTPStatusMessage = (status) => {
-        const action = selectedMethod + "d"; // getting the correct verb - "created", "updated", "deleted"
-
-        if (status >= 200 && status <= 299) {
-            setNotificationMessage(`Task successfully ${action}`);
-        } else if (status >= 400 && status <= 499) {
-            setNotificationMessage("Client-side error encountered, please try again");
-        } else if (status >= 500 && status <= 599) {
-            setNotificationMessage("Server-side error encountered, please try again");
-        } else {
-            setNotificationMessage("Error encountered, please try again");
-        }
-    }
 
     useEffect(() => {
         if (selectedMethod === "create") {
