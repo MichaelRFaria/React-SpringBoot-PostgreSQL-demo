@@ -19,6 +19,7 @@
 /* border for headings */
 #table tr:nth-of-type(1) th {
     border: 1px solid black;
+    cursor: pointer;
 }
 
 /* table data alternating background color for visibility */
