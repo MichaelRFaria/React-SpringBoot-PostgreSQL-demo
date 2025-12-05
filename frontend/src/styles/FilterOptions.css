@@ -3,7 +3,16 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 10vw;
+    gap: 4vw;
+}
+
+#searching label {
+    display: flex;
+    flex-direction: column;
+}
+
+#searching input {
+    width: 10vw;
 }
 
 /* centering the sorting options */
@@ -11,9 +20,12 @@
     display: flex;
     justify-items: center;
     flex-direction: column;
-    padding: 2px;
 }
 
+#sorting label {
+    display: flex;
+    flex-direction: column;
+}
 /* arranging the filtering options into a centred, 2-column grid*/
 #filtering {
     display: grid;

@@ -21,6 +21,7 @@ export default function FilterOptions({
                 <div id={"sorting"}>
                     <label>
                         <h4>Sort Tasks:</h4>
+                        Sort by:
                         <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
                             <option value="id">ID</option>
                             <option value="title">Title</option>
