@@ -14,18 +14,12 @@
 /* reset and submit buttons within the input section*/
 #taskInputs button {
     padding: 2px;
-    margin: 0px 10px 0px 10px;
+    margin: 0 10px 0 10px;
 }
 
 /* both the dropdown list and input boxes within the input section*/
 #taskInputs select, input {
     margin: auto;
-}
-
-/* id select dropdown */
-#methodDropdown {
-    text-align: center;
-    width: 4vw;
 }
 
 /* method select dropdown */
