@@ -75,3 +75,21 @@ export async function deleteData(selectedId) {
         console.error(error.message);
     }
 }
+
+export async function deleteAllData() {
+    const url = "http://localhost:8080/task/"
+
+    try {
+        const response = await fetch(url, {
+            method: "DELETE"
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        console.log(response.status)
+        return response.status;
+    } catch (error) {
+        console.error(error.message);
+    }
+}

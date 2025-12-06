@@ -57,4 +57,7 @@ public class TaskController {
     public void deleteTask(@PathVariable int id) {
         this.taskRepository.deleteById(id);
     }
+
+    @DeleteMapping("task")
+    public void deleteAllTasks() {this.taskRepository.deleteAll();}
 }
