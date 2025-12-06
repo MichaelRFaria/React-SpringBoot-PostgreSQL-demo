@@ -1,6 +1,6 @@
 // simple component that displays an input form that allows the user to execute different operations on the database
 
-import {sendData, deleteData} from '../utils/api';
+import {sendData, deleteData, deleteAllData} from '../utils/api';
 import {useEffect, useState} from "react";
 import {convertDate} from "../utils/utilFuncs";
 import {displayHTTPStatusMessage, replaceEmptyFields} from "../utils/InputFormFuncs";
@@ -22,10 +22,10 @@ export default function InputForm({tasks, updateTasks}) {
     // we set the min value of the due date to the start date selected
     const [startDate, setStartDate] = useState("");
 
-    useEffect(()=>{
+    useEffect(() => {
         setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
         setStartDate(localDate);
-    },[])
+    }, [])
 
     // displays notification for a set amount of time
     const displayNotification = (time) => {
@@ -78,30 +78,63 @@ export default function InputForm({tasks, updateTasks}) {
 
         // if we are trying to update a task, we replace any empty inputs with the previous input
         if (selectedMethod === "update") {
-            data = replaceEmptyFields(formData,selectedId,tasks);
+            data = replaceEmptyFields(formData, selectedId, tasks);
         }
 
         // we convert the date from the form into the LocalDate type format for the database, if it is not in the correct format
         // conditional as:
         // it may be in the correct format if we are updating, and we substitute an empty date input (which would be dd-mm-yyyy) with the copy already in the database (which is yyyy-mm-dd)
-        if (data.dueDate.charAt(2) === '-') {data.dueDate = convertDate(data.dueDate);}
-        if (data.startDate.charAt(2) === '-') {data.startDate = convertDate(data.startDate);}
+        if (data.dueDate.charAt(2) === '-') {
+            data.dueDate = convertDate(data.dueDate);
+        }
+        if (data.startDate.charAt(2) === '-') {
+            data.startDate = convertDate(data.startDate);
+        }
 
         // otherwise we create/update the task in the database
 
         // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
         const status = await sendData(data, selectedId);
 
-        setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
+        setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
     }
 
     // handles deleting tasks
     const handleDelete = async () => {
         if (tasks.length > 0) {
             const status = await deleteData(selectedId);
-            setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
+            setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
         } else {
             setNotificationMessage("There are no tasks to delete!")
+        }
+
+        displayNotification(3000);
+        updateTasks();
+    }
+
+    const handleDeletingWithCriteria = async (criteria) => {
+        if (tasks.length <= 0) {
+            setNotificationMessage("There are no tasks to delete!")
+        } else {
+            // create var for length and decrement as you delete if you get oob errors
+            for (let i = 0; i < tasks.length; i++) {
+                if ((criteria === "overdue" && tasks[i].dueDate <= localDate) || (criteria === "completed" && tasks[i].status === "Completed")) {
+                    const status = await deleteData(tasks[i].id); // add error handling based on status code
+                    // setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
+                }
+            }
+        }
+
+        displayNotification(3000); // fix message for successful deletes, should stop on failed delete (turn for loop into while loop with && status == 200)
+        updateTasks();
+    }
+
+    const deleteAll = async () => {
+        if (tasks.length <= 0) {
+            setNotificationMessage("There are no tasks to delete!")
+        } else {
+            const status = await deleteAllData();
+            //setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
         }
 
         displayNotification(3000);
@@ -199,7 +232,8 @@ export default function InputForm({tasks, updateTasks}) {
                     </label>
                     <label>
                         Start date:
-                        <input name="startDate" type="date" min={localDate} onChange={e => setStartDate(e.target.value)}/>
+                        <input name="startDate" type="date" min={localDate}
+                               onChange={e => setStartDate(e.target.value)}/>
                     </label>
                     <label>
                         Due date:
@@ -214,7 +248,15 @@ export default function InputForm({tasks, updateTasks}) {
             )}
 
             {selectedMethod === "delete" && (
-                <button onClick={handleDelete}>Delete</button>
+                <>
+                    <button onClick={handleDelete}>Delete</button>
+
+                    <hr/>
+
+                    <button onClick={deleteAll}>Delete All</button>
+                    <button onClick={() => handleDeletingWithCriteria("overdue")}>Delete Overdue</button>
+                    <button onClick={() => handleDeletingWithCriteria("completed")}>Delete Completed</button>
+                </>
             )}
             <div>
                 <Notification message={notificationMessage} isVisible={notificationVisibility}/>

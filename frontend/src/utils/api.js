@@ -77,7 +77,7 @@ export async function deleteData(selectedId) {
 }
 
 export async function deleteAllData() {
-    const url = "http://localhost:8080/task/"
+    const url = "http://localhost:8080/task"
 
     try {
         const response = await fetch(url, {
