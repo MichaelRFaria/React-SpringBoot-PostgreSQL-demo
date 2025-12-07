@@ -116,13 +116,20 @@ export default function InputForm({tasks, updateTasks}) {
         if (tasks.length <= 0) {
             setNotificationMessage("There are no tasks to delete!")
         } else {
-            // create var for length and decrement as you delete if you get oob errors
-            for (let i = 0; i < tasks.length; i++) {
+            let i = 0;
+            let success;
+
+            do {
                 if ((criteria === "overdue" && tasks[i].dueDate <= localDate) || (criteria === "completed" && tasks[i].status === "Completed")) {
-                    const status = await deleteData(tasks[i].id); // add error handling based on status code
+                    let status = await deleteData(tasks[i].id);
+
+                    success = (status >= 200 && status < 300);
                     // setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
+                } else {
+                    success = true;
                 }
-            }
+                i++;
+            } while (i < tasks.length && success);
         }
 
         displayNotification(3000); // fix message for successful deletes, should stop on failed delete (turn for loop into while loop with && status == 200)
