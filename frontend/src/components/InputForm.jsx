@@ -118,10 +118,11 @@ export default function InputForm({tasks, updateTasks}) {
         } else {
             let i = 0;
             let success;
+            let status = -1;
 
             do {
                 if ((criteria === "overdue" && tasks[i].dueDate <= localDate) || (criteria === "completed" && tasks[i].status === "Completed")) {
-                    let status = await deleteData(tasks[i].id);
+                    status = await deleteData(tasks[i].id);
 
                     success = (status >= 200 && status < 300);
                     // setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
@@ -130,9 +131,15 @@ export default function InputForm({tasks, updateTasks}) {
                 }
                 i++;
             } while (i < tasks.length && success);
+
+            if (status === -1) {
+                setNotificationMessage(`No ${criteria} tasks deleted.`); // status initialised as -1, if it remains -1, then we have not deleted any tasks.
+            } else {
+                setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod)); // status has been updated in the loop, either success or some sort of error.
+            }
         }
 
-        displayNotification(3000); // fix message for successful deletes, should stop on failed delete (turn for loop into while loop with && status == 200)
+        displayNotification(3000);
         updateTasks();
     }
 
@@ -141,7 +148,7 @@ export default function InputForm({tasks, updateTasks}) {
             setNotificationMessage("There are no tasks to delete!")
         } else {
             const status = await deleteAllData();
-            //setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
+            setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
         }
 
         displayNotification(3000);
