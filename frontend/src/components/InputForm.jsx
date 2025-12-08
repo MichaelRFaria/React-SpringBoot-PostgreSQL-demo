@@ -6,6 +6,7 @@ import {convertDate} from "../utils/utilFuncs";
 import {displayHTTPStatusMessage, replaceEmptyFields} from "../utils/InputFormFuncs";
 import Notification from "./Notification";
 import "../styles/InputForm.css"
+import Alert from "./Alert";
 
 // React components have the same syntax as JavaScript functions
 // Note: React components must start with a capital letter
@@ -16,6 +17,8 @@ export default function InputForm({tasks, updateTasks}) {
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("test");
+    const [alertVisibility, setAlertVisibility] = useState(false);
 
     // we set the min value of the start date to the current date
     const [localDate, setLocalDate] = useState("");
@@ -155,7 +158,6 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
-
     useEffect(() => {
         if (selectedMethod === "create") {
             setSelectedId(-1);
@@ -274,6 +276,12 @@ export default function InputForm({tasks, updateTasks}) {
             )}
             <div>
                 <Notification message={notificationMessage} isVisible={notificationVisibility}/>
+            </div>
+
+            <button onClick={() => setAlertVisibility(!alertVisibility)}>testesteste</button>
+
+            <div>
+                <Alert message={alertMessage} isVisible={alertVisibility} action1={null} action2={null}/>
             </div>
         </div>
     )
