@@ -1,9 +1,8 @@
 /* for when the alert is not on screen */
 #alert {
     position: fixed;
-    left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%) translateY(-50vh);
+    left: 50%;
 
     padding: 1vw;
     border: 2px solid black;
@@ -12,12 +11,12 @@
     opacity: 0;
     background-color: darkgray;
 
+    transform: translate(-50%, -50%) translateY(-50vh);
     transition: opacity 1s, transform 1s;
 }
 
 #buttons {
     display: flex;
-
 }
 
 /* for when the alert is not on screen */
