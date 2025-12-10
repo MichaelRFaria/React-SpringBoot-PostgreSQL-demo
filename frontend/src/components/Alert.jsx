@@ -6,8 +6,8 @@ export default function Alert({message, isVisible, action1, action2}) {
         <div id="alert" className={isVisible ? "visible" : ""}>
             {message}
             <div id="buttons">
-            <button onClick={action1}>Confirm</button>
             <button onClick={action2}>Cancel</button>
+                <button onClick={action1}>Confirm</button>
             </div>
         </div>
     )

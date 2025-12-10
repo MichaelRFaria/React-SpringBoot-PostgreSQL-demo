@@ -4,19 +4,41 @@
     top: 50%;
     left: 50%;
 
+    color: #ff3d00;
+
     padding: 1vw;
-    border: 2px solid black;
-    border-radius: 10px;
+    border: 3px solid #f8805a;
+    border-radius: 1vw;
 
     opacity: 0;
-    background-color: darkgray;
+    background-color: #ffffff;
 
     transform: translate(-50%, -50%) translateY(-50vh);
     transition: opacity 1s, transform 1s;
+
+    font-weight: bold;
 }
 
 #buttons {
     display: flex;
+    justify-content: space-evenly;
+    margin-top: 1vw;
+}
+
+#buttons > button {
+    padding: 0.3rem;
+    border: 1px solid #f8805a;;
+    border-radius: 0.3rem;
+}
+
+#buttons > button:nth-of-type(2) {
+    color: #ffffff;
+    background-color: #f8805a;
+    font-weight: bold;
+}
+
+#buttons > button:nth-of-type(2):hover {
+    background-color: #ff3d00;
 }
 
 /* for when the alert is not on screen */
