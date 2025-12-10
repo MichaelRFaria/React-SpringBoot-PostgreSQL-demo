@@ -17,8 +17,12 @@ export default function InputForm({tasks, updateTasks}) {
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
+
     const [alertMessage, setAlertMessage] = useState("test");
     const [alertVisibility, setAlertVisibility] = useState(false);
+    const [alertAction1, setAlertAction1] = useState();
+    const [alertAction2, setAlertAction2] = useState();
+
 
     // we set the min value of the start date to the current date
     const [localDate, setLocalDate] = useState("");
@@ -36,6 +40,13 @@ export default function InputForm({tasks, updateTasks}) {
         setTimeout(() => {
             setNotificationVisibility(false);
         }, time);
+    }
+
+    const displayAlert = (message, action1, action2) => {
+        setAlertMessage(message);
+        setAlertAction1(() => action1);
+        setAlertAction2(() => action2);
+        setAlertVisibility(true);
     }
 
     // handles submitting a form (either creating or updating a task)
@@ -143,6 +154,7 @@ export default function InputForm({tasks, updateTasks}) {
         }
 
         displayNotification(3000);
+        setAlertVisibility(false);
         updateTasks();
     }
 
@@ -155,6 +167,7 @@ export default function InputForm({tasks, updateTasks}) {
         }
 
         displayNotification(3000);
+        setAlertVisibility(false);
         updateTasks();
     }
 
@@ -269,19 +282,17 @@ export default function InputForm({tasks, updateTasks}) {
 
                     <hr/>
 
-                    <button onClick={deleteAll}>Delete All</button>
-                    <button onClick={() => handleDeletingWithCriteria("overdue")}>Delete Overdue</button>
-                    <button onClick={() => handleDeletingWithCriteria("completed")}>Delete Completed</button>
+                    <button onClick={() => displayAlert("Are you sure you want to delete all tasks?",() => deleteAll(), () => setAlertVisibility(false))}>Delete All</button>
+                    <button onClick={() => displayAlert("Are you sure you want to delete all overdue tasks?",() => handleDeletingWithCriteria("overdue"), () => setAlertVisibility(false))}>Delete Overdue</button>
+                    <button onClick={() => displayAlert("Are you sure you want to delete all completed tasks?",() => handleDeletingWithCriteria("completed"), () => setAlertVisibility(false))}>Delete Completed</button>
                 </>
             )}
             <div>
                 <Notification message={notificationMessage} isVisible={notificationVisibility}/>
             </div>
 
-            <button onClick={() => setAlertVisibility(!alertVisibility)}>testesteste</button>
-
             <div>
-                <Alert message={alertMessage} isVisible={alertVisibility} action1={null} action2={null}/>
+                <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1} action2={alertAction2}/>
             </div>
         </div>
     )
