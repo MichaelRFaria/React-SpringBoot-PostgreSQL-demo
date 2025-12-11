@@ -41,8 +41,6 @@ export default function App() {
                 </div>
             </div>
 
-            <hr/>
-
             <div id="tasks">
                 <Tasks tasks={tasks} sortValue={sortValue} searchValue={searchValue}
                        filterConstraints={filterConstraints}/>

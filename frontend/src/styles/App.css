@@ -2,6 +2,10 @@
     text-align: center;
     background-color: #f55a29;
     padding: 1vh 0 1vh 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .App-logo {
@@ -33,6 +37,8 @@
 #inputContainer {
     display: flex;
     width: 100%;
+
+    border-bottom: 3px solid #f8805a;
 }
 
 #inputForm {
@@ -64,6 +70,8 @@
     border-radius: 3vw;
     padding: 1vw;
     margin: 1vw;
+
+    flex: 1;
 }
 
 @keyframes App-logo-spin {
