@@ -149,7 +149,7 @@ export default function InputForm({tasks, updateTasks}) {
             if (status === -1) {
                 setNotificationMessage(`No ${criteria} tasks deleted.`); // status initialised as -1, if it remains -1, then we have not deleted any tasks.
             } else {
-                setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod)); // status has been updated in the loop, either success or some sort of error.
+                setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod, true)); // status has been updated in the loop, either success or some sort of error.
             }
         }
 
@@ -163,7 +163,7 @@ export default function InputForm({tasks, updateTasks}) {
             setNotificationMessage("There are no tasks to delete!")
         } else {
             const status = await deleteAllData();
-            setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
+            setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod, true));
         }
 
         displayNotification(3000);

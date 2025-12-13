@@ -30,11 +30,12 @@ export function replaceEmptyFields(formData, selectedId, tasks) {
 
 // function to display a message corresponding to the status code produced by an HTTP method
 
-export function displayHTTPStatusMessage(status, selectedMethod) {
+export function displayHTTPStatusMessage(status, selectedMethod, multiple = false) { // "explicit" parameter (default parameter), technically works without as leaving "multiple" out of the function call will make it undefined which JS views as a "falsy" value
     const action = selectedMethod + "d"; // getting the correct verb - "created", "updated", "deleted"
+    const noun = (multiple ? "Tasks" : "Task"); // getting the correct noun - "Tasks", "Task"
 
     if (status >= 200 && status <= 299) {
-        return `Task successfully ${action}`;
+        return `${noun} successfully ${action}`;
     } else if (status >= 400 && status <= 499) {
         return "Client-side error encountered, please try again";
     } else if (status >= 500 && status <= 599) {
