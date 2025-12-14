@@ -1,6 +1,6 @@
 import '../styles/Tasks.css'
 import {useEffect, useState} from "react";
-import {comparePriority, convertDate, daysRemaining, test} from "../utils/utilFuncs";
+import {comparePriority, convertDate, daysRemaining} from "../utils/utilFuncs";
 
 // simple component that displays an HTML list of tasks from a given tasks prop
 export default function Tasks({tasks, sortValue, searchValue, filterConstraints}) {
@@ -96,36 +96,38 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
         <div id={"displayedTasks"}>
             <h3>Your tasks:</h3>
 
-            {tasks.length !== 0 ? (
+            {(tasks.length === 0) ? ( // no tasks in the database
+                <p>You have no tasks!</p>
+            ) : (listOfTasks.length === 0) ? ( // no tasks adhering to the current: searching and filtering criteria
+                <p>You have no tasks that meet the current filter!</p>
+            ) : (
                 <div id="table">
                     <table>
                         <tr>
-                            <th onClick={() => toggleColumnVisibility("id")}>{columnValue("id","ID")}</th>
-                            <th onClick={() => toggleColumnVisibility("title")}>{columnValue("title","Title")}</th>
-                            <th onClick={() => toggleColumnVisibility("description")}>{columnValue("description","Description")}</th>
-                            <th onClick={() => toggleColumnVisibility("status")}>{columnValue("status","Status")}</th>
-                            <th onClick={() => toggleColumnVisibility("priority")}>{columnValue("priority","Priority")}</th>
-                            <th onClick={() => toggleColumnVisibility("startDate")}>{columnValue("startDate","Start Date")}</th>
-                            <th onClick={() => toggleColumnVisibility("dueDate")}>{columnValue("dueDate","Due Date")}</th>
-                            <th onClick={() => toggleColumnVisibility("daysUntilStart")}>{columnValue("daysUntilStart","Days Until Start")}</th>
-                            <th onClick={() => toggleColumnVisibility("daysUntilDue")}>{columnValue("daysUntilDue","Days Until Due")}</th>
+                            <th onClick={() => toggleColumnVisibility("id")}>{columnValue("id", "ID")}</th>
+                            <th onClick={() => toggleColumnVisibility("title")}>{columnValue("title", "Title")}</th>
+                            <th onClick={() => toggleColumnVisibility("description")}>{columnValue("description", "Description")}</th>
+                            <th onClick={() => toggleColumnVisibility("status")}>{columnValue("status", "Status")}</th>
+                            <th onClick={() => toggleColumnVisibility("priority")}>{columnValue("priority", "Priority")}</th>
+                            <th onClick={() => toggleColumnVisibility("startDate")}>{columnValue("startDate", "Start Date")}</th>
+                            <th onClick={() => toggleColumnVisibility("dueDate")}>{columnValue("dueDate", "Due Date")}</th>
+                            <th onClick={() => toggleColumnVisibility("daysUntilStart")}>{columnValue("daysUntilStart", "Days Until Start")}</th>
+                            <th onClick={() => toggleColumnVisibility("daysUntilDue")}>{columnValue("daysUntilDue", "Days Until Due")}</th>
                         </tr>
                         {listOfTasks.map(task =>
                             <tr>
-                                <td>{columnValue("id",task.id)}</td>
-                                <td>{columnValue("title",task.title)}</td>
-                                <td>{columnValue("description",task.description)}</td>
-                                <td>{columnValue("status",task.status)}</td>
-                                <td>{columnValue("priority",task.priority)}</td>
-                                <td>{columnValue("startDate",convertDate(task.startDate))}</td>
-                                <td>{columnValue("dueDate",convertDate(task.dueDate))}</td>
-                                <td>{columnValue("daysUntilStart",daysRemaining(task.startDate, "start"))}</td>
-                                <td>{columnValue("daysUntilDue",daysRemaining(task.dueDate, "due"))}</td>
+                                <td>{columnValue("id", task.id)}</td>
+                                <td>{columnValue("title", task.title)}</td>
+                                <td>{columnValue("description", task.description)}</td>
+                                <td>{columnValue("status", task.status)}</td>
+                                <td>{columnValue("priority", task.priority)}</td>
+                                <td>{columnValue("startDate", convertDate(task.startDate))}</td>
+                                <td>{columnValue("dueDate", convertDate(task.dueDate))}</td>
+                                <td>{columnValue("daysUntilStart", daysRemaining(task.startDate, "start"))}</td>
+                                <td>{columnValue("daysUntilDue", daysRemaining(task.dueDate, "due"))}</td>
                             </tr>)}
                     </table>
                 </div>
-            ) : (
-                <p>You have no tasks!</p>
             )}
         </div>
     )
