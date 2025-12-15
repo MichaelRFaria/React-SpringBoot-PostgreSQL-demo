@@ -22,10 +22,9 @@
     margin: auto;
 }
 
-/* method select dropdown */
-#methodDropdown {
+/* dropdown lists */
+#taskInputs select {
     text-align: center;
-    width: 7vw;
 }
 
 
