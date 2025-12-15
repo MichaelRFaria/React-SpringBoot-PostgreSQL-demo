@@ -6,13 +6,18 @@
     gap: 4vw;
 }
 
+/* subtitles */
+#taskOptions p {
+    margin: 0;
+}
+
 #searching label {
     display: flex;
     flex-direction: column;
 }
 
 #searching input {
-    width: 10vw;
+    width: 12vw;
 }
 
 /* centering the sorting options */
@@ -22,10 +27,16 @@
     flex-direction: column;
 }
 
+/* sorting criteria dropdown menu */
+#sorting select {
+    text-align: center;
+}
+
 #sorting label {
     display: flex;
     flex-direction: column;
 }
+
 /* arranging the filtering options into a centred, 2-column grid*/
 #filtering {
     display: grid;
@@ -34,7 +45,13 @@
     align-content: center;
 }
 
+/* filtering title - expanding across the grid */
 #filtering > h4 {
+    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end)*/
+}
+
+/* filtering subtitle - expanding across the grid */
+#filtering > p {
     grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end)*/
 }
 
@@ -46,5 +63,5 @@
 }
 
 #filtering label input {
-    margin-right: 0;
+    margin-right: 3vw;
 }
