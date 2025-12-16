@@ -47,19 +47,18 @@
 
 /* filtering title - expanding across the grid */
 #filtering > h4 {
-    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end)*/
+    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end) */
 }
 
 /* filtering subtitle - expanding across the grid */
 #filtering > p {
-    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end)*/
+    grid-column: 1 / -1; /* equivalent to span 2 in this case, start at column 1, end at column -1 (the end) */
 }
 
 /* separating the label text and the checkbox */
 #filtering label {
     display: flex;
     justify-content: center;
-    padding: 0.2vw;
 }
 
 #filtering label input {
