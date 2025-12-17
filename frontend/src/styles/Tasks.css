@@ -11,25 +11,64 @@
 
 /* whole table styling */
 #table table {
-    border-collapse: collapse; /* merging table borders (without this there will be spaces between borders as if there were margin) */
+    border-collapse: separate;
+    border-spacing: 1vw;
     border: 1px solid black;
+    border-radius: 1vw;
     margin: 1vw;
+
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* border for headings */
+/* table headings */
 #table tr:nth-of-type(1) th {
-    border: 1px solid black;
     cursor: pointer;
 }
 
 /* table data alternating background color for visibility */
-#table tr:nth-of-type(2n) td {
+/*#table tr:nth-of-type(2n) {
     background-color: #d9d9d9;
+}*/
+
+/* table data */
+#table td {
+    padding: 0.5vh 1vw 0.5vh 1vw;
 }
 
-/* border for table data */
-#table td {
-    border-right: 1px solid black;
-    border-left: 1px solid black;
-    padding: 0.2vw;
+#table tr td.status-completed {
+    color: #009100;
+    background-color: #7eff7e;
+    border-radius: 2vw;
 }
+
+#table tr td.status-pending {
+    color: #8a8300;
+    background-color: #fff780;
+    border-radius: 2vw;
+}
+
+#table tr td.status-on-hold {
+    color: darkcyan;
+    background-color: #80ffff;
+    border-radius: 2vw;
+}
+
+#table tr td.priority-high {
+    color: #8a0000;
+    background-color: #ff8080;
+    border-radius: 2vw;
+}
+
+#table tr td.priority-medium {
+    color: #8d5b00;
+    background-color: #ffd27e;
+    border-radius: 2vw;
+}
+
+#table tr td.priority-low {
+    color: #007900;
+    background-color: #7fff7f;
+    border-radius: 2vw;
+}
+
+

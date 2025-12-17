@@ -92,6 +92,10 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
     // if column is hidden replace with "...", otherwise display the given field
     const columnValue = (key, field) => hiddenColumns[key] ? "..." : field;
 
+    // determining css style to use based on task's status/priority
+    const statusStyling = {"Completed": "status-completed", "Pending": "status-pending", "On Hold": "status-on-hold"};
+    const priorityStyling = {"High": "priority-high", "Medium": "priority-medium", "Low": "priority-low"}
+
     return (
         <div id={"displayedTasks"}>
             <h3>Your tasks:</h3>
@@ -119,8 +123,8 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                                 <td>{columnValue("id", task.id)}</td>
                                 <td>{columnValue("title", task.title)}</td>
                                 <td>{columnValue("description", task.description)}</td>
-                                <td>{columnValue("status", task.status)}</td>
-                                <td>{columnValue("priority", task.priority)}</td>
+                                <td className={statusStyling[task.status]}>{columnValue("status", task.status)}</td>
+                                <td className={priorityStyling[task.priority]}>{columnValue("priority", task.priority)}</td>
                                 <td>{columnValue("startDate", convertDate(task.startDate))}</td>
                                 <td>{columnValue("dueDate", convertDate(task.dueDate))}</td>
                                 <td>{columnValue("daysUntilStart", daysRemaining(task.startDate, "start"))}</td>
