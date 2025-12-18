@@ -1,6 +1,6 @@
 import '../styles/Tasks.css'
 import {useEffect, useState} from "react";
-import {comparePriority, convertDate, daysRemaining} from "../utils/utilFuncs";
+import {comparePriority, convertDate, convertDateToReadable, daysRemaining} from "../utils/utilFuncs";
 
 // simple component that displays an HTML list of tasks from a given tasks prop
 export default function Tasks({tasks, sortValue, searchValue, filterConstraints}) {
@@ -125,8 +125,8 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                                 <td>{columnValue("description", task.description)}</td>
                                 <td className={statusStyling[task.status]}>{columnValue("status", task.status)}</td>
                                 <td className={priorityStyling[task.priority]}>{columnValue("priority", task.priority)}</td>
-                                <td>{columnValue("startDate", convertDate(task.startDate))}</td>
-                                <td>{columnValue("dueDate", convertDate(task.dueDate))}</td>
+                                <td>{columnValue("startDate", convertDateToReadable(task.startDate))}</td>
+                                <td>{columnValue("dueDate", convertDateToReadable(task.dueDate))}</td>
                                 <td>{columnValue("daysUntilStart", daysRemaining(task.startDate, "start"))}</td>
                                 <td>{columnValue("daysUntilDue", daysRemaining(task.dueDate, "due"))}</td>
                             </tr>)}
