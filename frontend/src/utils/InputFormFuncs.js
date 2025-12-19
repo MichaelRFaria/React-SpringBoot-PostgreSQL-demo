@@ -17,6 +17,9 @@ export function replaceEmptyFields(formData, selectedId, tasks) {
     // 2d-array of key/value pairs (field name -> value)
     let arr = Array.from(formData);
 
+    // checking if status and priority are "empty"
+    arr = replaceEmptyDropdowns(arr, values[2], values[3]);
+
     for (const key in arr) {
         const value = arr[key][1];
         if (value === null || value.length === 0 || value.trim === "") {
@@ -28,8 +31,20 @@ export function replaceEmptyFields(formData, selectedId, tasks) {
     return Object.fromEntries(arr);
 }
 
-// function to display a message corresponding to the status code produced by an HTTP method
+// function to replace the status and priority "empty" (when the selected dropdown option = "Copy") inputs with values from the existing task, when updating
+function replaceEmptyDropdowns(arr, status, priority) {
+    if (arr[2][1] === "Copy") { // if the status dropdown option = "Copy", replace with the status value from the existing task
+        arr[2][1] = status;
+    }
 
+    if (arr[3][1] === "Copy") { // if the priority dropdown option = "Copy", replace with the priority value from the existing task
+        arr[3][1] = priority;
+    }
+
+    return arr;
+}
+
+// function to display a message corresponding to the status code produced by an HTTP method
 export function displayHTTPStatusMessage(status, selectedMethod, multiple = false) { // "explicit" parameter (default parameter), technically works without as leaving "multiple" out of the function call will make it undefined which JS views as a "falsy" value
     const action = selectedMethod + "d"; // getting the correct verb - "created", "updated", "deleted"
     const noun = (multiple ? "Tasks" : "Task"); // getting the correct noun - "Tasks", "Task"

@@ -246,6 +246,9 @@ export default function InputForm({tasks, updateTasks}) {
                     <label>
                         Status:
                         <select id={"statusDropdown"} name="status">
+                            {selectedMethod === "update" && (
+                                <option selected={true} value={"Copy"}>Copy</option>
+                            )}
                             <option value={"Pending"}>Pending</option>
                             <option value={"On Hold"}>On Hold</option>
                             <option value={"Completed"}>Completed</option>
@@ -254,6 +257,9 @@ export default function InputForm({tasks, updateTasks}) {
                     <label>
                         Priority:
                         <select id={"priorityDropdown"} name="priority">
+                            {selectedMethod === "update" && (
+                                <option selected={true} value={"Copy"}>Copy</option>
+                            )}
                             <option value={"High"}>High</option>
                             <option value={"Medium"}>Medium</option>
                             <option value={"Low"}>Low</option>
