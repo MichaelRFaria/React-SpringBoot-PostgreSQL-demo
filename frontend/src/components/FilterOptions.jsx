@@ -15,7 +15,8 @@ export default function FilterOptions({
                     <label>
                         <h4>Search for Task:</h4>
                         <p>Search for:</p>
-                        <input name="searchValue" placeholder="Enter a keyword." onChange={e => setSearchValue(e.target.value)}/>
+                        <input name="searchValue" placeholder="Enter a keyword."
+                               onChange={e => setSearchValue(e.target.value)}/>
                     </label>
                 </div>
                 <div id={"sorting"}>
@@ -39,7 +40,6 @@ export default function FilterOptions({
                     <label>
                         Completed:
                         <input type="checkbox" name="completed" checked={filterConstraints.completed}
-                               defaultChecked={true}
                                onChange={e => setFilterConstraints(prevState => ({
                                    ...prevState,
                                    [e.target.name]: e.target.checked
@@ -48,7 +48,6 @@ export default function FilterOptions({
                     <label>
                         Uncompleted:
                         <input type="checkbox" name="uncompleted" checked={filterConstraints.uncompleted}
-                               defaultChecked={true}
                                onChange={e => setFilterConstraints(prevState => ({
                                    ...prevState,
                                    [e.target.name]: e.target.checked
@@ -57,15 +56,14 @@ export default function FilterOptions({
                     <label>
                         Before due date:
                         <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
-                               defaultChecked={true} onChange={e => setFilterConstraints(prevState => ({
-                            ...prevState,
-                            [e.target.name]: e.target.checked
-                        }))}/>
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
                     </label>
                     <label>
                         Overdue:
                         <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
-                               defaultChecked={true}
                                onChange={e => setFilterConstraints(prevState => ({
                                    ...prevState,
                                    [e.target.name]: e.target.checked
@@ -74,15 +72,14 @@ export default function FilterOptions({
                     <label>
                         Started:
                         <input type="checkbox" name="started" checked={filterConstraints.started}
-                               defaultChecked={true} onChange={e => setFilterConstraints(prevState => ({
-                            ...prevState,
-                            [e.target.name]: e.target.checked
-                        }))}/>
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
                     </label>
                     <label>
                         Not Started:
                         <input type="checkbox" name="notStarted" checked={filterConstraints.notStarted}
-                               defaultChecked={true}
                                onChange={e => setFilterConstraints(prevState => ({
                                    ...prevState,
                                    [e.target.name]: e.target.checked

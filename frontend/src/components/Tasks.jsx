@@ -107,6 +107,7 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
             ) : (
                 <div id="table">
                     <table>
+                        <thead>
                         <tr>
                             <th onClick={() => toggleColumnVisibility("id")}>{columnValue("id", "ID")}</th>
                             <th onClick={() => toggleColumnVisibility("title")}>{columnValue("title", "Title")}</th>
@@ -118,8 +119,11 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                             <th onClick={() => toggleColumnVisibility("daysUntilStart")}>{columnValue("daysUntilStart", "Days Until Start")}</th>
                             <th onClick={() => toggleColumnVisibility("daysUntilDue")}>{columnValue("daysUntilDue", "Days Until Due")}</th>
                         </tr>
+                        </thead>
+
+                        <tbody>
                         {listOfTasks.map(task =>
-                            <tr>
+                            <tr key={task.id}>
                                 <td>{columnValue("id", task.id)}</td>
                                 <td>{columnValue("title", task.title)}</td>
                                 <td>{columnValue("description", task.description)}</td>
@@ -130,6 +134,7 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                                 <td>{columnValue("daysUntilStart", daysRemaining(task.startDate, "start"))}</td>
                                 <td>{columnValue("daysUntilDue", daysRemaining(task.dueDate, "due"))}</td>
                             </tr>)}
+                        </tbody>
                     </table>
                 </div>
             )}
