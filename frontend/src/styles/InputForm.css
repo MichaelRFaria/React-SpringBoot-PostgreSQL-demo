@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-/* labels (text + input/dropdown) within the input section*/
+/* labels (text + input/dropdown) within the input section */
 #taskInputs label {
     display: flex;
     justify-items: center;
@@ -11,14 +11,14 @@
     padding: 0.3vh;
 }
 
-/* buttons within the input section*/
+/* buttons within the input section */
 #taskInputs button {
     padding: 2px;
     margin: 0.5vh 1vw 0.5vh 1vw;
     width: 33%;
 }
 
-/* both the dropdown list and input boxes within the input section*/
+/* both the dropdown list and input boxes within the input section */
 #taskInputs select, input {
     margin: auto;
 }

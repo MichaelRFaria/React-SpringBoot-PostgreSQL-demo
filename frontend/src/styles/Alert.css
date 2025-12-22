@@ -19,24 +19,28 @@
     font-weight: bold;
 }
 
+/* button spacing */
 #buttons {
     display: flex;
     justify-content: space-evenly;
     margin-top: 1vw;
 }
 
+/* button spacing */
 #buttons > button {
     padding: 0.3rem;
     border: 1px solid #f8805a;;
     border-radius: 0.3rem;
 }
 
+/* highlighting the confirm button */
 #buttons > button:nth-of-type(2) {
     color: #ffffff;
     background-color: #f8805a;
     font-weight: bold;
 }
 
+/* highlighting the confirm button */
 #buttons > button:nth-of-type(2):hover {
     background-color: #ff3d00;
 }

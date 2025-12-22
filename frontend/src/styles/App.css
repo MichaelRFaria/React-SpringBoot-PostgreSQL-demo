@@ -38,6 +38,7 @@ html {
     color: #61dafb;
 }
 
+/* container to align the input form and filter options components*/
 #inputContainer {
     display: flex;
     width: 100%;
@@ -45,6 +46,7 @@ html {
     border-bottom: 3px solid #f8805a;
 }
 
+/* input form component */
 #inputForm {
     width: 30%;
 
@@ -56,6 +58,7 @@ html {
     margin: 1vw;
 }
 
+/* filter options component*/
 #filterOptions {
     width: 70%;
 
@@ -67,6 +70,7 @@ html {
     margin: 1vw;
 }
 
+/* tasks component */
 #tasks {
     background-color: #ffffff;
 

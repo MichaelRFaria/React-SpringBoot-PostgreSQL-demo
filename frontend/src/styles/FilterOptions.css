@@ -11,6 +11,7 @@
     margin: 0;
 }
 
+/* centering the label text and the input box */
 #searching label {
     display: flex;
     flex-direction: column;
@@ -32,6 +33,7 @@
     text-align: center;
 }
 
+/* centering the label text and the dropdown menu */
 #sorting label {
     display: flex;
     flex-direction: column;
@@ -61,6 +63,7 @@
     justify-content: center;
 }
 
+/* vertically aligning the filtering options checkboxes */
 #filtering label input {
     margin-right: 3vw;
 }
