@@ -63,6 +63,12 @@
     justify-content: center;
 }
 
+/* adding clearer interaction ability to filtering options */
+#filtering label:hover {
+    color: #484848;
+    cursor: pointer;
+}
+
 /* vertically aligning the filtering options checkboxes */
 #filtering label input {
     margin-right: 3vw;

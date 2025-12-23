@@ -21,8 +21,9 @@
 }
 
 /* table headings */
-#table tr:nth-of-type(1) th {
+#table th {
     cursor: pointer;
+    transition: transform 0.5s;
 }
 
 /* table data alternating background color for visibility */
@@ -33,6 +34,12 @@
 /* table data */
 #table td {
     padding: 0.5vh 1vw 0.5vh 1vw;
+    transition: transform 0.5s;
+}
+
+#table td:hover, th:hover {
+    transform: scale(1.1);
+    transition: transform 0.5s;
 }
 
 /* surrounding status and priority fields in a colored oval */

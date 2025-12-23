@@ -26,11 +26,13 @@
     margin-top: 1vw;
 }
 
-/* button spacing */
+/* button spacing and pointer cursor */
 #buttons > button {
     padding: 0.3rem;
     border: 1px solid #f8805a;;
     border-radius: 0.3rem;
+
+    cursor: pointer;
 }
 
 /* highlighting the confirm button */
