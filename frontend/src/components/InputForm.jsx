@@ -5,11 +5,8 @@ import {useEffect, useState} from "react";
 import {convertDate} from "../utils/utilFuncs";
 import {displayHTTPStatusMessage, replaceEmptyFields} from "../utils/InputFormFuncs";
 import Notification from "./Notification";
-import "../styles/InputForm.css"
 import Alert from "./Alert";
-
-// React components have the same syntax as JavaScript functions
-// Note: React components must start with a capital letter
+import "../styles/InputForm.css"
 
 export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState(-1);
@@ -34,7 +31,7 @@ export default function InputForm({tasks, updateTasks}) {
         setStartDate(localDate);
     }, [])
 
-    // displays notification for a set amount of time
+    // displays a notification for a set amount of time
     const displayNotification = (time) => {
         setNotificationVisibility(true);
         setTimeout(() => {
@@ -42,6 +39,7 @@ export default function InputForm({tasks, updateTasks}) {
         }, time);
     }
 
+    // displays an alert with the given message and selectable actions
     const displayAlert = (message, action1, action2) => {
         setAlertMessage(message);
         setAlertAction1(() => action1);
@@ -49,20 +47,13 @@ export default function InputForm({tasks, updateTasks}) {
         setAlertVisibility(true);
     }
 
-    // handles submitting a form (either creating or updating a task)
-
-    // this arrow function expression serves more than just as an easy way to create a short function,
-    // but it also allows us to work with the event (e) that the form element's onSubmit button produces, which we can't define at compile-time (I think???)
+    // handles submitting a form (either creating or updating a task, deleting has its own function)
     const handleSubmit = async (e) => {
         // stops browser from refreshing on form submit
         e.preventDefault();
 
-        // FormData's Javadoc states: "When specified with a <form> element, the FormData object will be populated with the form's current keys/values,
-        // using the name property of each element for the keys and their submitted value for the values."
-
-        // FormData() turns form's inputs into key/value pairs
+        // FormData() turns the form's inputs into key/value pairs
         let formData = new FormData(e.target);
-        //console.log(data)
 
         await submitData(formData)
 
@@ -72,6 +63,7 @@ export default function InputForm({tasks, updateTasks}) {
 
     // handles actually submitting the create/update request to the backend, also handles error checking based on several factors
     const submitData = async (formData) => {
+        // converting key/value pairs into JS object
         let data = Object.fromEntries(formData.entries())
 
         // if creating a new task, we check that all the input boxes are filled in
@@ -90,7 +82,7 @@ export default function InputForm({tasks, updateTasks}) {
             return;
         }
 
-        // if we are trying to update a task, we replace any empty inputs with the previous input
+        // if we are trying to update a task, we replace any empty inputs with the value from the database
         if (selectedMethod === "update") {
             data = replaceEmptyFields(formData, selectedId, tasks);
         }
@@ -105,9 +97,7 @@ export default function InputForm({tasks, updateTasks}) {
             data.startDate = convertDate(data.startDate);
         }
 
-        // otherwise we create/update the task in the database
-
-        // interestingly you can call async functions without awaiting them, but this can lead to some strange issues, like having to press submit twice before a new task is created
+        // finally we create/update the task in the database
         const status = await sendData(data, selectedId);
 
         setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
@@ -115,6 +105,7 @@ export default function InputForm({tasks, updateTasks}) {
 
     // handles deleting tasks
     const handleDelete = async () => {
+        // delete task if tasks exist, otherwise display error message
         if (tasks.length > 0) {
             const status = await deleteData(selectedId);
             setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
@@ -126,30 +117,31 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
+    // handles deleting all completed or overdue tasks
     const handleDeletingWithCriteria = async (criteria) => {
+        // if no tasks exist then we display an error message, otherwise we delete all tasks matching the criteria parameter
         if (tasks.length <= 0) {
             setNotificationMessage("There are no tasks to delete!")
         } else {
             let i = 0;
-            let success;
+            let success = true;
             let status = -1;
 
+            // loops while we have remaining tasks to look at and, while the task was successfully deleted (assuming that we did delete a task)
             do {
                 if ((criteria === "overdue" && tasks[i].dueDate <= localDate) || (criteria === "completed" && tasks[i].status === "Completed")) {
                     status = await deleteData(tasks[i].id);
 
                     success = (status >= 200 && status < 300);
-                    // setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod));
-                } else {
-                    success = true;
                 }
                 i++;
             } while (i < tasks.length && success);
 
+            // setting the appropriate notification message
             if (status === -1) {
                 setNotificationMessage(`No ${criteria} tasks deleted.`); // status initialised as -1, if it remains -1, then we have not deleted any tasks.
             } else {
-                setNotificationMessage(displayHTTPStatusMessage(status,selectedMethod, true)); // status has been updated in the loop, either success or some sort of error.
+                setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod, true)); // status has been updated in the loop, either success or some sort of error.
             }
         }
 
@@ -158,7 +150,9 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
+    // handles deleting all tasks
     const deleteAll = async () => {
+        // if no tasks exist then we display an error message, otherwise we delete all tasks matching the criteria parameter
         if (tasks.length <= 0) {
             setNotificationMessage("There are no tasks to delete!")
         } else {
@@ -171,23 +165,29 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
+    // when we change the method, we must reset the selectedId state to an appropriate value
     useEffect(() => {
+        // creating and updating requests are differentiated by their IDs. (PUT requests require an actual ID / <1, POST requests are indicated by an ID of -1)
         if (selectedMethod === "create") {
             setSelectedId(-1);
+            // whenever we delete a task, we must reset the selectedID, otherwise the value in the ID dropdown menu, won't correspond with the ID in the state (hence we have "tasks" as a dependency)
         } else if (selectedMethod === "delete") {
             if (tasks.length > 0) {
                 setSelectedId(parseInt(tasks[0].id));
             } else {
                 // special case: when the selected method is "delete" and the tasks become empty (we have just deleted the last task),
-                // we must switch the method to create as we can't update/delete on an empty database
+                // we must forcefully switch the method to create as we can't update/delete on an empty database
                 setSelectedMethod("create");
                 setSelectedId(-1);
             }
         }
     }, [selectedMethod, tasks]);
 
-    // we don't put this in the useEffect above, as the "tasks" dependency, will cause the selected id in the dropdown to reset to the first id,
-    // and everytime we update a value, we will change tasks, thus triggering that dependency (but this is slightly inefficient)
+    // when we change the method, we must reset the selectedId state to an appropriate value
+    // this version is only for the update method, this is because
+    // the above useEffect has a "tasks" dependency, meaning everytime you update a task, it would trigger the code below,
+    // which resets the selected id in the dropdown menu to the first id. this is inconvenient as a user may wish to the same task repeatedly for correction, etc
+    // overall this is cleaner, removing unnecessary dropdown menu updating
     useEffect(() => {
         if (selectedMethod === "update") {
             setSelectedId(parseInt(tasks[0].id))
@@ -213,7 +213,6 @@ export default function InputForm({tasks, updateTasks}) {
                 </select>
             </label>
 
-            {/* JSX shorthand for "render this only if condition is true, otherwise ... "*/}
             {(selectedMethod === "update" || selectedMethod === "delete") && (
                 <label>
                     ID:
@@ -225,16 +224,8 @@ export default function InputForm({tasks, updateTasks}) {
             )}
 
             {(selectedMethod === "create" || selectedMethod === "update") && (
-                /* <form> element allows you to create interactive controls for submitting information.
-                "onSubmit" is a unique special prop/event handler for form elements (similar to how <button> has onClick)
-                note 1: both onSubmit, onClick and similar, utilise function references as opposed to function calls
-                note 2: the input boxes must contain "name" attributes with values equal to their associated field name*/
+                /* form's onSubmit creates a formEvent*/
                 <form onSubmit={handleSubmit}>
-                    {/* typically you put input boxes with label tags. this tells the browser that the label
-             is associated with the input box leading to some effects like:
-             screen readers announcing the label caption when selecting an input,
-             selecting the label will focus on the input,
-             highlighting the label will highlight the input, etc*/}
                     <label>
                         Title:
                         <input name="title" placeholder="Provide a title for the task."/>
@@ -274,9 +265,7 @@ export default function InputForm({tasks, updateTasks}) {
                         Due date:
                         <input name="dueDate" min={startDate} type="date"/>
                     </label>
-                    {/* the <form> element has unique behaviour where:
-                    any <button> of type "reset" will reset inputs within the form to their default values
-                    any <button> of type "submit" will trigger the form's onSubmit event */}
+                    {/* utilising button's unique "reset" and "submit" types */}
                     <button type={"reset"}>Reset</button>
                     <button type={"submit"}>Submit</button>
                 </form>
@@ -288,9 +277,18 @@ export default function InputForm({tasks, updateTasks}) {
 
                     <hr/>
 
-                    <button onClick={() => displayAlert("Are you sure you want to delete all tasks?",() => deleteAll(), () => setAlertVisibility(false))}>Delete All</button>
-                    <button onClick={() => displayAlert("Are you sure you want to delete all overdue tasks?",() => handleDeletingWithCriteria("overdue"), () => setAlertVisibility(false))}>Delete Overdue</button>
-                    <button onClick={() => displayAlert("Are you sure you want to delete all completed tasks?",() => handleDeletingWithCriteria("completed"), () => setAlertVisibility(false))}>Delete Completed</button>
+                    <button
+                        onClick={() => displayAlert("Are you sure you want to delete all tasks?", () => deleteAll(), () => setAlertVisibility(false))}>Delete
+                        All
+                    </button>
+                    <button
+                        onClick={() => displayAlert("Are you sure you want to delete all overdue tasks?", () => handleDeletingWithCriteria("overdue"), () => setAlertVisibility(false))}>Delete
+                        Overdue
+                    </button>
+                    <button
+                        onClick={() => displayAlert("Are you sure you want to delete all completed tasks?", () => handleDeletingWithCriteria("completed"), () => setAlertVisibility(false))}>Delete
+                        Completed
+                    </button>
                 </>
             )}
             <div>
@@ -298,7 +296,8 @@ export default function InputForm({tasks, updateTasks}) {
             </div>
 
             <div>
-                <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1} action2={alertAction2}/>
+                <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1}
+                       action2={alertAction2}/>
             </div>
         </div>
     )
