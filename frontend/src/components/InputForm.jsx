@@ -84,7 +84,8 @@ export default function InputForm({tasks, updateTasks}) {
 
         // if we are trying to update a task, we replace any empty inputs with the value from the database
         if (selectedMethod === "update") {
-            data = replaceEmptyFields(formData, selectedId, tasks);
+            const task = tasks.find(t => parseInt(t.id) === selectedId);
+            data = replaceEmptyFields(formData, task);
         }
 
         // we convert the date from the form into the LocalDate type format for the database, if it is not in the correct format
