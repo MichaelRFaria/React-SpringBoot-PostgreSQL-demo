@@ -46,10 +46,17 @@ export function daysRemaining(date, type) {
 
     const daysRemaining = timeDifference / 1000 / 60 / 60 / 24;
 
-    if (daysRemaining < 0 && type === "due") {
-        return "Overdue!";
-    } else if (daysRemaining > 0 && type === "start") {
-        return "Started!";
+    const isToday = daysRemaining < 0 && daysRemaining > -1;
+    const isPast = daysRemaining < 0;
+
+    if (type === "due") {
+        if (isToday) return "Due today!"
+        else if (isPast) return "Overdue!";
+    }
+
+    else if (type === "start") {
+        if (isToday) return "Start today!"
+        else if (isPast) return "Started!";
     }
 
     return Math.abs(Math.ceil(daysRemaining));
