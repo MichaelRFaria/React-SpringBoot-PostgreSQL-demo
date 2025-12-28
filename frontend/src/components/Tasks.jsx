@@ -45,11 +45,11 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                 return false;
             }
 
-            else if (!filterConstraints.started && task.startDate >= localDate) {
+            else if (!filterConstraints.started && task.startDate <= localDate) {
                 return false;
             }
 
-            else if (!filterConstraints.notStarted && task.startDate < localDate) {
+            else if (!filterConstraints.notStarted && task.startDate > localDate) {
                 return false;
             }
 

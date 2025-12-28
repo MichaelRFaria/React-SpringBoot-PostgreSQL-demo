@@ -54,22 +54,6 @@ export default function FilterOptions({
                                }))}/>
                     </label>
                     <label>
-                        Before due date:
-                        <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
-                               onChange={e => setFilterConstraints(prevState => ({
-                                   ...prevState,
-                                   [e.target.name]: e.target.checked
-                               }))}/>
-                    </label>
-                    <label>
-                        Overdue:
-                        <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
-                               onChange={e => setFilterConstraints(prevState => ({
-                                   ...prevState,
-                                   [e.target.name]: e.target.checked
-                               }))}/>
-                    </label>
-                    <label>
                         Started:
                         <input type="checkbox" name="started" checked={filterConstraints.started}
                                onChange={e => setFilterConstraints(prevState => ({
@@ -80,6 +64,22 @@ export default function FilterOptions({
                     <label>
                         Not Started:
                         <input type="checkbox" name="notStarted" checked={filterConstraints.notStarted}
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
+                    </label>
+                    <label>
+                        Before due date:
+                        <input type="checkbox" name="beforeDueDate" checked={filterConstraints.beforeDueDate}
+                               onChange={e => setFilterConstraints(prevState => ({
+                                   ...prevState,
+                                   [e.target.name]: e.target.checked
+                               }))}/>
+                    </label>
+                    <label>
+                        Overdue:
+                        <input type="checkbox" name="overdue" checked={filterConstraints.overdue}
                                onChange={e => setFilterConstraints(prevState => ({
                                    ...prevState,
                                    [e.target.name]: e.target.checked
