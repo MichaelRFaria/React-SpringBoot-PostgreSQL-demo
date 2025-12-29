@@ -39,25 +39,15 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
         updatedList = updatedList.filter(task => {
             if (!filterConstraints.completed && task.status === "Completed") {
                 return false;
-            }
-
-            else if (!filterConstraints.uncompleted && task.status !== "Completed") {
+            } else if (!filterConstraints.uncompleted && task.status !== "Completed") {
                 return false;
-            }
-
-            else if (!filterConstraints.started && task.startDate <= localDate) {
+            } else if (!filterConstraints.started && task.startDate <= localDate) {
                 return false;
-            }
-
-            else if (!filterConstraints.notStarted && task.startDate > localDate) {
+            } else if (!filterConstraints.notStarted && task.startDate > localDate) {
                 return false;
-            }
-
-            else if (!filterConstraints.beforeDueDate && task.dueDate >= localDate) {
+            } else if (!filterConstraints.beforeDueDate && task.dueDate >= localDate) {
                 return false;
-            }
-
-            else if (!filterConstraints.overdue && task.dueDate < localDate) {
+            } else if (!filterConstraints.overdue && task.dueDate < localDate) {
                 return false;
             }
 

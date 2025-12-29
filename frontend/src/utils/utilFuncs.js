@@ -52,9 +52,7 @@ export function daysRemaining(date, type) {
     if (type === "due") {
         if (isToday) return "Due today!"
         else if (isPast) return "Overdue!";
-    }
-
-    else if (type === "start") {
+    } else if (type === "start") {
         if (isToday) return "Start today!"
         else if (isPast) return "Started!";
     }

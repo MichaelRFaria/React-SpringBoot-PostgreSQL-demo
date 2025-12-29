@@ -1,5 +1,4 @@
 // function to replace empty input boxes with values from the existing task, when updating
-
 export function replaceEmptyFields(formData, task) {
     // array of values of the existing task's properties
     const values = [task.title, task.description, task.status, task.priority, task.startDate, task.dueDate]

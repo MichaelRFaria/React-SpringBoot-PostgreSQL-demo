@@ -1,5 +1,6 @@
 import '../styles/FilterOptions.css'
 
+// component that displays options to search, sort and filter the tasks table
 export default function FilterOptions({
                                           sortValue,
                                           setSortValue,

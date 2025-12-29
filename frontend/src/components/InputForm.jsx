@@ -1,5 +1,3 @@
-// simple component that displays an input form that allows the user to execute different operations on the database
-
 import {sendData, deleteData, deleteAllData} from '../utils/api';
 import {useEffect, useState} from "react";
 import {convertDate} from "../utils/utilFuncs";
@@ -8,6 +6,7 @@ import Notification from "./Notification";
 import Alert from "./Alert";
 import "../styles/InputForm.css"
 
+// simple component that displays an input form that allows the user to execute different operations on the database
 export default function InputForm({tasks, updateTasks}) {
     const [selectedId, setSelectedId] = useState(-1);
     const [selectedMethod, setSelectedMethod] = useState("create");
