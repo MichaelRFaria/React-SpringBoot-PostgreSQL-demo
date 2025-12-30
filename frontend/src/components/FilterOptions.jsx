@@ -12,27 +12,29 @@ export default function FilterOptions({
         <>
             <h3>Filter and sort your results:</h3>
             <div id={"taskOptions"}>
-                <div id={"searching"}>
-                    <label>
-                        <h4>Search for Task:</h4>
-                        <p>Search for:</p>
-                        <input name="searchValue" placeholder="Enter a keyword."
-                               onChange={e => setSearchValue(e.target.value)}/>
-                    </label>
-                </div>
-                <div id={"sorting"}>
-                    <label>
-                        <h4>Sort Tasks:</h4>
-                        <p>Sort by:</p>
-                        <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
-                            <option value="id">ID</option>
-                            <option value="title">Title</option>
-                            <option value="status">Status</option>
-                            <option value="priority">Priority</option>
-                            <option value="startDate">Start Date</option>
-                            <option value="dueDate">Date Due</option>
-                        </select>
-                    </label>
+                <div id="taskOptionsContainerLeft">
+                    <div id={"searching"}>
+                        <label>
+                            <h4>Search for Task:</h4>
+                            <p>Search for:</p>
+                            <input name="searchValue" placeholder="Enter a keyword."
+                                   onChange={e => setSearchValue(e.target.value)}/>
+                        </label>
+                    </div>
+                    <div id={"sorting"}>
+                        <label>
+                            <h4>Sort Tasks:</h4>
+                            <p>Sort by:</p>
+                            <select value={sortValue} onChange={e => setSortValue(e.target.value)}>
+                                <option value="id">ID</option>
+                                <option value="title">Title</option>
+                                <option value="status">Status</option>
+                                <option value="priority">Priority</option>
+                                <option value="startDate">Start Date</option>
+                                <option value="dueDate">Date Due</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
 
                 <div id={"filtering"}>

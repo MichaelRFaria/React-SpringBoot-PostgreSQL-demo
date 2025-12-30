@@ -1,3 +1,8 @@
+#inputFormContainer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 /* making heading take less space */
 #taskInputs h3 {
     margin: 0;
@@ -14,8 +19,8 @@
 /* buttons within the input section */
 #taskInputs button {
     padding: 2px;
-    margin: 0.5vh 1vw 0.5vh 1vw;
-    width: 33%;
+    margin: 2vh 15% 0.5vh 15%;
+    width: 20%;
 
     cursor: pointer;
 }
@@ -30,8 +35,34 @@
     text-align: center;
 }
 
-
 /* input boxes within the input section */
 #taskInputs input {
     width: 20vw;
+}
+
+#taskInputs textarea {
+    resize: none;
+}
+
+#taskInputs textarea::placeholder {
+    font-family: "Tahoma";
+    font-size: 13.3333px;
+}
+
+#statusAndPriority {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#statusAndPriority select {
+    width: 6vw;
+}
+
+#inputFormDates {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#inputFormDates input {
+    width: 8vw;
 }

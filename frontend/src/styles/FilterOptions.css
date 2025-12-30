@@ -1,9 +1,16 @@
 /* aligning both the sort filter options side by side */
 #taskOptions {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 4vw;
+    justify-content: space-evenly;
+}
+
+#taskOptions h4 {
+    margin-bottom: 2vh;
+}
+
+#taskOptionsContainerLeft {
+    display: flex;
+    flex-direction: column;
 }
 
 /* subtitles */
@@ -31,6 +38,8 @@
 /* sorting criteria dropdown menu */
 #sorting select {
     text-align: center;
+    width: 50%;
+    margin: auto;
 }
 
 /* centering the label text and the dropdown menu */
@@ -39,12 +48,11 @@
     flex-direction: column;
 }
 
-/* arranging the filtering options into a centred, 2-column grid*/
+/* arranging the filtering options into a centered, 2-column grid*/
 #filtering {
     display: grid;
     grid-template-columns: 15vw 15vw;
-    justify-content: center;
-    align-content: center;
+    align-content: flex-start;
 }
 
 /* filtering title - expanding across the grid */

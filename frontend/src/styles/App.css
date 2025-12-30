@@ -48,7 +48,7 @@ html {
 
 /* input form component */
 #inputForm {
-    width: 30%;
+    width: 50%;
 
     background-color: #ffffff;
 
@@ -60,7 +60,7 @@ html {
 
 /* filter options component*/
 #filterOptions {
-    width: 70%;
+    width: 50%;
 
     background-color: #ffffff;
 

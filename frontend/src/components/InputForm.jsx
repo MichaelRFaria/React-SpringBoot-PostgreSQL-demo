@@ -226,71 +226,85 @@ export default function InputForm({tasks, updateTasks}) {
             {(selectedMethod === "create" || selectedMethod === "update") && (
                 /* form's onSubmit creates a formEvent*/
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Title:
-                        <input name="title" placeholder="Provide a title for the task."/>
-                    </label>
-                    <label>
-                        Description:
-                        <input name="description" placeholder="Provide a description for the task."/>
-                    </label>
-                    <label>
-                        Status:
-                        <select id={"statusDropdown"} name="status">
-                            {selectedMethod === "update" && (
-                                <option selected={true} value={"Copy"}>Copy</option>
-                            )}
-                            <option value={"Pending"}>Pending</option>
-                            <option value={"On Hold"}>On Hold</option>
-                            <option value={"Completed"}>Completed</option>
-                        </select>
-                    </label>
-                    <label>
-                        Priority:
-                        <select id={"priorityDropdown"} name="priority">
-                            {selectedMethod === "update" && (
-                                <option selected={true} value={"Copy"}>Copy</option>
-                            )}
-                            <option value={"High"}>High</option>
-                            <option value={"Medium"}>Medium</option>
-                            <option value={"Low"}>Low</option>
-                        </select>
-                    </label>
-                    <label>
-                        Start date:
-                        <input name="startDate" type="date" min={localDate}
-                               onChange={e => setStartDate(e.target.value)}/>
-                    </label>
-                    <label>
-                        Due date:
-                        <input name="dueDate" min={startDate} type="date"/>
-                    </label>
-                    {/* utilising button's unique "reset" and "submit" types */}
+                    <div id="inputFormContainer">
+                        <div id="inputFormContainerLeft">
+                            <label>
+                                Title:
+                                <input name="title" placeholder="Provide a title for the task."/>
+                            </label>
+                            <label>
+                                Description:
+                                <textarea name="description" placeholder="Provide a description for the task."/>
+                            </label>
+                        </div>
+                        <div id="inputFormContainerRight">
+                            <div id="statusAndPriority">
+                                <label>
+                                    Status:
+                                    <select id={"statusDropdown"} name="status">
+                                        {selectedMethod === "update" && (
+                                            <option selected={true} value={"Copy"}>Copy</option>
+                                        )}
+                                        <option value={"Pending"}>Pending</option>
+                                        <option value={"On Hold"}>On Hold</option>
+                                        <option value={"Completed"}>Completed</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    Priority:
+                                    <select id={"priorityDropdown"} name="priority">
+                                        {selectedMethod === "update" && (
+                                            <option selected={true} value={"Copy"}>Copy</option>
+                                        )}
+                                        <option value={"High"}>High</option>
+                                        <option value={"Medium"}>Medium</option>
+                                        <option value={"Low"}>Low</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div id="inputFormDates">
+                                <label>
+                                    Start date:
+                                    <input name="startDate" type="date" min={localDate}
+                                           onChange={e => setStartDate(e.target.value)}/>
+                                </label>
+                                <label>
+                                    Due date:
+                                    <input name="dueDate" min={startDate} type="date"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {/* utilising button's unique "reset" and "submit" types */
+                    }
                     <button type={"reset"}>Reset</button>
                     <button type={"submit"}>Submit</button>
                 </form>
-            )}
+            )
+            }
 
-            {selectedMethod === "delete" && (
-                <>
-                    <button onClick={handleDelete}>Delete</button>
+            {
+                selectedMethod === "delete" && (
+                    <>
+                        <button onClick={handleDelete}>Delete</button>
 
-                    <hr/>
+                        <hr/>
 
-                    <button
-                        onClick={() => displayAlert("Are you sure you want to delete all tasks?", () => deleteAll(), () => setAlertVisibility(false))}>Delete
-                        All
-                    </button>
-                    <button
-                        onClick={() => displayAlert("Are you sure you want to delete all overdue tasks?", () => handleDeletingWithCriteria("overdue"), () => setAlertVisibility(false))}>Delete
-                        Overdue
-                    </button>
-                    <button
-                        onClick={() => displayAlert("Are you sure you want to delete all completed tasks?", () => handleDeletingWithCriteria("completed"), () => setAlertVisibility(false))}>Delete
-                        Completed
-                    </button>
-                </>
-            )}
+                        <button
+                            onClick={() => displayAlert("Are you sure you want to delete all tasks?", () => deleteAll(), () => setAlertVisibility(false))}>Delete
+                            All
+                        </button>
+                        <button
+                            onClick={() => displayAlert("Are you sure you want to delete all overdue tasks?", () => handleDeletingWithCriteria("overdue"), () => setAlertVisibility(false))}>Delete
+                            Overdue
+                        </button>
+                        <button
+                            onClick={() => displayAlert("Are you sure you want to delete all completed tasks?", () => handleDeletingWithCriteria("completed"), () => setAlertVisibility(false))}>Delete
+                            Completed
+                        </button>
+                    </>
+                )
+            }
             <div>
                 <Notification message={notificationMessage} isVisible={notificationVisibility}/>
             </div>
