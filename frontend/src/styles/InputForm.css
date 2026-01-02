@@ -1,6 +1,18 @@
 #inputFormContainer {
     display: flex;
     justify-content: space-evenly;
+
+    width: 100%;
+}
+
+#inputFormContainerLeft {
+    width: 50%;
+    padding: 0 1vw 0 1vw;
+}
+
+#inputFormContainerRight {
+    width: 50%;
+    padding: 0 1vw 0 1vw;
 }
 
 /* making heading take less space */
