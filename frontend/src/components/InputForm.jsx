@@ -54,7 +54,7 @@ export default function InputForm({tasks, updateTasks}) {
         // FormData() turns the form's inputs into key/value pairs
         let formData = new FormData(e.target);
 
-        await submitData(formData)
+        await submitData(formData);
 
         displayNotification(3000);
         updateTasks();
@@ -63,7 +63,7 @@ export default function InputForm({tasks, updateTasks}) {
     // handles actually submitting the create/update request to the backend, also handles error checking based on several factors
     const submitData = async (formData) => {
         // converting key/value pairs into JS object
-        let data = Object.fromEntries(formData.entries())
+        let data = Object.fromEntries(formData.entries());
 
         // if creating a new task, we check that all the input boxes are filled in
         if (selectedMethod === "create") {
@@ -110,7 +110,7 @@ export default function InputForm({tasks, updateTasks}) {
             const status = await deleteData(selectedId);
             setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod));
         } else {
-            setNotificationMessage("There are no tasks to delete!")
+            setNotificationMessage("There are no tasks to delete!");
         }
 
         displayNotification(3000);
@@ -121,7 +121,7 @@ export default function InputForm({tasks, updateTasks}) {
     const handleDeletingWithCriteria = async (criteria) => {
         // if no tasks exist then we display an error message, otherwise we delete all tasks matching the criteria parameter
         if (tasks.length <= 0) {
-            setNotificationMessage("There are no tasks to delete!")
+            setNotificationMessage("There are no tasks to delete!");
         } else {
             let i = 0;
             let success = true;
@@ -154,7 +154,7 @@ export default function InputForm({tasks, updateTasks}) {
     const deleteAll = async () => {
         // if no tasks exist then we display an error message, otherwise we delete all tasks matching the criteria parameter
         if (tasks.length <= 0) {
-            setNotificationMessage("There are no tasks to delete!")
+            setNotificationMessage("There are no tasks to delete!");
         } else {
             const status = await deleteAllData();
             setNotificationMessage(displayHTTPStatusMessage(status, selectedMethod, true));
@@ -190,7 +190,7 @@ export default function InputForm({tasks, updateTasks}) {
     // overall this is cleaner, removing unnecessary dropdown menu updating
     useEffect(() => {
         if (selectedMethod === "update") {
-            setSelectedId(parseInt(tasks[0].id))
+            setSelectedId(parseInt(tasks[0].id));
         }
     }, [selectedMethod])
 
@@ -202,11 +202,11 @@ export default function InputForm({tasks, updateTasks}) {
         )
 
     return (
-        <div id={"taskInputs"}>
+        <div id="taskInputs">
             <h3>Change your tasks:</h3>
             <label>
                 Method:
-                <select id={"methodDropdown"} value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
+                <select id="methodDropdown" value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
                     <option value="create">Add</option>
                     <option value="update" disabled={tasks.length === 0}>Update</option>
                     <option value="delete" disabled={tasks.length === 0}>Delete</option>
@@ -216,7 +216,7 @@ export default function InputForm({tasks, updateTasks}) {
             {(selectedMethod === "update" || selectedMethod === "delete") && (
                 <label>
                     ID:
-                    <select id={"idDropdown"} value={selectedId}
+                    <select id="idDropdown" value={selectedId}
                             onChange={e => setSelectedId(parseInt(e.target.value))}>
                         {dropDownOptions}
                     </select>
@@ -229,56 +229,55 @@ export default function InputForm({tasks, updateTasks}) {
                     <div id="inputFormContainer">
                         <div id="inputFormContainerLeft">
                             <label>
-                                Title:
+                                <p>Title:</p>
                                 <input name="title" placeholder="Provide a title for the task."/>
                             </label>
                             <label>
-                                Description:
+                                <p>Description:</p>
                                 <textarea name="description" placeholder="Provide a description for the task."/>
                             </label>
                         </div>
                         <div id="inputFormContainerRight">
                             <div id="statusAndPriority">
                                 <label>
-                                    Status:
-                                    <select id={"statusDropdown"} name="status">
+                                    <p>Status:</p>
+                                    <select id="statusDropdown" name="status">
                                         {selectedMethod === "update" && (
-                                            <option selected={true} value={"Copy"}>Copy</option>
+                                            <option selected={true} value="Copy">Copy</option>
                                         )}
-                                        <option value={"Pending"}>Pending</option>
-                                        <option value={"On Hold"}>On Hold</option>
-                                        <option value={"Completed"}>Completed</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="On Hold">On Hold</option>
+                                        <option value="Completed">Completed</option>
                                     </select>
                                 </label>
                                 <label>
-                                    Priority:
-                                    <select id={"priorityDropdown"} name="priority">
+                                    <p>Priority:</p>
+                                    <select id="priorityDropdown" name="priority">
                                         {selectedMethod === "update" && (
-                                            <option selected={true} value={"Copy"}>Copy</option>
+                                            <option selected={true} value="Copy">Copy</option>
                                         )}
-                                        <option value={"High"}>High</option>
-                                        <option value={"Medium"}>Medium</option>
-                                        <option value={"Low"}>Low</option>
+                                        <option value="High">High</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Low">Low</option>
                                     </select>
                                 </label>
                             </div>
                             <div id="inputFormDates">
                                 <label>
-                                    Start date:
+                                    <p>Start date:</p>
                                     <input name="startDate" type="date" min={localDate}
                                            onChange={e => setStartDate(e.target.value)}/>
                                 </label>
                                 <label>
-                                    Due date:
+                                    <p>Due date:</p>
                                     <input name="dueDate" min={startDate} type="date"/>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    {/* utilising button's unique "reset" and "submit" types */
-                    }
-                    <button type={"reset"}>Reset</button>
-                    <button type={"submit"}>Submit</button>
+                    {/* utilising button's unique "reset" and "submit" types */}
+                    <button type="reset">Reset</button>
+                    <button type="submit">Submit</button>
                 </form>
             )
             }

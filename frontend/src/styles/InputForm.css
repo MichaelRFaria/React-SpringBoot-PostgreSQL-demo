@@ -28,6 +28,10 @@
     padding: 0.3vh;
 }
 
+#taskInputs label > p {
+    margin: 1vh 0 0 0;
+}
+
 /* buttons within the input section */
 #taskInputs button {
     padding: 2px;

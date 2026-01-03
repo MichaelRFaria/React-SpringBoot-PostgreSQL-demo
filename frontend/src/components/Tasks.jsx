@@ -87,10 +87,10 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
     // simple JS objects to determine css style to use based on task's status/priority
     // the table's status and priority columns use this
     const statusStyling = {"Completed": "status-completed", "Pending": "status-pending", "On Hold": "status-on-hold"};
-    const priorityStyling = {"High": "priority-high", "Medium": "priority-medium", "Low": "priority-low"}
+    const priorityStyling = {"High": "priority-high", "Medium": "priority-medium", "Low": "priority-low"};
 
     return (
-        <div id={"displayedTasks"}>
+        <div id="displayedTasks">
             <h3>Your tasks:</h3>
 
             {(tasks.length === 0) ? ( // if there are no tasks in the database
