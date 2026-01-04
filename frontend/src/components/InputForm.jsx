@@ -14,7 +14,7 @@ export default function InputForm({tasks, updateTasks}) {
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
 
-    const [alertMessage, setAlertMessage] = useState("test");
+    const [alertMessage, setAlertMessage] = useState("");
     const [alertVisibility, setAlertVisibility] = useState(false);
     const [alertAction1, setAlertAction1] = useState();
     const [alertAction2, setAlertAction2] = useState();
@@ -165,41 +165,34 @@ export default function InputForm({tasks, updateTasks}) {
         updateTasks();
     }
 
-    // when we change the method, we must reset the selectedId state to an appropriate value
+    // an array of ordered ids, used for populating the ID dropdown menus and for resetting those dropdown menus when switching methods or deleting a task
+    const orderedIds = [...tasks].sort((a, b) => parseInt(a.id) - parseInt(b.id));
+
+    // handling setting the ID when selecting the delete method AND when the last task is deleted
     useEffect(() => {
-        // creating and updating requests are differentiated by their IDs. (PUT requests require an actual ID / <1, POST requests are indicated by an ID of -1)
-        if (selectedMethod === "create") {
-            setSelectedId(-1);
-            // whenever we delete a task, we must reset the selectedID, otherwise the value in the ID dropdown menu, won't correspond with the ID in the state (hence we have "tasks" as a dependency)
-        } else if (selectedMethod === "delete") {
+        if (selectedMethod === "delete") {
             if (tasks.length > 0) {
-                setSelectedId(parseInt(tasks[0].id));
+                // change ID to the first ID in the dropdown menu
+                setSelectedId(parseInt(orderedIds[0]));
             } else {
                 // special case: when the selected method is "delete" and the tasks become empty (we have just deleted the last task),
-                // we must forcefully switch the method to create as we can't update/delete on an empty database
+                // we must forcefully switch the method to create as we can't update/delete on an empty database (reason for tasks hook dependency)
                 setSelectedMethod("create");
                 setSelectedId(-1);
             }
         }
     }, [selectedMethod, tasks]);
 
-    // when we change the method, we must reset the selectedId state to an appropriate value
-    // this version is only for the update method, this is because
-    // the above useEffect has a "tasks" dependency, meaning everytime you update a task, it would trigger the code below,
-    // which resets the selected id in the dropdown menu to the first id. this is inconvenient as a user may wish to the same task repeatedly for correction, etc
-    // overall this is cleaner, removing unnecessary dropdown menu updating
+    // handling setting the ID when selecting the create or update methods
     useEffect(() => {
-        if (selectedMethod === "update") {
-            setSelectedId(parseInt(tasks[0].id));
+        // creating and updating requests are differentiated by their IDs. (PUT requests require an actual ID / <1, POST requests are indicated by an ID of -1)
+        if (selectedMethod === "create") {
+            setSelectedId(-1);
+        } else if (selectedMethod === "update") {
+            // change ID to the first ID in the dropdown menu
+            setSelectedId(parseInt(orderedIds[0]));
         }
     }, [selectedMethod])
-
-    // populating our dropdown of ids with id's from the tasks
-    const dropDownOptions = tasks.sort((a, b) => parseInt(a.id) - parseInt(b.id)) // we sort the IDs as when updating tasks, we actually append the task to the end of the database,
-        // which will cause this dropdown to not appear in order
-        .map(task =>
-            <option value={parseInt(task.id)}>{task.id}</option>
-        )
 
     return (
         <div id="taskInputs">
@@ -218,7 +211,9 @@ export default function InputForm({tasks, updateTasks}) {
                     ID:
                     <select id="idDropdown" value={selectedId}
                             onChange={e => setSelectedId(parseInt(e.target.value))}>
-                        {dropDownOptions}
+                        {orderedIds.map(task =>
+                            <option value={parseInt(task.id)}>{task.id}</option>
+                        )}
                     </select>
                 </label>
             )}
