@@ -1,5 +1,5 @@
 import {sendData, deleteData, deleteAllData} from '../utils/api';
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {convertDate} from "../utils/utilFuncs";
 import {displayHTTPStatusMessage, replaceEmptyFields} from "../utils/InputFormFuncs";
 import Notification from "./Notification";
@@ -26,8 +26,10 @@ export default function InputForm({tasks, updateTasks}) {
     const [startDate, setStartDate] = useState("");
 
     useEffect(() => {
-        setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
-        setStartDate(localDate);
+        const date = convertDate(new Date().toLocaleDateString().replaceAll("/", "-"));
+
+        setLocalDate(date);
+        setStartDate(date);
     }, [])
 
     // displays a notification for a set amount of time
@@ -166,14 +168,16 @@ export default function InputForm({tasks, updateTasks}) {
     }
 
     // an array of ordered ids, used for populating the ID dropdown menus and for resetting those dropdown menus when switching methods or deleting a task
-    const orderedIds = [...tasks].sort((a, b) => parseInt(a.id) - parseInt(b.id));
+    const orderedIds = useMemo(() => {
+        return [...tasks].map(task => parseInt(task.id)).sort((a, b) => a - b)
+    }, [tasks]);
 
     // handling setting the ID when selecting the delete method AND when the last task is deleted
     useEffect(() => {
         if (selectedMethod === "delete") {
             if (tasks.length > 0) {
                 // change ID to the first ID in the dropdown menu
-                setSelectedId(parseInt(orderedIds[0]));
+                setSelectedId(orderedIds[0]);
             } else {
                 // special case: when the selected method is "delete" and the tasks become empty (we have just deleted the last task),
                 // we must forcefully switch the method to create as we can't update/delete on an empty database (reason for tasks hook dependency)
@@ -181,7 +185,7 @@ export default function InputForm({tasks, updateTasks}) {
                 setSelectedId(-1);
             }
         }
-    }, [selectedMethod, tasks]);
+    }, [selectedMethod, tasks, orderedIds]);
 
     // handling setting the ID when selecting the create or update methods
     useEffect(() => {
@@ -190,9 +194,9 @@ export default function InputForm({tasks, updateTasks}) {
             setSelectedId(-1);
         } else if (selectedMethod === "update") {
             // change ID to the first ID in the dropdown menu
-            setSelectedId(parseInt(orderedIds[0]));
+            setSelectedId(orderedIds[0]);
         }
-    }, [selectedMethod])
+    }, [selectedMethod, orderedIds])
 
     return (
         <div id="taskInputs">
