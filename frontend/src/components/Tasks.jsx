@@ -1,10 +1,9 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {comparePriority, convertDate, convertDateToReadable, daysRemaining} from "../utils/utilFuncs";
 import '../styles/Tasks.css'
 
 // component that displays a table of tasks from the database
 export default function Tasks({tasks, sortValue, searchValue, filterConstraints}) {
-    const [listOfTasks, setListOfTasks] = useState([]);
     const [localDate, setLocalDate] = useState(""); // we need the date to filter out tasks that are before the due date or overdue
     const [hiddenColumns, setHiddenColumns] = useState({
         id: false,
@@ -25,8 +24,7 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
         setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
     }, [])
 
-    // copying the tasks passed from the parent, then filtering and sorting the tasks
-    useEffect(() => {
+    const listOfTasks = useMemo(() => {
         let updatedList = [...tasks];
 
         // searching
@@ -71,7 +69,7 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
             }
         })
 
-        setListOfTasks(updatedList);
+        return updatedList;
     }, [tasks, filterConstraints, sortValue, searchValue]);
 
     // toggling a column's visibility
