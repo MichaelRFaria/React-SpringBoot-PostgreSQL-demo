@@ -59,7 +59,7 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                 return a[sortValue] - b[sortValue];
             }
 
-            if (typeof a[sortValue] === "string") { // if we are sorting by a string (e.g. title, description) we can compare the strings lexicographically
+            else if (typeof a[sortValue] === "string") { // if we are sorting by a string (e.g. title, description) we can compare the strings lexicographically
                 if (sortValue === "priority") { // special case: priority can't be compared lexicographically, so we call a helper function that correctly compares "High", "Medium" and "Low"
                     return comparePriority(a[sortValue], b[sortValue]); // returns negative if a is less than b, zero if a and b are equal, and positive if a is greater than b
                 }
@@ -67,10 +67,12 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
                 // JS string method to lexicographically compare two strings, returns -1, 0, 1 (before, equal, after)
                 return a[sortValue].localeCompare(b[sortValue]);
             }
+
+            return 0;
         })
 
         return updatedList;
-    }, [tasks, filterConstraints, sortValue, searchValue]);
+    }, [tasks, filterConstraints, sortValue, searchValue, localDate]);
 
     // toggling a column's visibility
     const toggleColumnVisibility = (key) => {
