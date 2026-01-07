@@ -21,16 +21,9 @@ export default function InputForm({tasks, updateTasks}) {
 
 
     // we set the min value of the start date to the current date
-    const [localDate, setLocalDate] = useState("");
+    const [localDate] = useState(() => convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
     // we set the min value of the due date to the start date selected
-    const [startDate, setStartDate] = useState("");
-
-    useEffect(() => {
-        const date = convertDate(new Date().toLocaleDateString().replaceAll("/", "-"));
-
-        setLocalDate(date);
-        setStartDate(date);
-    }, [])
+    const [startDate, setStartDate] = useState(() => localDate);
 
     // displays a notification for a set amount of time
     const displayNotification = (time) => {

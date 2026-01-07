@@ -1,10 +1,13 @@
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {comparePriority, convertDate, convertDateToReadable, daysRemaining} from "../utils/utilFuncs";
 import '../styles/Tasks.css'
 
 // component that displays a table of tasks from the database
 export default function Tasks({tasks, sortValue, searchValue, filterConstraints}) {
-    const [localDate, setLocalDate] = useState(""); // we need the date to filter out tasks that are before the due date or overdue
+    const [localDate] = useState(() =>
+        // we create a new date object (dd/mm/yyyy) then replace the '/' with '-' (dd-mm-yyyy) then we reverse the order (yyyy-mm-dd)
+        // so now it matches the formats of the dates in the database (also yyyy-mm-dd) allowing us to compare today with a task's start/due date
+        convertDate(new Date().toLocaleDateString().replaceAll("/", "-"))); // we need the date to filter out tasks that are before the due date or overdue
     const [hiddenColumns, setHiddenColumns] = useState({
         id: false,
         title: false,
@@ -16,13 +19,6 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
         daysUntilStart: false,
         daysUntilDue: false
     })
-
-    // obtaining the current date
-    useEffect(() => {
-        // we create a new date object (dd/mm/yyyy) then replace the '/' with '-' (dd-mm-yyyy) then we reverse the order (yyyy-mm-dd)
-        // so now it matches the formats of the dates in the database (also yyyy-mm-dd) allowing us to compare today with a task's start/due date
-        setLocalDate(convertDate(new Date().toLocaleDateString().replaceAll("/", "-")));
-    }, [])
 
     const listOfTasks = useMemo(() => {
         let updatedList = [...tasks];
@@ -57,9 +53,7 @@ export default function Tasks({tasks, sortValue, searchValue, filterConstraints}
             // sorting based on the selected property to sort by
             if (typeof a[sortValue] === "number") { // if we are sorting via a number (e.g. ID) we can use arithmetic
                 return a[sortValue] - b[sortValue];
-            }
-
-            else if (typeof a[sortValue] === "string") { // if we are sorting by a string (e.g. title, description) we can compare the strings lexicographically
+            } else if (typeof a[sortValue] === "string") { // if we are sorting by a string (e.g. title, description) we can compare the strings lexicographically
                 if (sortValue === "priority") { // special case: priority can't be compared lexicographically, so we call a helper function that correctly compares "High", "Medium" and "Low"
                     return comparePriority(a[sortValue], b[sortValue]); // returns negative if a is less than b, zero if a and b are equal, and positive if a is greater than b
                 }
