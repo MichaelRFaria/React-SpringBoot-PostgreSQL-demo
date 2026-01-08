@@ -60,6 +60,10 @@ export default function InputForm({tasks, updateTasks}) {
         // converting key/value pairs into JS object
         let data = Object.fromEntries(formData.entries());
 
+        for (const key in data) {
+            data[key] = data[key].trim();
+        }
+
         // if creating a new task, we check that all the input boxes are filled in
         if (selectedMethod === "create") {
             for (const key in data) {
