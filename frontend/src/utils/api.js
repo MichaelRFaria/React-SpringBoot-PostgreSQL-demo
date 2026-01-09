@@ -5,18 +5,13 @@ export async function getData() {
     const url = "http://localhost:8080/task";
 
     try {
-        // using fetch with just a URL as its parameter makes a GET request, you can add additional params for method, headers, etc.
-        // the response variable is part of the Response interface, which provides read only properties for checking HTTP responses
         const response = await fetch(url);
-        // the "ok" property is a boolean stating if the response was successful (status codes 200-299)
         if (!response.ok) {
-            // the "status" property is the number of the HTTP status code of the response
             throw new Error(`Response status: ${response.status}`);
         }
 
-        const result = await response.json();
         //console.log(result);
-        return result;
+        return await response.json();
     } catch (error) {
         console.error(error.message);
     }
@@ -24,16 +19,13 @@ export async function getData() {
 
 // simple method to make POST and PUT requests to the appropriate API endpoint, using the data from the form element and the ID selected form the dropdown menu
 export async function sendData(data, selectedId) {
-    // let and var have different scopes, but let also doesn't require initialisation.
     let url;
     let method;
 
-    // === is strict checking, which will not attempt to convert between types unlike ==
     if (selectedId === -1) {
         url = "http://localhost:8080/task"
         method = "POST"
     } else {
-        // using backticks makes a "template literal" allowing you to have inline JS vars and more
         url = `http://localhost:8080/task/${selectedId}`
         method = "PUT"
     }
