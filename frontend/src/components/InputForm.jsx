@@ -47,7 +47,7 @@ export default function InputForm({tasks, updateTasks}) {
         e.preventDefault();
 
         // FormData() turns the form's inputs into key/value pairs
-        let formData = new FormData(e.target);
+        const formData = new FormData(e.target);
 
         await submitData(formData);
 
@@ -60,6 +60,7 @@ export default function InputForm({tasks, updateTasks}) {
         // converting key/value pairs into JS object
         let data = Object.fromEntries(formData.entries());
 
+        // removing whitespace from inputs
         for (const key in data) {
             data[key] = data[key].trim();
         }
@@ -300,14 +301,11 @@ export default function InputForm({tasks, updateTasks}) {
                     </>
                 )
             }
-            <div>
-                <Notification message={notificationMessage} isVisible={notificationVisibility}/>
-            </div>
 
-            <div>
-                <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1}
-                       action2={alertAction2}/>
-            </div>
+            <Notification message={notificationMessage} isVisible={notificationVisibility}/>
+
+            <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1}
+                   action2={alertAction2}/>
         </div>
     )
 }
