@@ -14,7 +14,7 @@
     background-color: #ffffff;
 
     transform: translate(-50%, -50%) translateY(-50vh);
-    transition: opacity 1s, transform 1s;
+    transition: opacity 0.5s, transform 0.5s;
     pointer-events: none;
 
     font-weight: bold;
@@ -48,7 +48,7 @@
     background-color: #ff3d00;
 }
 
-/* for when the alert is not on screen */
+/* for when the alert is on screen */
 #alert.visible {
     transform: translate(-50%, -50%) translateY(0);
     opacity: 1;

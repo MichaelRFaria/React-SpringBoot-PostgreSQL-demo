@@ -1,8 +1,8 @@
 /* for when the notification is not on screen */
 #notification {
     position: fixed;
-    top: 2vw;
-    right: 1vw;
+    top: 4%;
+    right: 2%;
 
     color: #ff3d00;
 
@@ -13,8 +13,8 @@
     opacity: 0;
     background-color: #ffffff;
 
-    transform: translateX(5vw);
-    transition: opacity 1s, transform 1s;
+    transform: translateX(30vw);
+    transition: opacity 0.5s, transform 0.5s;
 
     font-weight: bold;
 }
