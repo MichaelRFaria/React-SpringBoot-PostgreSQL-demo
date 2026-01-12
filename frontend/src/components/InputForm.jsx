@@ -213,8 +213,8 @@ export default function InputForm({tasks, updateTasks}) {
                     ID:
                     <select id="idDropdown" value={selectedId}
                             onChange={e => setSelectedId(parseInt(e.target.value))}>
-                        {orderedIds.map(task =>
-                            <option value={parseInt(task.id)}>{task.id}</option>
+                        {orderedIds.map(id =>
+                            <option value={id}>{id}</option>
                         )}
                     </select>
                 </label>
