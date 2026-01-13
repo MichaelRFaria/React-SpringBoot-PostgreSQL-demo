@@ -302,7 +302,8 @@ export default function InputForm({tasks, updateTasks}) {
                 )
             }
 
-            <Notification message={notificationMessage} isVisible={notificationVisibility}/>
+            <Notification message={notificationMessage} isVisible={notificationVisibility}
+                          onClick={() => setNotificationVisibility(false)}/>
 
             <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1}
                    action2={alertAction2}/>
