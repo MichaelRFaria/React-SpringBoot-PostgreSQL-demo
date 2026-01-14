@@ -194,7 +194,7 @@ export default function InputForm({tasks, updateTasks}) {
             // change ID to the first ID in the dropdown menu
             setSelectedId(orderedIds[0]);
         }
-    }, [selectedMethod, orderedIds])
+    }, [selectedMethod])
 
     return (
         <div id="taskInputs">
