@@ -194,7 +194,8 @@ export default function InputForm({tasks, updateTasks}) {
             // change ID to the first ID in the dropdown menu
             setSelectedId(orderedIds[0]);
         }
-    }, [selectedMethod, orderedIds])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedMethod])
 
     return (
         <div id="taskInputs">
