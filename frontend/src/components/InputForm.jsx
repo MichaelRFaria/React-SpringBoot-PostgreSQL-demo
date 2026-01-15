@@ -13,6 +13,7 @@ export default function InputForm({tasks, updateTasks}) {
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationVisibility, setNotificationVisibility] = useState(false);
+    const [notificationTimer, setNotificationTimer] = useState(0);
 
     const [alertMessage, setAlertMessage] = useState("");
     const [alertVisibility, setAlertVisibility] = useState(false);
@@ -28,6 +29,7 @@ export default function InputForm({tasks, updateTasks}) {
     // displays a notification for a set amount of time
     const displayNotification = (time) => {
         setNotificationVisibility(true);
+        setNotificationTimer(time);
         setTimeout(() => {
             setNotificationVisibility(false);
         }, time);
@@ -303,7 +305,7 @@ export default function InputForm({tasks, updateTasks}) {
                 )
             }
 
-            <Notification message={notificationMessage} isVisible={notificationVisibility}
+            <Notification message={notificationMessage} isVisible={notificationVisibility} time={notificationTimer}
                           onClick={() => setNotificationVisibility(false)}/>
 
             <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1}
