@@ -33,7 +33,15 @@
 }
 
 /* buttons within the input section */
-#taskInputs button {
+#taskInputs > button {
+    padding: 2px;
+    margin: 2vh 15% 0.5vh 15%;
+    width: 20%;
+
+    cursor: pointer;
+}
+
+#inputFormActionButtons > button {
     padding: 2px;
     margin: 2vh 15% 0.5vh 15%;
     width: 20%;

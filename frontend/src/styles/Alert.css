@@ -6,9 +6,9 @@
 
     color: #ff3d00;
 
-    padding: 1vw;
+    padding: 0 1rem 1rem 1rem;
     border: 3px solid #f8805a;
-    border-radius: 1vw;
+    border-radius: 1rem;
 
     opacity: 0;
     background-color: #ffffff;
@@ -20,31 +20,52 @@
     font-weight: bold;
 }
 
+#alertHeader {
+    display: flex;
+    justify-content: space-between;
+
+    background-color: white;
+}
+
+#alertHeader > button {
+    max-height: 1rem;
+    max-width: 1rem;
+    font-size: 1rem;
+    line-height: 1;
+
+    background: none;
+    border: none;
+
+    color: #ff3d00;
+
+    cursor: pointer;
+}
+
 /* button spacing */
 #buttons {
     display: flex;
     justify-content: space-evenly;
-    margin-top: 1vw;
 }
 
 /* button spacing and pointer cursor */
-#buttons > button {
+#alertButtons > button {
     padding: 0.3rem;
     border: 1px solid #f8805a;;
     border-radius: 0.3rem;
+    margin: 1rem 15% 0 15%;
 
     cursor: pointer;
 }
 
 /* highlighting the confirm button */
-#buttons > button:nth-of-type(2) {
+#alertButtons > button:nth-of-type(2) {
     color: #ffffff;
     background-color: #f8805a;
     font-weight: bold;
 }
 
 /* highlighting the confirm button */
-#buttons > button:nth-of-type(2):hover {
+#alertButtons > button:nth-of-type(2):hover {
     background-color: #ff3d00;
 }
 
@@ -54,3 +75,4 @@
     opacity: 1;
     pointer-events: auto;
 }
+

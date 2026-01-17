@@ -1,5 +1,5 @@
-import '../styles/Notification.css'
 import {useEffect, useState} from "react";
+import '../styles/Notification.css'
 
 // component that displays a notification with a message
 export default function Notification({message, isVisible, time, onClick}) {

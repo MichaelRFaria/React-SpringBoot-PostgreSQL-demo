@@ -276,8 +276,10 @@ export default function InputForm({tasks, updateTasks}) {
                         </div>
                     </div>
                     {/* utilising button's unique "reset" and "submit" types */}
-                    <button type="reset">Reset</button>
-                    <button type="submit">Submit</button>
+                    <div id="inputFormActionButtons">
+                        <button type="reset">Reset</button>
+                        <button type="submit">Submit</button>
+                    </div>
                 </form>
             )
             }
@@ -309,7 +311,7 @@ export default function InputForm({tasks, updateTasks}) {
                           onClick={() => setNotificationVisibility(false)}/>
 
             <Alert message={alertMessage} isVisible={alertVisibility} action1={alertAction1}
-                   action2={alertAction2}/>
+                   action2={alertAction2} onClick={() => setAlertVisibility(false)}/>
         </div>
     )
 }
