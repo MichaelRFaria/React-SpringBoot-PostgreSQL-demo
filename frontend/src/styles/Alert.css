@@ -20,6 +20,7 @@
     font-weight: bold;
 }
 
+/* alert exit button parent for positioning */
 #alertHeader {
     display: flex;
     justify-content: space-between;
@@ -27,6 +28,7 @@
     background-color: white;
 }
 
+/* alert exit button */
 #alertHeader > button {
     max-height: 1rem;
     max-width: 1rem;
