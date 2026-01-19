@@ -11,11 +11,13 @@
 
 /* whole table styling */
 #table table {
+    width: 80%;
+
     border-collapse: separate;
     border-spacing: 1vw;
     border: 1px solid black;
     border-radius: 1vw;
-    margin: 1vw;
+    margin: auto;
 
     background-color: rgba(0, 0, 0, 0.05);
 }
