@@ -40,8 +40,7 @@ export async function sendData(data, selectedId) {
             throw new Error(`Response status: ${response.status}`);
         }
 
-        //const result = await response.json();
-        //console.log(result);
+
         return response.status;
     } catch (error) {
         console.error(error.message);
@@ -61,7 +60,6 @@ export async function deleteData(selectedId) {
             throw new Error(`Response status: ${response.status}`);
         }
 
-        //console.log(response.status)
         return response.status;
     } catch (error) {
         console.error(error.message);
@@ -79,7 +77,6 @@ export async function deleteAllData() {
             throw new Error(`Response status: ${response.status}`);
         }
 
-        //console.log(response.status)
         return response.status;
     } catch (error) {
         console.error(error.message);

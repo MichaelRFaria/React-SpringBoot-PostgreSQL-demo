@@ -62,13 +62,13 @@
 /* input boxes within the input section */
 #taskInputs input {
     width: 20vw;
-    font-family: "Tahoma";
+    font-family: "Tahoma", serif;
     font-size: 13.3333px;
 }
 
 #taskInputs textarea {
     resize: none;
-    font-family: "Tahoma";
+    font-family: "Tahoma", serif;
     font-size: 13.3333px;
 }
 
